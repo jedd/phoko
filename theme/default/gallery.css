@@ -9,16 +9,16 @@
 
 A:link {
 	text-decoration:none;
-	color: blue;
+	color: green;
 	}
 
 A:visited {
 	text-decoration:none;
-	color: blue;
+	color: green;
 	}
 
 A:hover  {
-	color: black;
+	color: red;
 	background-color: #e8e8ff;
 	}
 
@@ -28,6 +28,7 @@ A:hover  {
  */
 
 body {
-	background: black;
+	background: #124;
+	color: yellow;
 	}
 

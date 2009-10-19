@@ -48,13 +48,15 @@ class  Gallery extends  Controller {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *   index
+	 *	index
+	 *
+	 *	The first thing an arriving visitor sees.
 	 **/
-	
-	function index()
-	{
-		$this->load->view('welcome_message');
-	}
+	function  index ()  {
+
+
+		$this->load->view ("main_page");
+		}  // end-method  index ()
 
 
 

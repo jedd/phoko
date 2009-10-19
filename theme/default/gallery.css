@@ -1,0 +1,33 @@
+/**
+ * Gallery CSS - default theme
+ */
+
+
+/*********************************************************************
+ * Links
+ */
+
+A:link {
+	text-decoration:none;
+	color: blue;
+	}
+
+A:visited {
+	text-decoration:none;
+	color: blue;
+	}
+
+A:hover  {
+	color: black;
+	background-color: #e8e8ff;
+	}
+
+
+/*********************************************************************
+ * Body
+ */
+
+body {
+	background: black;
+	}
+

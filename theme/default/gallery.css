@@ -27,68 +27,45 @@ A:hover  {
  * Body
  */
 
-body {
+body  {
 	background: #124;
 	color: yellow;
-	min-width: 550px;      /* 2x LC width + RC width */
+	/*min-width: 550px;*/
+/*	margin: 0px; */
 	}
 
-
-#container  {
-	width: 96%;
-	margin: 7px auto;
-	background-color: #fff;
-	color: #333;
-	border: 1px solid gray;
-	line-height: 130%;
+div#everything  {
+	padding-left:  10px;
+	padding-right: 10px;
 	}
 
-#top  {
-	padding: 0.5em;
-	background-color: #ddd;
-	border-bottom: 1px solid gray;
-	}
-
-#top h1  {
-	padding: 0;
-	margin: 0;
-	}
-
-#leftnav  {
-	float: left;
-	width: 160px;
-	margin: 0;
-	padding: 1em;
-	}
-
-#rightnav  {
-	float: right;
-	width: 160px;
-	margin: 0;
-	padding: 1em;
-	}
-
-#content  {
-	margin-left: 180px;
-	border-left: 1px solid gray;
-	margin-right: 200px;
-	border-right: 1px solid gray;
-	padding: 1em;
-	}
-
-#footer  {
+div#top  {
 	clear: both;
-	margin: 0;
-	padding: .5em;
-	color: #333;
-	background-color: #ddd;
-	border-top: 1px solid gray;
+	height: 50px;
+	background-color: aqua;
+	padding: 1px;
 	}
 
-#leftnav p, #rightnav p  {
-	margin: 0 0 1em 0;
+div#left  {
+	float: left;
+	width: 150px;
+	background-color: red;
 	}
 
-#content h2  {
-	margin: 0 0 .5em 0;
+div#right  {
+	float: right;
+	width: 150px;
+	background-color: green;
 	}
+
+div#middle  {
+	padding: 0px 160px 5px 160px;
+	margin: 0px;
+	background-color: silver;
+	}
+
+div#footer  {
+	clear: both;
+	background-color: yellow;
+	}
+

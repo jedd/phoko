@@ -18,37 +18,36 @@ Phoko Album
 ?>
 
 </head>
-
 <body>
-
-<div id="container">
+<div id="everything">
 
 <div id="top">
 Top bit - for all kinds of things
 </div> <!-- /top -->
 
 
-<div id="leftnav" >
+<div id="left" >
 Left navigation menu for tag tracking
-</div> <!-- /leftnav -->
+</div> <!-- /left -->
 
 
-<div id="content">
-Main bit
-</div> <!-- /content -->
-
-
-<div id="rightnav">
+<div id="right">
 Right side bit
-</div> <!-- /rightnav -->
+</div> <!-- /right -->
+
+
+<div id="middle">
+Main bit
+</div> <!-- /middle -->
+
 
 
 <div id="footer">
 Page rendered in {elapsed_time} seconds
 </div> <!-- /footer -->
 
-</div> <!-- /container -->
 
 
+</div> <!-- /everything -->
 </body>
 </html>

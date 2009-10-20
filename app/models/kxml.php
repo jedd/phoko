@@ -57,8 +57,9 @@ class  Kxml extends  Model {
 	 * the collection.
 	 *
 	 * If the cached version (serialised array in a file) exists and is more recent
-	 * than KPA's index.xml file, we use that.  Otherwise, we use the index.xml
-	 * and also generate the serialised-array file.
+	 * than KPA's index.xml file, we use that.
+	 *
+	 * Otherwise, we use the index.xml to generate the serialised-array file.
 	 *
 	 * @param	$string		index.xml file (fully pathed)
 	 * @return	array of pictures
@@ -67,14 +68,8 @@ class  Kxml extends  Model {
 		if (! $index_xml_file )
 			return FALSE;
 
+		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file);
 
-
-		if (file_exists ($xmlfile)) {
-			$xmlstat = stat ($xmlfile);
-			$xmltime = $xmlstat['mtime'];
-			}
-		else
-			$xmltime = 0;
 
 		if (file_exists ("cache/index.kphp"))  {
 			$kphpstat = stat ("cache/index.kphp");
@@ -87,8 +82,43 @@ class  Kxml extends  Model {
 			}
 
 
+
 		}  // end-method  get_pictures ()
 
+
+
+
+
+	// ========================================================================
+	// ------------------------------------------------------------------------
+	// P R I V A T E   F U N C T I O N S  -- nothing to see here.
+	// ------------------------------------------------------------------------
+	// ========================================================================
+
+	/**
+	 * Get index xml filetime
+	 *
+	 * Returns the date stamp on the index.xml file, in mtime format.
+	 *
+	 * If the file can not be accessed, return a time of 0 (so that it will
+	 * appear older than any extant cache file later).
+	 *
+	 * @param	$string		index.xml file (fully pathed)
+	 * @return	integer
+	 **/
+	function  _get_index_xml_file_time ($index_xml_file)  {
+		if (file_exists ($index_xml_file)) {
+			$file_stat = stat ($index_xml_file);
+			$file_time = $file_stat['mtime'];
+			}
+		else
+			$file_time = 0;
+
+		return $xmltime;
+		}  //  end-method  _get_index_xml_file_time ()
+
+
+	// ------------------------------------------------------------------------
 
 
 

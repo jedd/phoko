@@ -298,22 +298,22 @@
 		// index.xml was updated.  Unlikely ... so a low priority.
 
 		// If the cached publish array file is preferable, use it.
-		if (file_exists ($xmlfile)) {
-			$xmlstat = stat ($xmlfile);
-			$xmltime = $xmlstat['mtime'];
-			}
-		else
-			$xmltime = 0;
+// 		if (file_exists ($xmlfile)) {
+// 			$xmlstat = stat ($xmlfile);
+// 			$xmltime = $xmlstat['mtime'];
+// 			}
+// 		else
+// 			$xmltime = 0;
 
-		if (file_exists ("cache/index.kphp"))  {
-			$kphpstat = stat ("cache/index.kphp");
-			$kphptime = $kphpstat['mtime'];
-			if ( $xmltime <  $kphptime ) {
-				$rawdata = file_get_contents ("cache/index.kphp");
-				$fullxmlextract = unserialize ($rawdata);
-				return $fullxmlextract;
-				}
-			}
+// 		if (file_exists ("cache/index.kphp"))  {
+// 			$kphpstat = stat ("cache/index.kphp");
+// 			$kphptime = $kphpstat['mtime'];
+// 			if ( $xmltime <  $kphptime ) {
+// 				$rawdata = file_get_contents ("cache/index.kphp");
+// 				$fullxmlextract = unserialize ($rawdata);
+// 				return $fullxmlextract;
+// 				}
+// 			}
 
 		// else we fall through, and load the index.xml file directly (then save the cached version)
 		$imagearray = array();

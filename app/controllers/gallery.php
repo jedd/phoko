@@ -56,6 +56,7 @@ class  Gallery extends  Controller {
 
 
 		$this->load->view ("main_page");
+		// $this->load->view ("fiew");
 		}  // end-method  index ()
 
 

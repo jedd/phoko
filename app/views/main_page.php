@@ -21,14 +21,34 @@ Phoko Album
 
 <body>
 
-Here we are
+<div id="container">
+
+<div id="top">
+Top bit - for all kinds of things
+</div> <!-- /top -->
 
 
+<div id="leftnav" >
+Left navigation menu for tag tracking
+</div> <!-- /leftnav -->
 
 
-<br />
-<hr />
+<div id="content">
+Main bit
+</div> <!-- /content -->
+
+
+<div id="rightnav">
+Right side bit
+</div> <!-- /rightnav -->
+
+
+<div id="footer">
 Page rendered in {elapsed_time} seconds
+</div> <!-- /footer -->
+
+</div> <!-- /container -->
+
 
 </body>
 </html>

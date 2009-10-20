@@ -49,6 +49,26 @@ class  Kxml extends  Model {
 		} // end-constructor
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Get Pictures
+	 *
+	 * Prepares an array containing information on every picture we have in
+	 * the collection.
+	 *
+	 * If the cached version (serialised array in a file) exists and is more recent
+	 * than KPA's index.xml file, we use that.  Otherwise, we use the index.xml
+	 * and also generate the serialised-array file.
+	 *
+	 * @param	$string		index.xml file (fully pathed)
+	 * @return	array of pictures
+	 **/
+	function  get_pictures  ( $index_xml_file = FALSE )  {
+		if (! $index_xml_file )
+			return FALSE;
+
+
+		}
 
 
 

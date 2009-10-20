@@ -42,6 +42,9 @@ class  Gallery extends  Controller {
 
 	function  __construct ()  {
 		parent::Controller();
+
+		// Models
+		$this->load->model ("Kxml");
 		} // end-constructor
 
 
@@ -53,6 +56,9 @@ class  Gallery extends  Controller {
 	 *	The first thing an arriving visitor sees.
 	 **/
 	function  index ()  {
+
+		$pictures = $this->Kxml->get_pictures();
+
 
 
 		$this->load->view ("main_page");

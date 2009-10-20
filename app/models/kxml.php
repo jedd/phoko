@@ -61,6 +61,11 @@ class  Kxml extends  Model {
 	 *
 	 * Otherwise, we use the index.xml to generate the serialised-array file.
 	 *
+	 * NOTE - this is the function that gets re-written if we move to a
+	 *        MySQL backend for the KPA repository.  So long as it returns
+	 *        an array of pictures that looks like the one we're returning
+	 *        here, everything will be peachy.
+	 *
 	 * @param	$string		index.xml file (fully pathed)
 	 * @return	array of pictures
 	 **/
@@ -69,6 +74,8 @@ class  Kxml extends  Model {
 			return FALSE;
 
 		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file);
+
+		$cache_xml_file_time = $this->_get_cache_xml_file_time ();
 
 
 		if (file_exists ("cache/index.kphp"))  {
@@ -119,6 +126,29 @@ class  Kxml extends  Model {
 
 
 	// ------------------------------------------------------------------------
+	/**
+	 * Get cache xml filetime
+	 *
+	 * Returns the date stamp on the cached version of our index xml
+	 *
+	 * If the file does not exist, return a time of 0.
+	 *
+	 * @param	$string		index.xml file (fully pathed)
+	 * @return	integer
+	 **/
+	function  _get_cache_xml_file_time ( )  {
+		/// @todo Pull the cache file name from the config file/array
+		$cache_file_name = "cache/index.kphp";
+
+		if (file_exists ($cache_file_name))  {
+			$file_stat  = stat ($cache_file_name);
+			$file_time = $file_stat['mtime'];
+			}
+		else
+			$file_time = 0;
+
+		return $file_time;
+		}  //  end-method  _get_cache_xml_file_time ()
 
 
 

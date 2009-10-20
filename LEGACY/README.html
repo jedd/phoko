@@ -1,0 +1,132 @@
+<html>
+<head><TITLE></TITLE></head>
+
+<body>
+
+<h1>Preamble</h1>
+<b>Licence</b> - this software is released under the GPL-2 licence (see accompanying file).
+<br>
+<b>Author</b> - It was written, using Quanta, on Debian, for an Apache/PHP/ImageMagick
+system, by Jedd around 2008-11.
+
+
+<h1>Installation</h1>
+
+Dump the tarball contents to a directory within your web server - this can be
+under your home or personal directory (~/public_html usually) or in the main
+directory (/var/www on a Real Computer).
+
+<p>
+The cache sub-directory needs to be writable by whatever user the web daemon runs.
+</p>
+
+<p>
+Modify the config.php file  - this is fairly self-documented, but in detail:
+</p>
+
+<p>
+<br><b>picturerepository</b> - the path to where your index.xml file is.  You may
+want to make a sub-directory within the kphpalbum, call it something hard to guess,
+such as f05484902348fjjadlkfj (don't use this - make up your own), and have that as
+a symlink to your picture repository root.
+</p>
+
+<p>
+<br><b>xmlfile</b> - don't touch this unless you really know what you're doing.
+</p>
+
+<p>
+<br><b>thumbsperpage</b> - try it on a display and work out what you're happy with.
+A setting of 8 (default) works excellently on a 1024x600 display, but will likely
+look crap on a 22" monitor at 1680.  One day the author will work out a way of doing
+this a bit more intelligently.
+</p>
+
+<p>
+<br><b>PUBLISHKEYWORD</b> - enter here the tag you will use for the KEYWORD category
+to denote that the picture should be published.  At the moment it MUST be a keyword,
+not a locations or persons or other categories.  This may change one day ... but for
+now, just cope.  Note, if you're going to have multiple people sharing out of the
+same kphotoalbum repository, or you may have multiple galleries aimed at different
+audiences, say, then use something sensible with your tags.  For instance "PUBLISH - bob"
+and on another web instance you could have "PUBLISH - carol"
+</p>
+
+<p>
+<br><b>SHOOSHTAGS</b> - a set of arrays showing tags that you never want the world
+to see.  In the example you'll see 'OK - jedd', which is the tag I use to denote
+that I have completed all tagging of that image.  You may have other tags that
+are irrelevant to the rest of the world, or just too rude, that you can put in here.
+<br />
+<b>Note</b> - you <b>MUST</b> add in any custom categories you're using to the
+array here, even if you leave that sub-array empty, otherwise you'll get errors.
+</p>
+
+<p>
+<br><b>imagesizes</b> - again, an array of sizes that is fairly straightforward.  Note
+that the sizes are mostly irrelevant, insofar as images are displayed to fit a percentage
+of the screen (large) or blown to full-screen (huge) via &lt;img&gt; tags within the code.
+What these sizes REALLY determine is the physical size of the file, indirectly.  The imagemagick
+command line tools allow you to specify -quality settings, which is more what we're after,
+however at the moment we shrink the original based purely on height/width.  In other words,
+this is a compromise, and it may one day change.
+</p>
+
+
+<p>
+<br><b>panorama settings</b> - This is fairly straightforward - the first turns panorama
+options on or off.  If enabled here, the code elsewhere will offer a Panorama view in the
+three sizes defined in the config file, whenever an image with a ratio of width : height
+exceeding 2 is detected.
+<br />
+The three settings here can be modified to best suit various monitors, and in fact you
+should be able to make an array of more than 3 items if you want.  (This was developed
+on an MSI Wind, so testing of larger device settings is a tad tricky).
+<br />
+<b><i>Note</i></b> - we use the excellent <b>ptviewer</b> software, which is released
+under the GNU GPL.  Consequently we are allowed to redistribute just the one viewer
+component of this package, but please see the
+<a href="http://www.fsoft.it/panorama/ptviewer.htm">author's home page</a> for more
+information about this quite superb applet.
+</p>
+
+<br />
+
+<h1>Usage</h1>
+We assume you're using kphotoalbum with the following settings:
+<br />&nbsp;&nbsp;o&nbsp; index.xml file (rather than database)
+<br />&nbsp;&nbsp;o&nbsp; visibility of your picture repository from your web server (yes, potentially dangerous)
+
+<p>
+
+If the above conditions are satisfied, then it's a simple matter of
+tagging the pictures you want to publish with the tag set above in
+the config.php file, and then saving the configuration of kphotoalbum.
+
+<p>
+
+Subsequent hits via the web page will then automatically show the
+pictures thus tagged.
+
+
+
+
+
+<h1>Maintenance</h1>
+<h2>Images</h2>
+
+<p>
+If you change the sizes (via the config file) then the old files are automatically overwritten.
+</p>
+
+However, if you remove the publish-tag from a picture, then the old thumbnail/huge/large files
+will be retained in the cache until you clean them out.  This can be done via the 'Admin'
+function (to the right of the Filters).  This is a fairly safe method - it merely fiddles
+with the cache files, so shouldn't present any security issues.
+
+<h1>To Do List</h1>
+<br />&nbsp;&nbsp;o&nbsp; User configurable 'number of thumbnails to show' - perhaps using cookies?
+<br />&nbsp;&nbsp;o&nbsp; User configurable sizes of thumbs and large - just using 'width' settings (not actually modifying the cached files, of course).
+
+</body>
+</html>

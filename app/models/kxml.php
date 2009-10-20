@@ -73,20 +73,24 @@ class  Kxml extends  Model {
 		if (! $index_xml_file )
 			return FALSE;
 
+		/// @todo Pull the cache file name from the config file/array
+		$cache_xml_file_name = "cache/index.kphp";
+
+		// Get file timestamps
 		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file);
+		$cache_xml_file_time = $this->_get_cache_xml_file_time ($cache_xml_file_name);
 
-		$cache_xml_file_time = $this->_get_cache_xml_file_time ();
+		// If both times are set to zero, neither file is visible, so bomb out.
+		if ( ($index_xml_file_time == 0) AND ($cache_xml_file_time == 0) )
+			return FALSE;
 
-
-		if (file_exists ("cache/index.kphp"))  {
-			$kphpstat = stat ("cache/index.kphp");
-			$kphptime = $kphpstat['mtime'];
-			if ( $xmltime <  $kphptime ) {
-				$rawdata = file_get_contents ("cache/index.kphp");
-				$fullxmlextract = unserialize ($rawdata);
-				return $fullxmlextract;
-				}
+		// If cache file is newer, we use it.
+		if ($cache_xml_file_time > $index_xml_file_time)  {
+			$raw_data = file_get_contents ($cache_xml_file_name);
+			$picture_array = unserialize ($raw_data);
+			return $picture_array;
 			}
+
 
 
 
@@ -133,15 +137,12 @@ class  Kxml extends  Model {
 	 *
 	 * If the file does not exist, return a time of 0.
 	 *
-	 * @param	$string		index.xml file (fully pathed)
+	 * @param	$string		cache xml file name (fully pathed)
 	 * @return	integer
 	 **/
-	function  _get_cache_xml_file_time ( )  {
-		/// @todo Pull the cache file name from the config file/array
-		$cache_file_name = "cache/index.kphp";
-
-		if (file_exists ($cache_file_name))  {
-			$file_stat  = stat ($cache_file_name);
+	function  _get_cache_xml_file_time ( $cache_xml_file_name )  {
+		if (file_exists ($cache_xml_file_name))  {
+			$file_stat  = stat ($cache_xml_file_name);
 			$file_time = $file_stat['mtime'];
 			}
 		else

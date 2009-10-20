@@ -114,7 +114,7 @@ class  Kxml extends  Model {
 		else
 			$file_time = 0;
 
-		return $xmltime;
+		return $file_time;
 		}  //  end-method  _get_index_xml_file_time ()
 
 

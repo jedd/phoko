@@ -56,7 +56,12 @@ class  Gallery extends  Controller {
 	 *	The first thing an arriving visitor sees.
 	 **/
 	function  index ()  {
+		// Get all our settings - directories, paths, image sizes, etc - store in $this->config[phoko]
+		$this->load->config ('phoko', TRUE);
+		$config = $this->config->item('phoko');
 
+
+		// Load up the $pictures array with all the pictures we're going to show
 		$pictures = $this->Kxml->get_pictures();
 
 

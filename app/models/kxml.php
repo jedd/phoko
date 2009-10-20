@@ -68,7 +68,26 @@ class  Kxml extends  Model {
 			return FALSE;
 
 
-		}
+
+		if (file_exists ($xmlfile)) {
+			$xmlstat = stat ($xmlfile);
+			$xmltime = $xmlstat['mtime'];
+			}
+		else
+			$xmltime = 0;
+
+		if (file_exists ("cache/index.kphp"))  {
+			$kphpstat = stat ("cache/index.kphp");
+			$kphptime = $kphpstat['mtime'];
+			if ( $xmltime <  $kphptime ) {
+				$rawdata = file_get_contents ("cache/index.kphp");
+				$fullxmlextract = unserialize ($rawdata);
+				return $fullxmlextract;
+				}
+			}
+
+
+		}  // end-method  get_pictures ()
 
 
 

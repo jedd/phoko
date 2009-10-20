@@ -56,7 +56,7 @@ $config['repository'] = "/home/garden/pictures/";
  *  This is automatically calculated - there is nothing here for you to do.
  *  To clarify - DO NOT MODIFY THIS ITEM.
  **/
-$config['index_xml_file'] = $picturerepository . "index.xml";
+$config['index_xml_file'] = $config['repository'] . "index.xml";
 
 
 /**

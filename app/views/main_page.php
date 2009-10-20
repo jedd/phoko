@@ -32,12 +32,20 @@ Left navigation menu for tag tracking
 
 
 <div id="right">
-Right side bit
+Right side bit.
+<br />
+
+<br />
+Ahh ... more on the right.  As many
+words as you could want.  And then
+some.
 </div> <!-- /right -->
 
 
 <div id="middle">
 Main bit
+
+It should wrap somewhere conveniently on the right, but not clear how far across it should get.
 </div> <!-- /middle -->
 
 

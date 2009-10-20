@@ -28,10 +28,9 @@ A:hover  {
  */
 
 body  {
-	background: #124;
-	color: yellow;
+	background-color: #124;
+	color: orange;
 	/*min-width: 550px;*/
-/*	margin: 0px; */
 	}
 
 div#everything  {
@@ -41,31 +40,35 @@ div#everything  {
 
 div#top  {
 	clear: both;
-	height: 50px;
-	background-color: aqua;
-	padding: 1px;
+	height: 90px;
+	background-color: #235;
+	padding: 4px;
 	}
 
 div#left  {
 	float: left;
 	width: 150px;
-	background-color: red;
+	background-color: #346;
+	padding-top: 7px;
+	padding-left: 5px;
 	}
 
 div#right  {
 	float: right;
-	width: 150px;
-	background-color: green;
+	width: 220px;
 	}
 
 div#middle  {
 	padding: 0px 160px 5px 160px;
 	margin: 0px;
-	background-color: silver;
 	}
 
 div#footer  {
+	padding-top: 7px;
+	padding-left: 10px;
+	padding-bottom: 5px;
 	clear: both;
-	background-color: yellow;
+	background-color: #235;
+	font-size: 60%;
 	}
 

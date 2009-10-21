@@ -12,19 +12,19 @@
 |
 | On a new installation, you must modify the following
 |
-| 1.
-| 2.
+| 1. $config['name'] should be set to something relevant to YOUR gallery.
+| 2. $config['repository'] must point to the KPA directory containing
+|        your KPhotoAlbum index.xml file.
+| 3. $config['publish_key_word'] must be set to whatever Keyword tag
+|        you have set within KPA to denote images to publish.
+| 4. $config['shoosh_tags'] should be set with any tags you wish
+|        to keep hidden from the rest of the world.
 |
+| No other entries *need* to be changed in here.  Be sure not to change
+| any of the settings that say 'DON'T MESS WITH THESE!' unless you
+| making some code changes.  Modifying the non-modifiable items in is
+| not something that I've tested.
 */
-
-/*
-| -------------------------------------------------------------------
-|
-| -------------------------------------------------------------------
-|
-|
-*/
-
 
 
 /**
@@ -78,7 +78,10 @@ $config['cache_xml_file_name'] = "cache/index.kphp";
  *  something we should ever need to change.  If you have so many
  *  images you're getting collisions in a 16*10 space, you probably
  *  have already hit other problems by now.
-
+ *
+ *  NOTE If you do change this, all your cache items will need to be
+ *  refreshed, and any URLs you have published will cease to exist.
+ *
  *  To clarify - DO NOT MODIFY THIS ITEM.
  **/
 $config['image_id_size'] = 10;
@@ -179,13 +182,13 @@ $config['publish_keyword'] = "PUBLISH - jedd";
  *  here we convert any spaces in custom categories to underscores
  *  too - it's safer to do it here, rather than modding the XML
  *  input later.  And then we can s/_/ / later, at presentation
- *  time somewhere in our view.  Obviously there's no elegant
- *  answer to this, as we can't tell if the user has underscores
+ *  time somewhere in our views.  Obviously there's no elegant
+ *  answer to this, as we can't tell if the user intends underscores
  *  or spaces in their actual, on-screen custom category names.
  *  To make it EXTRA irritating, member groups show the name as
  *  it should be (using a space, not an underscore) - but we can't
  *  rely on member groups being in play, nor that 'The Farm' and
- *  'The_Farm' aren't intended to be separate groups to start with.
+ *  'The_Farm' aren't intended, or exist, as separate groups.
  *
  *  In any case, DEFINITELY DO NOT MODIFY THESE ITEMS
  *
@@ -257,7 +260,7 @@ $config['image_sizes'] = array ("thumb" =>
  *  I get some javascript magic worked out.
  **/
 // $config['panorama_allow'] = TRUE;
-$config['panorama_allow'] = true;
+$config['panorama_allow'] = TRUE;
 
 //$panoramasizes = array ("s" =>  // Small - MSI Wind size
 //							array ("desc" => "Small", "x" => 950 ,  "y"  => 400),

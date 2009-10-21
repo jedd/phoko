@@ -69,15 +69,15 @@ class  Kxml extends  Model {
 	 * @param	$string		index.xml file (fully pathed)
 	 * @return	array of pictures
 	 **/
-	function  get_pictures  ( $index_xml_file = FALSE )  {
-		if (! $index_xml_file )
+	function  get_pictures  ( $index_xml_file_name = FALSE )  {
+		if (! $index_xml_file_name )
 			return FALSE;
 
 		/// @todo Pull the cache file name from the config file/array
 		$cache_xml_file_name = "cache/index.kphp";
 
 		// Get file timestamps
-		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file);
+		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file_name);
 		$cache_xml_file_time = $this->_get_cache_xml_file_time ($cache_xml_file_name);
 
 		// If both times are set to zero, neither file is visible, so bomb out.
@@ -91,10 +91,22 @@ class  Kxml extends  Model {
 			return $picture_array;
 			}
 
+		// If we get here, we know we're going to use index.xml
+		$xml_content = simplexml_load_file($index_xml_file_name);
+		if (! $xml_content)  {
+			echo "Failed to read or comprehend index.xml file";
+			return FALSE;
+			}
+
+
+
+
 
 
 
 		}  // end-method  get_pictures ()
+
+
 
 
 
@@ -117,9 +129,9 @@ class  Kxml extends  Model {
 	 * @param	$string		index.xml file (fully pathed)
 	 * @return	integer
 	 **/
-	function  _get_index_xml_file_time ($index_xml_file)  {
-		if (file_exists ($index_xml_file)) {
-			$file_stat = stat ($index_xml_file);
+	function  _get_index_xml_file_time ($index_xml_file_name)  {
+		if (file_exists ($index_xml_file_name)) {
+			$file_stat = stat ($index_xml_file_name);
 			$file_time = $file_stat['mtime'];
 			}
 		else

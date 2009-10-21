@@ -35,3 +35,8 @@ function dump($var)  {
 	echo "</pre>";
 	} // end-function pdb_var_dump ()
 
+
+
+
+/* End of file phoko_helper.php */
+/* Location: ./app/helpers/phoko_helper.php */

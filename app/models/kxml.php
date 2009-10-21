@@ -120,7 +120,7 @@ class  Kxml extends  Model {
 			}
 
 		// Now we cycle through the entire XML object - actually a mix of object and
-		// array types - with xml attributes (such as picture's width, date, etc)
+		// array types - with xml attributes (such as a picture's width, date, etc)
 		// being array elements, but almost everything else coming in as as objects.
 		//
 		// I'm loathe to separate these early stages out into sub-functions, as it

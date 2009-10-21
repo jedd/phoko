@@ -344,32 +344,32 @@
 // 								(string)$imagearray[$x]['file'] = $picturerepository.(string)$image['file'];
 
 								// People - now Persons in recent kphotoalbum
-								foreach ($image->options->option  as  $suboption)
-									if ($suboption['name'] == "Persons")
-										foreach ($suboption->value as $peoplevalue)
-												if ( ! (in_array ($keywordvalue['value'] ,
-														$SHOOSHTAGS['Persons']) ) )
-												$imagearray[$x]['Persons'][]
-													= (string)$peoplevalue['value'];
+// 								foreach ($image->options->option  as  $suboption)
+// 									if ($suboption['name'] == "Persons")
+// 										foreach ($suboption->value as $peoplevalue)
+// 												if ( ! (in_array ($keywordvalue['value'] ,
+// 														$SHOOSHTAGS['Persons']) ) )
+// 												$imagearray[$x]['Persons'][]
+// 													= (string)$peoplevalue['value'];
 
 								// Places - now Locations in recent kphotoalbum
-								foreach ($image->options->option  as  $suboption)
-									if ($suboption['name'] == "Locations")
-										foreach ($suboption->value as $placesvalue)
-												if ( ! (in_array ($keywordvalue['value'] ,
-														$SHOOSHTAGS['Locations']) ) )
-													$imagearray[$x]['Locations'][]
-														= (string)$placesvalue['value'];
+// 								foreach ($image->options->option  as  $suboption)
+// 									if ($suboption['name'] == "Locations")
+// 										foreach ($suboption->value as $placesvalue)
+// 												if ( ! (in_array ($keywordvalue['value'] ,
+// 														$SHOOSHTAGS['Locations']) ) )
+// 													$imagearray[$x]['Locations'][]
+// 														= (string)$placesvalue['value'];
 
 								// Keywords
-								foreach ($image->options->option  as  $suboption)
-									if ($suboption['name'] == "Keywords")
-										foreach ($suboption->value as $keywordvalue)
-											if ($keywordvalue['value'] != $PUBLISHKEYWORD )
-												if ( ! (in_array ($keywordvalue['value'] ,
-														$SHOOSHTAGS['Keywords']) ) )
-													$imagearray[$x]['Keywords'][]
-														= (string) $keywordvalue['value'];
+// 								foreach ($image->options->option  as  $suboption)
+// 									if ($suboption['name'] == "Keywords")
+// 										foreach ($suboption->value as $keywordvalue)
+// 											if ($keywordvalue['value'] != $PUBLISHKEYWORD )
+// 												if ( ! (in_array ($keywordvalue['value'] ,
+// 														$SHOOSHTAGS['Keywords']) ) )
+// 													$imagearray[$x]['Keywords'][]
+// 														= (string) $keywordvalue['value'];
 
 
 
@@ -379,22 +379,22 @@
 								// once we wrap this up into a one-size-fits-all function.
 
 								// Everything that's not people/place/keywords (ie. all custom categories)
-								foreach ($image->options->option  as  $suboption)
-									if (		($suboption['name'] != "Locations")
-											&&	($suboption['name'] != "Keywords")
-											&& 	($suboption['name'] != "Persons")  )
-										foreach ($suboption->value as $placesvalue)  {
-											// note member-groups insist on using _ underscores - not
-											// especially consistent - LATER on work out other problems
-											// we may have with spaces or other char substitutions that
-											// may be going on ..?
-											$son = str_ireplace ("_" , " " , (string)$suboption['name']);
-											// JEDD _ this next two lines are likely to break badly
-											if ( ! (in_array ($placesvalue['value'] ,
-													$SHOOSHTAGS[$son]) ) )  {
-												$imagearray[$x][$son][] = (string)$placesvalue['value'];
-												}
-											}
+// 								foreach ($image->options->option  as  $suboption)
+// 									if (		($suboption['name'] != "Locations")
+// 											&&	($suboption['name'] != "Keywords")
+// 											&& 	($suboption['name'] != "Persons")  )
+// 										foreach ($suboption->value as $placesvalue)  {
+// 											// note member-groups insist on using _ underscores - not
+// 											// especially consistent - LATER on work out other problems
+// 											// we may have with spaces or other char substitutions that
+// 											// may be going on ..?
+// 											$son = str_ireplace ("_" , " " , (string)$suboption['name']);
+// 											// JEDD _ this next two lines are likely to break badly
+// 											if ( ! (in_array ($placesvalue['value'] ,
+// 													$SHOOSHTAGS[$son]) ) )  {
+// 												$imagearray[$x][$son][] = (string)$placesvalue['value'];
+// 												}
+// 											}
 
 
 								// LATER - work out custom categories

@@ -51,7 +51,7 @@ It should wrap somewhere conveniently on the right, but not clear how far across
 
 
 <div id="footer">
-Page rendered in {elapsed_time} seconds
+Page rendered in {elapsed_time} seconds and using {memory_usage}
 </div> <!-- /footer -->
 
 

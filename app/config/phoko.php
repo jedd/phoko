@@ -168,6 +168,37 @@ $config['publish_keyword'] = "PUBLISH - jedd";
 				"The Farm"  =>  array ( "OK - vbo location tag" ),
 				);
 
+/**
+ *  Shoosh tags auto-modification
+ *
+ *  Publish key word is added, as we effectively shoosh it on
+ *  load of the index.xml file - best to do it here automatically.
+ *
+ *  Also, KPA converts spaces in custom categories to underscores,
+ *  for reasons that aren't clear (but it's VERY frustrating).  So
+ *  here we convert any spaces in custom categories to underscores
+ *  too - it's safer to do it here, rather than modding the XML
+ *  input later.  And then we can s/_/ / later, at presentation
+ *  time somewhere in our view.  Obviously there's no elegant
+ *  answer to this, as we can't tell if the user has underscores
+ *  or spaces in their actual, on-screen custom category names.
+ *  To make it EXTRA irritating, member groups show the name as
+ *  it should be (using a space, not an underscore) - but we can't
+ *  rely on member groups being in play, nor that 'The Farm' and
+ *  'The_Farm' aren't intended to be separate groups to start with.
+ *
+ *  In any case, DEFINITELY DO NOT MODIFY THESE ITEMS
+ *
+ **/
+$config['shoosh_tags']['Keywords'][] = $config['publish_keyword'];
+
+foreach ($config['shoosh_tags'] as $category=>$values)
+	if (strstr ($category, " "))  {
+		$new_name = str_replace (" ", "_", $category);
+		$config['shoosh_tags'][$new_name] = $config['shoosh_tags'][$category];
+		unset ($config['shoosh_tags'][$category]);
+		}
+
 
 
 /**

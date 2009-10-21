@@ -133,6 +133,7 @@ class  Kxml extends  Model {
 		// config and setting information around, and effectively having $the-xml-file
 		// as a kind of global function for the duration.
 
+
 		// Stage 1 - find all the images that have the PUBLISH tag as a Keyword
 		foreach ($xml_content->images->image  as  $image)  {
 			if  ($image->options)  {
@@ -144,19 +145,36 @@ class  Kxml extends  Model {
 								// section - picturearray['images'] - by retrieving all picture attributes,
 								// such as height, width, filename, etc.
 
-								// Create our key - eg. 325f77a90f - that we'll use everywhere from now on.
-								$image_id   = substr ($image['md5sum'], 0, $config['image_id_size']);
+								// Create our image_id (eg. 325f77a90f) that we'll use everywhere from now on.
+								$image_id = substr ($image['md5sum'], 0, $config['image_id_size']);
 
 								// We must cast as (string) here, otherwise we end up with Objects.
 								foreach ($config['image_attributes'] as $attr)
 									$kpa_db['images'][$image_id][$attr] = (string)$image[$attr];
 
-								// Take a step back down the nested loops, as we want ALL this image's information.
+								// HERE we have to 'step back' to an earlier nested loops, to get ALL this image's data.
+
+								// Cycle through outer array of tag categories, treating the three default category
+								// types (Locations/Persons/Keywords) equal to any custom categories we find.
 								foreach ($image->options->option as $revisted_option)  {
-									$tag_category = (string)$revisted_option['name'];  // Locations, Persons, Keywords ...
+									$tag_category = (string)$revisted_option['name'];
+
+									// Go through inner array, picking up tags within this tag_category.
 									$x = 0;
 									foreach ($revisted_option->value as $tagset)  {
-										$kpa_db['images'][$image_id]['tags'][$tag_category][$x++] = (string)$tagset['value'];
+										$tag_value = (string)$tagset['value'];
+
+										// Publish-tag is added to it in the config, so we can rely on shoosh_tags.
+										if (! (in_array ($tag_value, $config['shoosh_tags'][$tag_category])) ) {
+											$kpa_db['images'][$image_id]['tags'][$tag_category][$x++] = $tag_value;
+
+											// We keep a counter of occurences of each tag.
+											if (! isset ($kpa_db['all_tags'][$tag_category][$tag_value]))
+												$kpa_db['all_tags'][$tag_category][$tag_value] = 1;
+											else
+												$kpa_db['all_tags'][$tag_category][$tag_value] += 1;
+											}
+
 										}
 									}
 
@@ -167,12 +185,17 @@ class  Kxml extends  Model {
 				}  // end-if ($image->options)
 			}  // end-foreach
 
-		// HERE we have a populated $kpa_db['images'] sub-array.
+		// HERE we have $kpa_db[] with two sub-arrays: ['images'] and ['all_tags']
+
+		// Sort the contents of each of the $kpa_db['all_tags'] sub-arrays.
+		foreach ($kpa_db['all_tags'] as $y=>$z)
+			ksort (&$kpa_db['all_tags'][$y]);
+
+		// dump ($kpa_db);
+
 
 
 		// Stage 2 - calculate member groups - only note groups that contain tags that we care about, of course.
-
-		// dump ($kpa_db);
 
 		// Have to do this, because you can't -> to a variable with a hyphen.
 		$mg_string = "member-groups";

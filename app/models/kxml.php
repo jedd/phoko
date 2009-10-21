@@ -110,8 +110,21 @@ class  Kxml extends  Model {
 			}
 
 
-		// Faffing ..
+		// Now we cycle through the entire XML object - actually a mix of object and
+		// array types - with xml attributes (such as picture's width, date, etc)
+		// being array elements, but almost everything else coming in as as objects.
+		//
+		// I'm loathe to separate these early stages out into sub-functions, as it
+		// would require passing by reference - otherwise we chew up some serious
+		// memory.  Not bad in itself, but I don't see much gain in shifting much
+		// of this into functionettes.  It's ugly code, I agree, but we come through
+		// here so irregularly that I'm not hugely fussed.  See earlier comments
+		// regarding (justifying) ugliness.  I think clarity and documentation are
+		// more important than sub-dividing the task up and having to pass lots of
+		// config and setting information around, and effectively having $the-xml-file
+		// as a kind of global function for the duration.
 
+		// Stage 1 - find all the images that have the PUBLISH tag as a Keyword
 		foreach ($xml_content->images->image  as  $image)  {
 			if  ($image->options)  {
 				foreach ($image->options->option  as $option)  {
@@ -126,13 +139,19 @@ class  Kxml extends  Model {
 								$image_id   = substr ($image['md5sum'], 0, $config['image_id_size']);
 								foreach ($config['image_attributes'] as $attr)
 									$picture_array['images'][$image_id][$attr] = (string)$image[$attr];
+								}  // end-if image-is-to-be-published
+							}  // end-foreach
+						} // end-if ($option['name'] == "Keywords")
+					}  // end-foreach
+				}  // end-if ($image->options)
+			}  // end-foreach
 
-								}
-							}
-						}
-					}
-				}
-			}
+		// We now have a populated  $picture_array['images'] , where the index is the image_id,
+		// and all the image's attributes are array elements.
+		// For example:  $picture_array['images']['df453412f8'] = array ('width' => 789, 'height' => 1300 ...)
+
+		// Stage 2 - find all the tags that those images care about - culling out the ones
+		// we don't want to track (SHOOSH TAGS) as we go.
 
 		dump ($picture_array);
 

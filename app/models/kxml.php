@@ -131,10 +131,10 @@ class  Kxml extends  Model {
 		// regarding (justifying) ugliness.  I think clarity and documentation are
 		// more important than sub-dividing the task up and having to pass lots of
 		// config and setting information around, and effectively having $the-xml-file
-		// as a kind of global function for the duration.
+		// as a kind of global variable for the duration.
 
 
-		// Stage 1 - find all the images that have the PUBLISH tag as a Keyword
+		// Stage 1 - find all the images that have the PUBLISH TAG as a Keyword
 		foreach ($xml_content->images->image  as  $image)  {
 			if  ($image->options)  {
 				foreach ($image->options->option  as $option)  {
@@ -152,10 +152,10 @@ class  Kxml extends  Model {
 								foreach ($config['image_attributes'] as $attr)
 									$kpa_db['images'][$image_id][$attr] = (string)$image[$attr];
 
-								// HERE we have to 'step back' to an earlier nested loops, to get ALL this image's data.
+								// HERE we have to 'step back' to an earlier nested loop, to get ALL the image's data.
 
 								// Cycle through outer array of tag categories, treating the three default category
-								// types (Locations/Persons/Keywords) equal to any custom categories we find.
+								// types (Locations/Persons/Keywords) equally as any custom categories we find.
 								foreach ($image->options->option as $revisted_option)  {
 									$tag_category = (string)$revisted_option['name'];
 
@@ -164,22 +164,20 @@ class  Kxml extends  Model {
 									foreach ($revisted_option->value as $tagset)  {
 										$tag_value = (string)$tagset['value'];
 
-										// Publish-tag is added to it in the config, so we can rely on shoosh_tags.
+										// Publish-tag is added to shoosh_tags in the config, so we just use that.
 										if (! (in_array ($tag_value, $config['shoosh_tags'][$tag_category])) ) {
 											$kpa_db['images'][$image_id]['tags'][$tag_category][$x++] = $tag_value;
 
 											// We keep a counter of occurences of each tag.
-											if (! isset ($kpa_db['all_tags'][$tag_category][$tag_value]))
-												$kpa_db['all_tags'][$tag_category][$tag_value] = 1;
-											else
+											if (isset ($kpa_db['all_tags'][$tag_category][$tag_value]))
 												$kpa_db['all_tags'][$tag_category][$tag_value] += 1;
-											}
-
-										}
-									}
-
+											else
+												$kpa_db['all_tags'][$tag_category][$tag_value] = 1;
+											}  // end-if (picture not in shoosh tags)
+										}  // end-foreach ($revisted_option->value as $tagset)
+									}  // end-foreach ($image->options->option as $revisted_option)
 								}  // end-if image-is-to-be-published
-							}  // end-foreach
+							}  // end-foreach ($option->value  as  $value)
 						} // end-if ($option['name'] == "Keywords")
 					}  // end-foreach
 				}  // end-if ($image->options)

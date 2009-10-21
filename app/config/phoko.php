@@ -60,7 +60,7 @@ $config['index_xml_file'] = $config['repository'] . "index.xml";
 
 
 /**
- *  Image key size
+ *  Image id size
  *
  *  This is the size of the md5sum that we consider unique enough
  *  to use as the key everywhere.  I've set it to 10 here, and I've
@@ -72,7 +72,23 @@ $config['index_xml_file'] = $config['repository'] . "index.xml";
 
  *  To clarify - DO NOT MODIFY THIS ITEM.
  **/
-$config['key_size'] = 10;
+$config['image_id_size'] = 10;
+
+
+/**
+ *  Image attributes
+ *
+ *  These are the image attributes within KPA, and the ones that we
+ *  care about.  (We do not bother with angle - though probably
+ *  should, at some point.)
+ *
+ *  Changes to this array will require programmatic changes - so
+ *  you can't usefully modify this array yet.  It's here so that we
+ *  have a single location for its definition only.
+ *
+ *  To clarify - DO NOT MODIFY THIS ITEM.
+ **/
+$config['image_attributes'] = array ("width", "description", "height", "startDate", "md5sum", "file", "endDate", "label");
 
 
 /**

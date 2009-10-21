@@ -112,22 +112,19 @@ class  Kxml extends  Model {
 
 		// Faffing ..
 
-		$image_attributes = array ("width", "description", "height", "startDate", "md5sum", "file", "endDate", "label");
 		foreach ($xml_content->images->image  as  $image)  {
 			if  ($image->options)  {
 				foreach ($image->options->option  as $option)  {
 					if ($option['name'] == "Keywords")  {
 						foreach ($option->value  as  $value)  {
 							if  ($value['value'] == $config['publish_keyword'])  {
-
-
 								// Our picture-array[] contains two sub-arrays.  This builds the first
 								// section - picturearray['images'] - by retrieving all picture attributes,
 								// such as height, width, filename, etc.  We use the first 10 characters of
 								// the md5sum attribute as our key, that we'll use everywhere from now on.
 								// We MUST cast as (string) here, otherwise we pull in mini-Objects.
-								$image_id   = substr ($image['md5sum'], 0, $config['key_size']);
-								foreach ($image_attributes as $attr)
+								$image_id   = substr ($image['md5sum'], 0, $config['image_id_size']);
+								foreach ($config['image_attributes'] as $attr)
 									$picture_array['images'][$image_id][$attr] = (string)$image[$attr];
 
 								}

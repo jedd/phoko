@@ -102,7 +102,7 @@ class  Kxml extends  Model {
 
 		// Get file timestamps
 		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file_name);
-		$cache_xml_file_time = $this->_get_cache_xml_file_time ($config['cache_xml_file']);
+		$cache_xml_file_time = $this->_get_cache_xml_file_time ($config['cache_xml_file_name']);
 
 		// If both times are set to zero, neither file is visible, so bomb out.
 		if ( ($index_xml_file_time == 0) AND ($cache_xml_file_time == 0) )
@@ -110,7 +110,7 @@ class  Kxml extends  Model {
 
 		// If cache file is newer, we use it immediately.
 		if ($cache_xml_file_time > $index_xml_file_time)
-			return ( unserialize (file_get_contents ($config['cache_xml_file'])) );
+			return ( unserialize (file_get_contents ($config['cache_xml_file_name'])) );
 
 		// If we get here, we know we're going to use index.xml
 		$xml_content = simplexml_load_file($index_xml_file_name);
@@ -118,8 +118,6 @@ class  Kxml extends  Model {
 			echo "Failed to read or comprehend index.xml file";
 			return FALSE;
 			}
-
-		echo "Debug - about to parse index.xml file<br />";
 
 		// Now we cycle through the entire XML object - actually a mix of object and
 		// array types - with xml attributes (such as picture's width, date, etc)
@@ -184,7 +182,7 @@ class  Kxml extends  Model {
 
 
 		// Create/overwrite the cached xml output for next time
-		// file_put_contents ($config['cache_xml_file'], serialize($kpa_db));
+		// file_put_contents ($config['cache_xml_file_name'], serialize($kpa_db));
 
 		return $kpa_db;
 		}  // end-method  get_pictures ()

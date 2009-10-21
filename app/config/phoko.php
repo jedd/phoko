@@ -60,12 +60,12 @@ $config['index_xml_file'] = $config['repository'] . "index.xml";
 
 
 /**
- *  Cache xml file
+ *  Cache xml file name
  *
  *  This is automatically calculated - there is nothing here for you to do.
  *  To clarify - DO NOT MODIFY THIS ITEM.
  **/
-$config['cache_xml_file'] = "cache/index.kphp";
+$config['cache_xml_file_name'] = "cache/index.kphp";
 
 
 /**

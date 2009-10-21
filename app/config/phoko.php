@@ -60,6 +60,22 @@ $config['index_xml_file'] = $config['repository'] . "index.xml";
 
 
 /**
+ *  Image key size
+ *
+ *  This is the size of the md5sum that we consider unique enough
+ *  to use as the key everywhere.  I've set it to 10 here, and I've
+ *  tried to make it portable throughout the application (the only
+ *  place we really use it is kxml / get_pictures()) but it's not
+ *  something we should ever need to change.  If you have so many
+ *  images you're getting collisions in a 16*10 space, you probably
+ *  have already hit other problems by now.
+
+ *  To clarify - DO NOT MODIFY THIS ITEM.
+ **/
+$config['key_size'] = 10;
+
+
+/**
  *  Thumbs per page
  *
  *  Until we get a javascript-enabled version up and going that

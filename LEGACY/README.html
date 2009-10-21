@@ -21,6 +21,13 @@ The cache sub-directory needs to be writable by whatever user the web daemon run
 </p>
 
 <p>
+The php.ini file needs to have the memory usage set quite high, particularly if
+you're working with a big index.xml.  For a 10MB index.xml file, I've found you
+need at least 60MB for PHP.  This tends to bite you only on the generation
+of the cached index file - so should spike infrequently.
+</p>
+
+<p>
 Modify the config.php file  - this is fairly self-documented, but in detail:
 </p>
 

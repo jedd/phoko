@@ -66,6 +66,12 @@ class  Kxml extends  Model {
 	 *        an array of pictures that looks like the one we're returning
 	 *        here, everything will be peachy.
 	 *
+	 * NOTE - this function is extraordinarily heavy, especially on large XML
+	 *        files.  Because we do it so irregularly I'm less concerned about
+	 *        the memory footprint it uses - the SimpleXML suite of functions
+	 *        is generally readily available, and its peculiarities are well-
+	 *        known - hence we're sticking with it here.
+	 *
 	 * @param	$string		index.xml file (fully pathed)
 	 * @return	array of pictures
 	 **/
@@ -73,8 +79,13 @@ class  Kxml extends  Model {
 		if (! $index_xml_file_name )
 			return FALSE;
 
-		/// @todo Pull the cache file name from the config file/array
+		// ~~~~~~~~~
+		// Variables
+		$config = $this->config->item('phoko');
+
+		/** @todo Pull the cache file name from the config file/array **/
 		$cache_xml_file_name = "cache/index.kphp";
+
 
 		// Get file timestamps
 		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file_name);
@@ -99,12 +110,38 @@ class  Kxml extends  Model {
 			}
 
 
+		// Faffing ..
+
+		$image_attributes = array ("width", "description", "height", "startDate", "md5sum", "file", "endDate", "label");
+		foreach ($xml_content->images->image  as  $image)  {
+			if  ($image->options)  {
+				foreach ($image->options->option  as $option)  {
+					if ($option['name'] == "Keywords")  {
+						foreach ($option->value  as  $value)  {
+							if  ($value['value'] == $config['publish_keyword'])  {
 
 
+								// Our picture-array[] contains two sub-arrays.  This builds the first
+								// section - picturearray['images'] - by retrieving all picture attributes,
+								// such as height, width, filename, etc.  We use the first 10 characters of
+								// the md5sum attribute as our key, that we'll use everywhere from now on.
+								// We MUST cast as (string) here, otherwise we pull in mini-Objects.
+								$image_id   = substr ($image['md5sum'], 0, $config['key_size']);
+								foreach ($image_attributes as $attr)
+									$picture_array['images'][$image_id][$attr] = (string)$image[$attr];
 
+								}
+							}
+						}
+					}
+				}
+			}
+
+		dump ($picture_array);
 
 
 		}  // end-method  get_pictures ()
+
 
 
 

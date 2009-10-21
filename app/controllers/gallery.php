@@ -60,6 +60,7 @@ class  Gallery extends  Controller {
 		$this->load->config ('phoko', TRUE);
 		$config = $this->config->item('phoko');
 
+
 		// Load up the $pictures array with all the pictures we're going to show
 		$pictures = $this->Kxml->get_pictures($config['index_xml_file']);
 

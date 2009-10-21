@@ -316,8 +316,8 @@
 // 			}
 
 		// else we fall through, and load the index.xml file directly (then save the cached version)
-		$imagearray = array();
-		$indexxml = simplexml_load_file($xmlfile);
+/*		$imagearray = array();
+		$indexxml = simplexml_load_file($xmlfile);*/
 		// LATER -- look into using alternative xml loading functions:
 		// http://localhost/doc/php-doc/html/function.xml-parse.html
 		// http://localhost/doc/php-doc/html/function.sdo-das-xml-loadfile.html
@@ -334,14 +334,14 @@
 								// grab the info in there - so we're not just looking for 'Keywords',
 								// we just use that to find the PUBLISHKEYWORD trigger .. okay?
 
-								// Basic pic info to grab (cast as string or else Bad Things happen)
-								$infowewant = array ("width", "height", "startDate", "endDate",
-													"angle", "md5sum", "description");
-								foreach ($infowewant as $info)
-									(string)$imagearray[$x][$info]   = (string)$image[$info];
+// 								// Basic pic info to grab (cast as string or else Bad Things happen)
+// 								$infowewant = array ("width", "height", "startDate", "endDate",
+// 													"angle", "md5sum", "description");
+// 								foreach ($infowewant as $info)
+// 									(string)$imagearray[$x][$info]   = (string)$image[$info];
 
-								// Special case for 'file' as we need to prepend the path.
-								(string)$imagearray[$x]['file'] = $picturerepository.(string)$image['file'];
+// 								// Special case for 'file' as we need to prepend the path.
+// 								(string)$imagearray[$x]['file'] = $picturerepository.(string)$image['file'];
 
 								// People - now Persons in recent kphotoalbum
 								foreach ($image->options->option  as  $suboption)

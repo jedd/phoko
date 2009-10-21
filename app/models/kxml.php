@@ -61,6 +61,22 @@ class  Kxml extends  Model {
 	 *
 	 * Otherwise, we use the index.xml to generate the serialised-array file.
 	 *
+	 * Format of returned array:
+	 * $kpa_db
+	 *     ['images']
+	 *         ['3f66e0ba7a']
+	 *              ['width'] = 789
+	 *              ['startDate'] = 1999-08-23T12:32:00
+	 *              ...
+	 *         ...
+	 *     ['all_tags']
+	 *         ['Locations']
+	 *              ['London'] = 27           // value is occurence count
+	 *              ...
+	 *         ...
+	 *
+	 *
+	 *
 	 * NOTE - this is the function that gets re-written if we move to a
 	 *        MySQL backend for the KPA repository.  So long as it returns
 	 *        an array of pictures that looks like the one we're returning
@@ -102,7 +118,7 @@ class  Kxml extends  Model {
 			echo "Failed to read or comprehend index.xml file";
 			return FALSE;
 			}
-		dump ($xml_content);
+
 		echo "Debug - about to parse index.xml file<br />";
 
 		// Now we cycle through the entire XML object - actually a mix of object and
@@ -128,12 +144,24 @@ class  Kxml extends  Model {
 							if  ($value['value'] == $config['publish_keyword'])  {
 								// Our picture-array[] contains two sub-arrays.  This builds the first
 								// section - picturearray['images'] - by retrieving all picture attributes,
-								// such as height, width, filename, etc.  We use the first 10 characters of
-								// the md5sum attribute as our key, that we'll use everywhere from now on.
-								// We MUST cast as (string) here, otherwise we pull in mini-Objects.
+								// such as height, width, filename, etc.
+
+								// Create our key - eg. 325f77a90f - that we'll use everywhere from now on.
 								$image_id   = substr ($image['md5sum'], 0, $config['image_id_size']);
+
+								// We must cast as (string) here, otherwise we end up with Objects.
 								foreach ($config['image_attributes'] as $attr)
-									$picture_array['images'][$image_id][$attr] = (string)$image[$attr];
+									$kpa_db['images'][$image_id][$attr] = (string)$image[$attr];
+
+								// Take a step back down the nested loops, as we want ALL this image's information.
+								foreach ($image->options->option as $revisted_option)  {
+									$tag_category = (string)$revisted_option['name'];  // Locations, Persons, Keywords ...
+									$x = 0;
+									foreach ($revisted_option->value as $tagset)  {
+										$kpa_db['images'][$image_id]['tags'][$tag_category][$x++] = (string)$tagset['value'];
+										}
+									}
+
 								}  // end-if image-is-to-be-published
 							}  // end-foreach
 						} // end-if ($option['name'] == "Keywords")
@@ -141,22 +169,24 @@ class  Kxml extends  Model {
 				}  // end-if ($image->options)
 			}  // end-foreach
 
-		// We now have a populated  $picture_array['images'] , where the index is the image_id,
-		// and all the image's attributes are array elements.
-		// For example:  $picture_array['images']['df453412f8'] = array ('width' => 789, 'height' => 1300 ...)
+		// HERE we have a populated $kpa_db['images'] sub-array.
 
-		// Stage 2 - find all the tags that those images care about - culling out the ones
-		// we don't want to track (SHOOSH TAGS) as we go.
 
-		// dump ($picture_array);
+		// Stage 2 - calculate member groups - only note groups that contain tags that we care about, of course.
 
+		// dump ($kpa_db);
+
+		// Have to do this, because you can't -> to a variable with a hyphen.
+		$mg_string = "member-groups";
+		$member_groups = $xml_content->$mg_string;
+		// dump ($member_groups);
 
 
 
 		// Create/overwrite the cached xml output for next time
-		// file_put_contents ($config['cache_xml_file'], serialize($picture_array));
+		// file_put_contents ($config['cache_xml_file'], serialize($kpa_db));
 
-		return $picture_array;
+		return $kpa_db;
 		}  // end-method  get_pictures ()
 
 

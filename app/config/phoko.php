@@ -60,6 +60,15 @@ $config['index_xml_file'] = $config['repository'] . "index.xml";
 
 
 /**
+ *  Cache xml file
+ *
+ *  This is automatically calculated - there is nothing here for you to do.
+ *  To clarify - DO NOT MODIFY THIS ITEM.
+ **/
+$config['cache_xml_file'] = "cache/index.kphp";
+
+
+/**
  *  Image id size
  *
  *  This is the size of the md5sum that we consider unique enough

@@ -95,12 +95,9 @@ class  Kxml extends  Model {
 		if ( ($index_xml_file_time == 0) AND ($cache_xml_file_time == 0) )
 			return FALSE;
 
-		// If cache file is newer, we use it.
-		if ($cache_xml_file_time > $index_xml_file_time)  {
-			$raw_data = file_get_contents ($cache_xml_file_name);
-			$picture_array = unserialize ($raw_data);
-			return $picture_array;
-			}
+		// If cache file is newer, we use it immediately.
+		if ($cache_xml_file_time > $index_xml_file_time)
+			return ( unserialize (file_get_contents ($cache_xml_file_name)) );
 
 		// If we get here, we know we're going to use index.xml
 		$xml_content = simplexml_load_file($index_xml_file_name);
@@ -109,6 +106,7 @@ class  Kxml extends  Model {
 			return FALSE;
 			}
 
+		echo "Debug - about to parse index.xml file<br />";
 
 		// Now we cycle through the entire XML object - actually a mix of object and
 		// array types - with xml attributes (such as picture's width, date, etc)
@@ -153,9 +151,12 @@ class  Kxml extends  Model {
 		// Stage 2 - find all the tags that those images care about - culling out the ones
 		// we don't want to track (SHOOSH TAGS) as we go.
 
-		dump ($picture_array);
+		// dump ($picture_array);
 
+		// Create/overwrite the cached xml output for next time
+		file_put_contents ($cache_xml_file_name, serialize($picture_array));
 
+		return $picture_array;
 		}  // end-method  get_pictures ()
 
 

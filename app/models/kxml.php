@@ -74,8 +74,15 @@ class  Kxml extends  Model {
 	 *              ['London'] = 27           // value is occurence count
 	 *              ...
 	 *         ...
+	 *     ['member_groups']
+	 *         ['Locations']
+	 *              ['China']
+	 *                   ['beijing']
+	 *                   ...
+	 *              ...
 	 *
-	 *
+	 * 'all_tags' refers to all tags *that we care about* - the tags
+	 *        that are refered by any image in 'images' only.
 	 *
 	 * NOTE - this is the function that gets re-written if we move to a
 	 *        MySQL backend for the KPA repository.  So long as it returns
@@ -88,7 +95,7 @@ class  Kxml extends  Model {
 	 *        is generally readily available, and its peculiarities are well-
 	 *        known - hence we're sticking with it here.
 	 *
-	 * @param	$string		index.xml file (fully pathed)
+	 * @param	string		index.xml file (fully pathed)
 	 * @return	array of pictures
 	 **/
 	function  get_pictures  ( $index_xml_file_name = FALSE )  {
@@ -186,11 +193,8 @@ class  Kxml extends  Model {
 		// HERE we have $kpa_db[] with two sub-arrays: ['images'] and ['all_tags']
 
 		// Sort the contents of each of the $kpa_db['all_tags'] sub-arrays.
-		foreach ($kpa_db['all_tags'] as $y=>$z)
+		foreach ($kpa_db['all_tags'] as $y => $z)
 			ksort (&$kpa_db['all_tags'][$y]);
-
-		// dump ($kpa_db);
-
 
 
 		// Stage 2 - calculate member groups - only note groups that contain tags that we care about, of course.
@@ -198,7 +202,9 @@ class  Kxml extends  Model {
 		// Have to do this, because you can't -> to a variable with a hyphen.
 		$mg_string = "member-groups";
 		$member_groups = $xml_content->$mg_string;
-		// dump ($member_groups);
+		$kpa_db['member_groups'] = $this->_massage_member_groups ($member_groups, $kpa_db['all_tags'] );
+
+		dump ($kpa_db['member_groups']);
 
 
 
@@ -229,7 +235,7 @@ class  Kxml extends  Model {
 	 * If the file can not be accessed, return a time of 0 (so that it will
 	 * appear older than any extant cache file later).
 	 *
-	 * @param	$string		index.xml file (fully pathed)
+	 * @param	string		index.xml file (fully pathed)
 	 * @return	integer
 	 **/
 	function  _get_index_xml_file_time ($index_xml_file_name)  {
@@ -252,7 +258,7 @@ class  Kxml extends  Model {
 	 *
 	 * If the file does not exist, return a time of 0.
 	 *
-	 * @param	$string		cache xml file name (fully pathed)
+	 * @param	string		cache xml file name (fully pathed)
 	 * @return	integer
 	 **/
 	function  _get_cache_xml_file_time ( $cache_xml_file_name )  {
@@ -265,6 +271,45 @@ class  Kxml extends  Model {
 
 		return $file_time;
 		}  //  end-method  _get_cache_xml_file_time ()
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Massage member groups
+	 *
+	 * Generates an array from the Simple XML sub-object of [member-groups],
+	 * extracting only tags that match photos we care about, and consequently
+	 * only member groups that contain such tags.
+	 *
+	 * @param	array	cache xml file name (fully pathed)
+	 * @return	integer
+	 **/
+	function  _massage_member_groups ( $member_groups, $tags_in_use )  {
+		$mg_array = array();
+
+ 		foreach  ($member_groups->member  as  $mg)  {
+ 			$category   = (string) $mg['category'];
+ 			$group_name = (string) $mg['group-name'];
+ 			$tag        = (string) $mg['member'];
+ 			/// @todo Remove shoosh tags before letting them in here
+ 			/// @todo Remove tags that don't match the content of $tags_in_use
+			$mg_array[$category][$group_name][] = $tag;
+ 			}
+
+ 		// Sort the sub-arrays alphabetically.
+ 		foreach ($mg_array as $category => $group)
+ 			foreach ($group as $group_name => $tag)  {
+ 				sort ( &$mg_array[$category][$group_name] );
+ 				}
+
+		return $mg_array;
+		}  //  end-method  _massage_member_groups ()
+
+
+
+
+
+
 
 
 

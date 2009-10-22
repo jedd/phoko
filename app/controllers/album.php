@@ -81,6 +81,7 @@ class  Album extends  Controller {
 		// Load up the $kpa_db array with the images, tags, and member_groups
 		$kpa_db = $this->Kxml->get_pictures($config['index_xml_file']);
 
+		$this->load->view ("main_page");
 		}  // end-method  gallery ()
 
 

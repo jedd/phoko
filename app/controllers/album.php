@@ -74,8 +74,7 @@ class  Album extends  Controller {
 	 *
 	 **/
 	 function  gallery ( )  {
-		// Get all our settings - directories, paths, image sizes, etc - store in $this->config[phoko]
-		$this->load->config ('phoko', TRUE);
+		// Get all our settings - directories, paths, image sizes, etc
 		$config = $this->config->item('phoko');
 
 

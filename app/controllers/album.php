@@ -57,7 +57,7 @@ class  Album extends  Controller {
 	 *
 	 **/
 	function  index ()  {
-		$this->gallery();
+		redirect ('/album/gallery');
 
 		}  // end-method  index ()
 

@@ -1,0 +1,6 @@
+# jedd 2009-02 - obviates requirement for index.php in URLs
+RewriteEngine on
+# RewriteBase /public_html
+RewriteCond $1 !^(index\.php|theme|cache|robots\.txt)
+# RewriteRule ^(.*)$ ./index.php/$1 [L]
+RewriteRule ^(.*)$ /~jedd/phoko/index.php/$1 [L]

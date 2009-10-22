@@ -101,15 +101,18 @@ class  Kxml extends  Model {
 	function  get_pictures  ( $index_xml_file_name = FALSE )  {
 		if (! $index_xml_file_name )
 			return FALSE;
-
-		// ~~~~~~~~~
-		// Variables
-		$config = $this->config->item('phoko');
+		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		// Config items we use in a few places
+		$shoosh_tags         = $this->config->item('shoosh_tags', 'phoko');
+		$image_id_size       = $this->config->item('image_id_size', 'phoko');
+		$publish_keyword     = $this->config->item('publish_keyword', 'phoko');
+		$image_attributes    = $this->config->item('image_attributes', 'phoko');
+		$cache_xml_file_name = $this->config->item('cache_xml_file_name', 'phoko');
 
 
 		// Get file timestamps
 		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file_name);
-		$cache_xml_file_time = $this->_get_cache_xml_file_time ($config['cache_xml_file_name']);
+		$cache_xml_file_time = $this->_get_cache_xml_file_time ($cache_xml_file_name);
 
 		// If both times are set to zero, neither file is visible, so bomb out.
 		if ( ($index_xml_file_time == 0) AND ($cache_xml_file_time == 0) )
@@ -117,7 +120,7 @@ class  Kxml extends  Model {
 
 		// If cache file is newer, we use it immediately.
 		if ($cache_xml_file_time > $index_xml_file_time)
-			return ( unserialize (file_get_contents ($config['cache_xml_file_name'])) );
+			return ( unserialize (file_get_contents ($cache_xml_file_name) ) );
 
 		// If we get here, we know we're going to use index.xml
 		$xml_content = simplexml_load_file($index_xml_file_name);
@@ -147,16 +150,16 @@ class  Kxml extends  Model {
 				foreach ($image->options->option  as $option)  {
 					if ($option['name'] == "Keywords")  {
 						foreach ($option->value  as  $value)  {
-							if  ($value['value'] == $config['publish_keyword'])  {
+							if  ($value['value'] == $publish_keyword)  {
 								// Our picture-array[] contains two sub-arrays.  This builds the first
 								// section - picturearray['images'] - by retrieving all picture attributes,
 								// such as height, width, filename, etc.
 
 								// Create our image_id (eg. 325f77a90f) that we'll use everywhere from now on.
-								$image_id = substr ($image['md5sum'], 0, $config['image_id_size']);
+								$image_id = substr ($image['md5sum'], 0, $image_id_size);
 
 								// We must cast as (string) here, otherwise we end up with Objects.
-								foreach ($config['image_attributes'] as $attr)
+								foreach ($image_attributes as $attr)
 									$kpa_db['images'][$image_id][$attr] = (string)$image[$attr];
 
 								// HERE we have to 'step back' to an earlier nested loop, to get ALL the image's data.
@@ -172,7 +175,7 @@ class  Kxml extends  Model {
 										$tag_value = (string)$tagset['value'];
 
 										// Publish-tag is added to shoosh_tags in the config, so we just use that.
-										if (! (in_array ($tag_value, $config['shoosh_tags'][$tag_category])) ) {
+										if (! (in_array ($tag_value, $shoosh_tags[$tag_category])) ) {
 											$kpa_db['images'][$image_id]['tags'][$tag_category][$x++] = $tag_value;
 
 											// We keep a counter of occurences of each tag.
@@ -205,11 +208,10 @@ class  Kxml extends  Model {
 		$kpa_db['member_groups'] = $this->_massage_member_groups ($member_groups, $kpa_db['tags'] );
 
 		// Create/overwrite the cached xml output for next time
-		file_put_contents ($config['cache_xml_file_name'], serialize($kpa_db));
+		file_put_contents ($cache_xml_file_name, serialize($kpa_db));
 
 		return $kpa_db;
 		}  // end-method  get_pictures ()
-
 
 
 
@@ -281,10 +283,11 @@ class  Kxml extends  Model {
 	 * @return	integer
 	 **/
 	function  _massage_member_groups ( $member_groups, $tags_in_use )  {
-		$mg_array = array();
+		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		// Config items we use in a few places
+		$shoosh_tags      = $this->config->item('shoosh_tags', 'phoko');
 
-		$config = $this->config->item('phoko');
-		$shoosh_tags = $config['shoosh_tags'];
+		$mg_array = array();
 
  		foreach  ($member_groups->member  as  $mg)  {
 			// Again, we have to insert an underscore into category names here,

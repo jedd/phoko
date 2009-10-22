@@ -69,7 +69,7 @@ class  Kxml extends  Model {
 	 *              ['startDate'] = 1999-08-23T12:32:00
 	 *              ...
 	 *         ...
-	 *     ['all_tags']
+	 *     ['tags']
 	 *         ['Locations']
 	 *              ['London'] = 27           // value is occurence count
 	 *              ...
@@ -81,7 +81,7 @@ class  Kxml extends  Model {
 	 *                   ...
 	 *              ...
 	 *
-	 * 'all_tags' refers to all tags *that we care about* - the tags
+	 * 'tags' refers to all the tags *that we care about* - the tags
 	 *        that are refered by any image in 'images' only.
 	 *
 	 * NOTE - this is the function that gets re-written if we move to a
@@ -176,10 +176,10 @@ class  Kxml extends  Model {
 											$kpa_db['images'][$image_id]['tags'][$tag_category][$x++] = $tag_value;
 
 											// We keep a counter of occurences of each tag.
-											if (isset ($kpa_db['all_tags'][$tag_category][$tag_value]))
-												$kpa_db['all_tags'][$tag_category][$tag_value] += 1;
+											if (isset ($kpa_db['tags'][$tag_category][$tag_value]))
+												$kpa_db['tags'][$tag_category][$tag_value] += 1;
 											else
-												$kpa_db['all_tags'][$tag_category][$tag_value] = 1;
+												$kpa_db['tags'][$tag_category][$tag_value] = 1;
 											}  // end-if (picture not in shoosh tags)
 										}  // end-foreach ($revisted_option->value as $tagset)
 									}  // end-foreach ($image->options->option as $revisted_option)
@@ -190,11 +190,11 @@ class  Kxml extends  Model {
 				}  // end-if ($image->options)
 			}  // end-foreach
 
-		// HERE we have $kpa_db[] with two sub-arrays: ['images'] and ['all_tags']
+		// HERE we have $kpa_db[] with two sub-arrays: ['images'] and ['tags']
 
-		// Sort the contents of each of the $kpa_db['all_tags'] sub-arrays.
-		foreach ($kpa_db['all_tags'] as $y => $z)
-			ksort (&$kpa_db['all_tags'][$y]);
+		// Sort the contents of each of the $kpa_db['tags'] sub-arrays.
+		foreach ($kpa_db['tags'] as $y => $z)
+			ksort (&$kpa_db['tags'][$y]);
 
 
 		// Stage 2 - calculate member groups - only note groups that contain tags that we care about, of course.
@@ -202,9 +202,13 @@ class  Kxml extends  Model {
 		// Have to do this, because you can't -> to a variable with a hyphen.
 		$mg_string = "member-groups";
 		$member_groups = $xml_content->$mg_string;
-		$kpa_db['member_groups'] = $this->_massage_member_groups ($member_groups, $kpa_db['all_tags'] );
+		$kpa_db['member_groups'] = $this->_massage_member_groups ($member_groups, $kpa_db['tags'] );
 
-		dump ($kpa_db);
+		// dump ($kpa_db);
+		foreach ($kpa_db as $foo=>$bar)  {
+			echo $foo ." (". count ($bar) .")";
+			echo "<br />";
+			}
 
 
 

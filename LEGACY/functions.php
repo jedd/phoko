@@ -407,10 +407,10 @@
 				}
 			}
 
-
+/*
 		$membergroups = array();
 		$mgstring = "member-groups";  // LATER - work out how else to escape "-" in xml strings
- 		foreach  ($indexxml->$mgstring->member  as  $mg) {
+ 		foreach  ($indexxml->$mgstring->member  as  $mg) {*/
  			// LATER - here is where we check if member is useful .. if it's
  			// a tag in use in the $publish array above.
 
@@ -420,7 +420,7 @@
 			$result = in_array ($mg['member'] ,  $imagearray);
 // 			echo  ($result) ? "true" : "false";
 // 			echo "<br>";
-			$category   =  (string) $mg['category'];
+/*			$category   =  (string) $mg['category'];
 			$groupname  =  (string) $mg['group-name'];
 			$member     =  (string) $mg['member'];
 			$shooshcat  =  (array)  $SHOOSHTAGS[$category];
@@ -437,7 +437,7 @@
 
 		// Save the data out, so subsequent hits will be against the cache file
 		$rawdata = serialize ($fullxmlextract);
-		$byteswritten = file_put_contents ("cache/index.kphp", $rawdata);
+		$byteswritten = file_put_contents ("cache/index.kphp", $rawdata);*/
 /*		echo "Bytes written to cache index = <b>" . $byteswritten . "</b><br />\n";
 		echo "Length of rawdata string = <b>" . strlen($rawdata) . "</b><br />\n";*/
 		return $fullxmlextract;
@@ -446,25 +446,25 @@
 
 
 	// -------------------------------------------------------------------------
-	function  find_all_image_tags ($publish , $tagtype)  {
-		foreach  ( $publish as $picarray )  {
-			if ($picarray[$tagtype])  {
-				foreach ($picarray[$tagtype] as $tag)  {
-					if ($returnarray[$tag]['count'])
-						$returnarray[$tag]['count']++;
-					else
-						$returnarray[$tag]['count'] = 1;
-					}
-				}
-			}
-		if ($returnarray)  {
-			ksort ($returnarray);
-			return $returnarray;
-			}
-		else
-			return NULL;
-		}
-
+// 	function  find_all_image_tags ($publish , $tagtype)  {
+// 		foreach  ( $publish as $picarray )  {
+// 			if ($picarray[$tagtype])  {
+// 				foreach ($picarray[$tagtype] as $tag)  {
+// 					if ($returnarray[$tag]['count'])
+// 						$returnarray[$tag]['count']++;
+// 					else
+// 						$returnarray[$tag]['count'] = 1;
+// 					}
+// 				}
+// 			}
+// 		if ($returnarray)  {
+// 			ksort ($returnarray);
+// 			return $returnarray;
+// 			}
+// 		else
+// 			return NULL;
+// 		}
+//
 
 
 
@@ -531,11 +531,6 @@
 							$tags_in_use[$member]['shown'] = true;
 							}
 						}
-
-
-
-
-
 					}
 				}
 			}

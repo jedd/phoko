@@ -204,16 +204,8 @@ class  Kxml extends  Model {
 		$member_groups = $xml_content->$mg_string;
 		$kpa_db['member_groups'] = $this->_massage_member_groups ($member_groups, $kpa_db['tags'] );
 
-		// dump ($kpa_db);
-		foreach ($kpa_db as $foo=>$bar)  {
-			echo $foo ." (". count ($bar) .")";
-			echo "<br />";
-			}
-
-
-
 		// Create/overwrite the cached xml output for next time
-		// file_put_contents ($config['cache_xml_file_name'], serialize($kpa_db));
+		file_put_contents ($config['cache_xml_file_name'], serialize($kpa_db));
 
 		return $kpa_db;
 		}  // end-method  get_pictures ()

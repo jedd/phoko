@@ -61,13 +61,13 @@ class  Gallery extends  Controller {
 		$config = $this->config->item('phoko');
 
 
-		// Load up the $pictures array with all the pictures we're going to show
-		$pictures = $this->Kxml->get_pictures($config['index_xml_file']);
+		// Load up the $kpa_db array with the images, tags, and member_groups
+		$kpa_db = $this->Kxml->get_pictures($config['index_xml_file']);
 
 
 
 		$this->load->view ("main_page");
-		// $this->load->view ("fiew");
+
 		}  // end-method  index ()
 
 

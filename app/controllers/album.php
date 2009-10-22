@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------------
 
 /**
- * Gallery
+ * Album
  *
  * Primary controller for the Phoko suite.
  *
@@ -27,7 +27,7 @@
 
 // ------------------------------------------------------------------------
 
-class  Gallery extends  Controller {
+class  Album extends  Controller {
 
 	// ------------------------------------------------------------------------
 	/**
@@ -57,8 +57,7 @@ class  Gallery extends  Controller {
 	 *
 	 **/
 	function  index ()  {
-		$this->album();
-		$this->load->view ("main_page");
+		$this->gallery();
 
 		}  // end-method  index ()
 
@@ -66,7 +65,7 @@ class  Gallery extends  Controller {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	album
+	 *	gallery
 	 *
 	 *	The default method for arriving users, and should handle most of the
 	 *  'normal' stuff we're doing here.
@@ -74,7 +73,7 @@ class  Gallery extends  Controller {
 	 * @param	unknown		we'll have some soon, I'm sure.
 	 *
 	 **/
-	 function  album ( )  {
+	 function  gallery ( )  {
 		// Get all our settings - directories, paths, image sizes, etc - store in $this->config[phoko]
 		$this->load->config ('phoko', TRUE);
 		$config = $this->config->item('phoko');
@@ -83,7 +82,7 @@ class  Gallery extends  Controller {
 		// Load up the $kpa_db array with the images, tags, and member_groups
 		$kpa_db = $this->Kxml->get_pictures($config['index_xml_file']);
 
-		}  // end-method  album ()
+		}  // end-method  gallery ()
 
 
 
@@ -129,7 +128,7 @@ class  Gallery extends  Controller {
 
 
 
-	}   // end-class  gallery ()
+	}   // end-class  album ()
 
-/* End of file gallery.php */
-/* Location: ./app/controllers/gallery.php */
+/* End of file album.php */
+/* Location: ./app/controllers/album.php */

@@ -143,13 +143,19 @@ $config['publish_keyword'] = "PUBLISH - jedd";
  *
  *  This sets the tags that you want to ignore - they simply won't be
  *  shown within Phoko.  This is useful if you have some secret tags,
- *  or just to tidy up your work-in-progress tags.
+ *  or want to tidy up your work-in-progress tags.
  *
  *  For instance, I use the 'OK' tag to denote images that I'm
  *  finished tagging, and use the negated version of that when
  *  searching for pictures I haven't finished working on in KPA.
- *  I also use some tags to alert my colleagues that they have
+ *  I also use some tags to alert my family that they have
  *  a set of pictures that they need to attend to.
+ *
+ *  You can nominate a tag OR a member group (super group) in here.
+ *  If you have member groups that have the same name as tags, then
+ *  I'm sorry - there's no way to denote that.  Having the same name
+ *  in both cases is probably bad form as far as tagging goes, so I'll
+ *  stick to that as an excuse.
  *
  *  You can extend this array with a custom category, if you have
  *  any, as shown in the example.  Because I'm lazy (elsewhere) you
@@ -161,14 +167,19 @@ $config['publish_keyword'] = "PUBLISH - jedd";
 				"Keywords"  =>
 						array (	"OK - jedd",
 								"0 - TEMP - stuff that Jan should go through",
-								"0 - TEMP - stuff that Jedd should go through"),
+								"0 - TEMP - stuff that Jedd should go through",
+								),
 				// "Persons"   =>  array ("foes"),
 				"Persons"   =>
 						array (	"scooby gang",
-								"smithlets"),
-				"Locations" =>  array (),
+								"smithlets",
+								),
+				// "Locations"   =>  array ("Australia"),
+				"Locations" =>  array (
+								),
 				// "My Category"  =>  array (),
-				"The Farm"  =>  array ( "OK - vbo location tag" ),
+				"The Farm"  =>  array ( "OK - vbo location tag"
+								),
 				);
 
 /**

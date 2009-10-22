@@ -204,7 +204,7 @@ class  Kxml extends  Model {
 		$member_groups = $xml_content->$mg_string;
 		$kpa_db['member_groups'] = $this->_massage_member_groups ($member_groups, $kpa_db['all_tags'] );
 
-		dump ($kpa_db['member_groups']);
+		//dump ($kpa_db['member_groups']);
 
 
 
@@ -287,13 +287,28 @@ class  Kxml extends  Model {
 	function  _massage_member_groups ( $member_groups, $tags_in_use )  {
 		$mg_array = array();
 
+		$config = $this->config->item('phoko');
+		$shoosh_tags = $config['shoosh_tags'];
+
+
+
+
  		foreach  ($member_groups->member  as  $mg)  {
+			// Again, we have to insert an underscore into category names here,
+			// because KPA *doesn't* put one in member group categories ... and
+			// we need to keep it consistent with everywhere else (when it *does*).
  			$category   = (string) $mg['category'];
+			if (strstr ($category, " "))
+				$category = str_replace (" ", "_", $category);
  			$group_name = (string) $mg['group-name'];
  			$tag        = (string) $mg['member'];
- 			/// @todo Remove shoosh tags before letting them in here
- 			/// @todo Remove tags that don't match the content of $tags_in_use
-			$mg_array[$category][$group_name][] = $tag;
+
+ 			// By checking against $tags_in_use we are tacitly vetoing most of the
+ 			// SHOOSH TAGS, as $tags_in_use was filtered by that config setting.
+ 			// The one thing we didn't catch there was SHOOSH TAGS that match
+ 			// MEMBER GROUPS - so we still need to check in here for that.
+			if ( (isset ($shoosh_tags[$category]))  AND  (! in_array ($group_name, $shoosh_tags[$category]) )  )
+				$mg_array[$category][$group_name][] = $tag;
  			}
 
  		// Sort the sub-arrays alphabetically.
@@ -301,6 +316,8 @@ class  Kxml extends  Model {
  			foreach ($group as $group_name => $tag)  {
  				sort ( &$mg_array[$category][$group_name] );
  				}
+
+		dump ($mg_array);
 
 		return $mg_array;
 		}  //  end-method  _massage_member_groups ()

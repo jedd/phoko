@@ -51,7 +51,16 @@ It should wrap somewhere conveniently on the right, but not clear how far across
 
 
 <div id="footer">
-Page rendered in {elapsed_time} seconds and using {memory_usage}
+	<table width="100%">
+	<tr width="00%">
+	<td width="50%" align="left">
+		Page rendered in {elapsed_time} seconds and using {memory_usage}
+	</td>
+	<td width="50%" align="right">
+		<?php echo anchor ('/album/cache', "Cache Management"); ?>
+	</td>
+	</tr>
+	</table>
 </div> <!-- /footer -->
 
 

@@ -216,7 +216,7 @@ foreach ($config['shoosh_tags'] as $category=>$values)
 
 
 /**
- *  Sizes for thumbs, medium, and large (full-screen) images.
+ *  Sizes for small (thumbs), medium, and large (full-screen) images.
  *
  *  Display sizes may change, so these are primarily to control
  *  the disk space (and consequently the network bandwidth) required
@@ -244,17 +244,19 @@ foreach ($config['shoosh_tags'] as $category=>$values)
  * * monitors, or within a pano-viewer.
  * )))
  **/
-//$config['image_sizes'] = array ("thumb" =>
+//$config['image_sizes'] = array (
+//					"small" =>
 //						array ("x" => 80,   "y" => 60),
-//					"large"  =>
+//					"medium"  =>
 //						array ("x" => 640,  "y" => 480),
-//					"huge"  =>
+//					"large"  =>
 //						array ("x" => 1200,  "y" => 900));
-$config['image_sizes'] = array ("thumb" =>
+$config['image_sizes'] = array (
+					"small" =>
 						array ("x" => 80,   "y" => 60),
-					"large"  =>
+					"medium"  =>
 						array ("x" => 640,  "y" => 480),
-					"huge"  =>
+					"large"  =>
 						array ("x" => 1200,  "y" => 900));
 
 

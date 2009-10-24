@@ -31,7 +31,13 @@
 function dump($var)  {
 	// echo "<pre>".__FILE__.' @ line: '.__LINE__ .'<br />Result: ';
 	echo "<pre>";
-	print_r ($var);
+	if (isset ($var))
+		if ($var)
+			print_r ($var);
+		else
+			echo "dump() value FALSE or NULL";
+	else
+		echo "dump() value not set.";
 	echo "</pre>";
 	} // end-function pdb_var_dump ()
 

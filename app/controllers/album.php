@@ -105,7 +105,10 @@ class  Album extends  Controller {
 	function  cache ( )  {
 		// Default (absent any parameters) will be to show cache stats.
 		$this->load->model("Cache");
-		echo "foo";
+
+		$list_of_cache_files = $this->Cache->get_list_of_cache_files();
+
+		dump ($list_of_cache_files);
 
 		// Note to self - in the cache model, when making new files, to
 		// protect us from harm in the event that we get a PHP timeout

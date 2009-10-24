@@ -61,20 +61,10 @@ class  Cache extends  Model {
 	 * @return	array
 	 **/
 	function  get_list_of_cache_files ( $type = "all"  )  {
-		/// @todo work out why I can't pull in config->items here - it works
-		/// okay in the kxml model - it just consistently returns false here.
-		$image_sizes    = $this->config->item('image_sizes', 'phoko');
-		$image_id_size  = $this->config->item('image_id_size', 'phoko');
-
-
-		$image_id_size = 10; /// @todo get this from $config
-		$image_sizes = array (
-					"small" =>
-						array ("x" => 80,   "y" => 60),
-					"medium"  =>
-						array ("x" => 640,  "y" => 480),
-					"large"  =>
-						array ("x" => 1200,  "y" => 900));
+		/// @todo work out why ('image_sizes', 'phoko') fails but ('image_sizes')
+		/// works - whereas the former works fine in kxml.php (another model).
+		$image_sizes    = $this->config->item('image_sizes');
+		$image_id_size  = $this->config->item('image_id_size');
 
 		// This is a recursive function - if we come in with all, we actually
 		// then return here with 'small', 'medium' and 'large' in order.
@@ -86,21 +76,20 @@ class  Cache extends  Model {
 			return $return_array;
 			}
 		else  {
+			/// @todo confirm $type is in_array()
 			// Work through the contents of the particularly sub-dir under ./cache/
 			if ($handle = opendir("cache/". $type ))  {
 				$file_list = array();
-				// For every directory entry that isn't . and .. we'll
-				// grab the filename (assuming consistently named as per the
-				// ->config(image_id_size) item) and the file size in bytes.
+				// For every directory entry that is the right size (this then rules
+				// out . and ..) we grab the name and file size in bytes.
 				while (false !== ($file = readdir($handle)))   {
 					$image_id = substr ($file , 0, $image_id_size);
-					if ( $image_id != "." AND  $image_id != "..")
+					if (strlen ($image_id) == $image_id_size)
 						$file_list[$image_id] = filesize ("cache/". $type ."/". $file);
 					}
 				closedir($handle);
 				return $file_list;
 				}
-			$return_array = array();
 			}
 		}  // end-method  get_list_of_cache_files ()
 

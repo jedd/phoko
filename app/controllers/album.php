@@ -75,11 +75,10 @@ class  Album extends  Controller {
 	 **/
 	 function  gallery ( )  {
 		// Get all our settings - directories, paths, image sizes, etc
-		$config = $this->config->item('phoko');
-
+		$index_xml_file_name = $this->config->item('index_xml_file');
 
 		// Load up the $kpa_db array with the images, tags, and member_groups
-		$kpa_db = $this->Kxml->get_pictures($config['index_xml_file']);
+		$kpa_db = $this->Kxml->get_pictures($index_xml_file_name);
 
 		$this->load->view ("main_page");
 		}  // end-method  gallery ()

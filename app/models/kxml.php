@@ -103,12 +103,11 @@ class  Kxml extends  Model {
 			return FALSE;
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		// Config items we use in a few places
-		$shoosh_tags         = $this->config->item('shoosh_tags', 'phoko');
-		$image_id_size       = $this->config->item('image_id_size', 'phoko');
-		$publish_keyword     = $this->config->item('publish_keyword', 'phoko');
-		$image_attributes    = $this->config->item('image_attributes', 'phoko');
-		$cache_xml_file_name = $this->config->item('cache_xml_file_name', 'phoko');
-
+		$shoosh_tags         = $this->config->item('shoosh_tags');
+		$image_id_size       = $this->config->item('image_id_size');
+		$publish_keyword     = $this->config->item('publish_keyword');
+		$image_attributes    = $this->config->item('image_attributes');
+		$cache_xml_file_name = $this->config->item('cache_xml_file_name');
 
 		// Get file timestamps
 		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file_name);

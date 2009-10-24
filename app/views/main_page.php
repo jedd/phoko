@@ -57,7 +57,10 @@ It should wrap somewhere conveniently on the right, but not clear how far across
 		Page rendered in {elapsed_time} seconds and using {memory_usage}
 	</td>
 	<td width="50%" align="right">
-		<?php echo anchor ('/album/cache', "Cache Management"); ?>
+		<?php
+			foreach ($footer_links as $name=>$link_url)
+				echo anchor ($link_url, $name);
+		?>
 	</td>
 	</tr>
 	</table>

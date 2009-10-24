@@ -80,7 +80,8 @@ class  Album extends  Controller {
 		// Load up the $kpa_db array with the images, tags, and member_groups
 		$kpa_db = $this->Kxml->get_pictures($index_xml_file_name);
 
-		$this->load->view ("main_page");
+		$this->data['footer_links'] = array ('Cache management' => '/album/cache');
+		$this->load->view ("main_page", $this->data);
 		}  // end-method  gallery ()
 
 
@@ -107,7 +108,8 @@ class  Album extends  Controller {
 
 		$list_of_cache_files = $this->Cache->get_list_of_cache_files();
 
-		dump ($list_of_cache_files);
+		$this->data['footer_links'] = array ('Main gallery' => '/album/gallery');
+		$this->load->view ("main_page", $this->data);
 
 		// Note to self - in the cache model, when making new files, to
 		// protect us from harm in the event that we get a PHP timeout

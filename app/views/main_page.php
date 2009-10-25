@@ -8,7 +8,7 @@ Phoko Album
 </title>
 
 <?php
-	echo "\n". link_tag('theme/frosty/gallery.css');
+	echo "\n". link_tag('theme/'. $theme .'/gallery.css');
 
 	$jquery = array (
 				"href" => "js/jquery-1.3.2.js",
@@ -53,13 +53,23 @@ It should wrap somewhere conveniently on the right, but not clear how far across
 <div id="footer">
 	<table width="100%">
 	<tr width="00%">
-	<td width="50%" align="left">
+	<td width="35%" align="left">
 		Page rendered in {elapsed_time} seconds and using {memory_usage}
 	</td>
-	<td width="50%" align="right">
+	<td width="40%" align="center">
+
+	</td>
+
+	<td width="25%" align="left">
 		<?php
 			foreach ($footer_links as $name=>$link_url)
 				echo anchor ($link_url, $name);
+		?>
+		<br />
+		<?php
+			echo "Theme: ";
+			foreach ($valid_themes as $link=>$theme_name)
+				echo anchor ("/album/settings/theme/". $link, $link, array("title" => $theme_name)) . nbs(2);
 		?>
 	</td>
 	</tr>

@@ -289,6 +289,15 @@ $panoramasizes = array ("s" =>  // Small - MSI Wind size
 							array ("desc" => "Large", "x" => 1420 ,  "y"  => 900) );
 
 
+/**
+ *  Themes
+ *
+ *  I might shuffle these into a function that just looks in the /theme/ directory
+ *  but for now I'll let the options be defined here.
+ *
+ **/
+// $config['themes'] = array ("default" => "Nice and dark, like a nice dark night", "frosty" => "Frosty like a cool winters day");
+$config['valid_themes'] = array ("default" => "Nice and dark, like a nice dark night", "frosty" => "Frosty like a cool winters day");
 
 
 

@@ -45,6 +45,20 @@ class  Album extends  Controller {
 
 		// Models
 		$this->load->model ("Kxml");
+
+		// A very basic breadcrumb system - primarily for internal use only, on redirects.
+		$this->session->set_userdata('uri_penultimate' , $this->session->userdata('uri_ultimate'));
+		$this->session->set_userdata('uri_ultimate', uri_string());
+
+		// Set the default theme for new users - resides purely in session data
+		if (! $this->session->userdata('theme'))  {
+			$this->session->set_userdata('theme', 'default');
+			}
+
+		// For use in the view(s)
+		$this->data['theme'] = $this->session->userdata('theme');
+		$this->data['valid_themes'] = $this->config->item('valid_themes');
+
 		} // end-constructor
 
 
@@ -119,10 +133,33 @@ class  Album extends  Controller {
 		// filename, and continue recreating missing files.  This is
 		// assuming renames are atomic (which is a fairly safe bet)
 
-		}
+		}  // end-method  cache ()
 
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Settings
+	 *
+	 * Offers ways to change user settings - typically pushes something into
+	 * the session array and then redirects from whence it came.
+	 *
+	 * @param	string		$thing	What we're setting
+	 * @param	string		$value	What we're changing it to
+	 **/
+	function  settings ( $thing = NULL , $value = NULL )  {
+		$return_to = $this->session->userdata('uri_penultimate');
+
+		switch ($thing)  {
+			case "theme":
+					$valid_themes = $this->config->item ('valid_themes');
+					if (isset ($valid_themes[$value]))
+						$this->session->set_userdata('theme', $value);
+					break;
+			}
+
+		redirect ($return_to);
+		}  // end-method  settings ()
 
 
 

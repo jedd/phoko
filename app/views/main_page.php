@@ -8,7 +8,7 @@ Phoko Album
 </title>
 
 <?php
-	echo "\n". link_tag('theme/default/gallery.css');
+	echo "\n". link_tag('theme/frosty/gallery.css');
 
 	$jquery = array (
 				"href" => "js/jquery-1.3.2.js",

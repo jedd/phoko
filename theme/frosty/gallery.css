@@ -1,0 +1,78 @@
+/**
+ * Gallery CSS - frosty (white) theme - for development
+ */
+
+
+/*********************************************************************
+ * Links
+ */
+
+A:link {
+	text-decoration:none;
+	color: darkblue;
+	}
+
+A:visited {
+	text-decoration:none;
+	color: darkblue;
+	}
+
+A:hover  {
+	color: lightblue;
+	background-color: #e8e8ff;
+	}
+
+
+/*********************************************************************
+ * Body
+ */
+
+body  {
+	background-color: #eef;
+	color: black;
+	/*min-width: 550px;*/
+	font-size: 82%;
+	}
+
+div#everything  {
+	padding-left:  10px;
+	padding-right: 10px;
+	}
+
+div#top  {
+	clear: both;
+	height: 90px;
+	/* background-color: #235; */
+	padding: 4px;
+	}
+
+div#left  {
+	float: left;
+	width: 150px;
+	background-color: #fed;
+	padding-top: 7px;
+	padding-left: 5px;
+	}
+
+div#right  {
+	float: right;
+	width: 220px;
+	}
+
+div#middle  {
+	padding: 0px 160px 5px 160px;
+	margin: 0px;
+	font-size: 100%;
+	}
+
+div#footer  {
+	padding-top: 7px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	clear: both;
+	background-color: #fed;
+	font-size: 60%;
+
+	}
+

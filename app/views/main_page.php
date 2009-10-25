@@ -39,14 +39,6 @@
 </div> <!-- /left -->
 
 
-<div id="right">
-	<?php
-		if ( isset($content['right']))
-			echo $content['right'];
-	?>
-</div> <!-- /right -->
-
-
 <div id="middle">
 	<?php
 		echo $content['main'];

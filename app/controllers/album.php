@@ -91,7 +91,15 @@ class  Album extends  Controller {
 		// Load up the $kpa_db array with the images, tags, and member_groups
 		$kpa_db = $this->Kxml->get_pictures($index_xml_file_name);
 
+		// Prepare the view partials
+		$this->data['title'] = $this->config->item('name');
 		$this->data['footer_links'] = array ('Cache management' => '/album/cache');
+		$this->data['content']['top'] = "Thumbnails will appear up here.";
+		$this->data['content']['right'] = "This div intentionally left blank.";
+		$this->data['content']['left'] = "Navigation stuff goes in here";
+		$this->data['content']['main'] = "Normal dispay stuff will appear in here - usually just a picture, with some navigation tools wrapped around it.";
+
+		// Load the primary view
 		$this->load->view ("main_page", $this->data);
 		}  // end-method  gallery ()
 
@@ -119,7 +127,14 @@ class  Album extends  Controller {
 
 		$list_of_cache_files = $this->Cache->get_list_of_cache_files();
 
+		// Prepare the view partials
+		$this->data['title'] = "Cache Management";
 		$this->data['footer_links'] = array ('Main gallery' => '/album/gallery');
+		$this->data['content']['top'] = "Cache management.<br />Use the <b>Main Gallery</b> link bottom right to return to the gallery.";
+		$this->data['content']['main'] = "Cache stuff!";
+		$this->data['content']['left'] = "Navigation stuff goes in here";
+
+		// Load the primary view
 		$this->load->view ("main_page", $this->data);
 
 		// Note to self - in the cache model, when making new files, to
@@ -139,7 +154,7 @@ class  Album extends  Controller {
 	 * Settings
 	 *
 	 * Offers ways to change user settings - typically pushes something into
-	 * the session array and then redirects from whence it came.
+	 * the session array and then immediately redirects from whence it came.
 	 *
 	 * @param	string		$thing	What we're setting
 	 * @param	string		$value	What we're changing it to
@@ -147,6 +162,7 @@ class  Album extends  Controller {
 	function  settings ( $thing = NULL , $value = NULL )  {
 		$return_to = $this->session->userdata('uri_penultimate');
 
+		// All settings are consistently formatted - so easy to switch() on.
 		switch ($thing)  {
 			case "theme":
 					$valid_themes = $this->config->item ('valid_themes');
@@ -155,6 +171,7 @@ class  Album extends  Controller {
 					break;
 			}
 
+		// We never display a 'settings' screen - so we return to origin here.
 		redirect ($return_to);
 		}  // end-method  settings ()
 

@@ -4,48 +4,53 @@
 <html>
 <head>
 <title>
-Phoko Album
+<?php echo $title; ?>
 </title>
 
 <?php
+	// Load the right stylesheet
 	echo "\n". link_tag('theme/'. $theme .'/gallery.css');
 
+	// Load the jquery library
 	$jquery = array (
 				"href" => "js/jquery-1.3.2.js",
 				"type" => "text/javascript",
 				);
 	echo "\n". link_tag($jquery);
 ?>
-
 </head>
+
 <body>
 <div id="everything">
 
 <div id="top">
-Top bit - for all kinds of things
+	<?php
+		if ( isset($content['top']))
+			echo $content['top'];
+	?>
 </div> <!-- /top -->
 
 
 <div id="left" >
-Left navigation menu for tag tracking
+	<?php
+		if (isset ($content['left']))
+			echo $content['left'];
+	?>
 </div> <!-- /left -->
 
 
 <div id="right">
-Right side bit.
-<br />
-
-<br />
-Ahh ... more on the right.  As many
-words as you could want.  And then
-some.
+	<?php
+		if ( isset($content['right']))
+			echo $content['right'];
+	?>
 </div> <!-- /right -->
 
 
 <div id="middle">
-Main bit
-
-It should wrap somewhere conveniently on the right, but not clear how far across it should get.
+	<?php
+		echo $content['main'];
+	?>
 </div> <!-- /middle -->
 
 

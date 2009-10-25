@@ -108,7 +108,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('kxml');
+$autoload['model'] = array('Kxml');
 
 
 

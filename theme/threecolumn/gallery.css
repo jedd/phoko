@@ -1,5 +1,10 @@
 /**
- * Gallery CSS - default theme
+ * Gallery CSS - threecolumn theme - what the others were based on originally,
+ * until I decided to have Picture and Tag explorifiers share the left navigation
+ * panel, and use virtual tabs at the top to toggle between them.  Kept here just
+ * in case I ever want to revert to three columns .. plus left & right fixed
+ * width columns with liquid middle column is tricky to get right, so might
+ * be useful later on, elsewhere.
  */
 
 
@@ -54,8 +59,13 @@ div#left  {
 	padding-left: 5px;
 	}
 
+div#right  {
+	float: right;
+	width: 220px;
+	}
+
 div#middle  {
-	padding: 0px 0px 5px 160px;
+	padding: 0px 160px 5px 160px;
 	margin: 0px;
 	font-size: 100%;
 	}

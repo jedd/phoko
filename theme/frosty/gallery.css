@@ -54,13 +54,8 @@ div#left  {
 	padding-left: 5px;
 	}
 
-div#right  {
-	float: right;
-	width: 220px;
-	}
-
 div#middle  {
-	padding: 0px 160px 5px 160px;
+	padding: 0px 0px 5px 160px;
 	margin: 0px;
 	font-size: 100%;
 	}

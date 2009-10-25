@@ -55,8 +55,9 @@ div#left  {
 	}
 
 div#main  {
-	padding: 0px 0px 5px 160px;
-	margin: 0px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	margin-left: 160px;
 	background-color: #def;
 	font-size: 100%;
 	}

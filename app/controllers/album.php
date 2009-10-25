@@ -124,14 +124,14 @@ class  Album extends  Controller {
 		// Default (absent any parameters) will be to show cache stats.
 		$this->load->model("Cache");
 
-		$list_of_cache_files = $this->Cache->get_list_of_cache_files();
-
 		// Prepare the view partials
 		$this->data['title'] = "Cache Management";
 		$this->data['footer_links'] = array ('Main gallery' => '/album/gallery');
 		$this->data['content']['top'] = "Cache management.<br />Use the <b>Main Gallery</b> link bottom right to return to the gallery.";
-		$this->data['content']['main'] = "Cache stuff!";
 		$this->data['content']['left'] = "Navigation stuff goes in here";
+
+		$cache_view['cache_file_list'] = $this->Cache->get_list_of_cache_files();
+		$this->data['content']['main'] = $this->load->view('cache_status', $cache_view, TRUE);
 
 		// Load the primary view
 		$this->load->view ("main_page", $this->data);

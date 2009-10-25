@@ -39,11 +39,11 @@
 </div> <!-- /left -->
 
 
-<div id="middle">
+<div id="main">
 	<?php
 		echo $content['main'];
 	?>
-</div> <!-- /middle -->
+</div> <!-- /main -->
 
 
 

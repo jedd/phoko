@@ -43,9 +43,6 @@ class  Album extends  Controller {
 	function  __construct ()  {
 		parent::Controller();
 
-		// Models
-		$this->load->model ("Kxml");
-
 		// A very basic breadcrumb system - primarily for internal use only, on redirects.
 		$this->session->set_userdata('uri_penultimate' , $this->session->userdata('uri_ultimate'));
 		$this->session->set_userdata('uri_ultimate', uri_string());

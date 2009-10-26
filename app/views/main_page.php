@@ -3,29 +3,19 @@
 ?>
 <html>
 <head>
-<title>
-<?php echo $title; ?>
-</title>
-
+<title><?php echo $title; ?></title>
 <?php
 	// Load the right stylesheet
 	echo "\n". link_tag('theme/'. $theme .'/gallery.css');
-	echo "\n". link_tag('theme/jquery_ui/ui_darkness/jquery-ui-1.7.2.custom.css');
+	echo "\n". link_tag('theme/jquery_ui/custom-theme/jquery-ui-1.7.2.custom.css');
 
 	// Load the jquery library
-	$jquery = array (
-				"href" => "js/jquery-1.3.2.js",
-				"type" => "text/javascript",
-				);
-	echo "\n". link_tag($jquery);
+	echo "\n<script type=\"text/javascript\" src=\"". base_url() . "js/jquery-1.3.2.js\"></script>";
 
 	// Load the jquery-UI library
-	$jquery_ui = array (
-				"href" => "js/jquery-ui-1.7.2.custom.min.js",
-				"type" => "text/javascript",
-				);
-	echo "\n". link_tag($jquery_ui);
+	echo "\n<script type=\"text/javascript\" src=\"". base_url() . "js/jquery-ui-1.7.2.custom.min.js\"></script>";
 ?>
+
 </head>
 
 <body>
@@ -36,6 +26,7 @@
 		if ( isset($content['top']))
 			echo $content['top'];
 	?>
+
 </div> <!-- /top -->
 
 
@@ -44,13 +35,36 @@
 		if (isset ($content['left']))
 			echo $content['left'];
 	?>
-</div> <!-- /left -->
 
+<script type="text/javascript">
+$(function() {
+	$("#tabs").tabs();
+	});
+
+</script>
+
+
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">This</a></li>
+		<li><a href="#tabs-2">All</a></li>
+	</ul>
+	<div id="tabs-1">
+		<p>Tab 1 contents</p>
+	</div>
+	<div id="tabs-2">
+		<p>Tab 2 contents</p>
+	</div>
+</div>
+
+
+</div> <!-- /left -->
 
 <div id="main">
 	<?php
 		echo $content['main'];
 	?>
+
 </div> <!-- /main -->
 
 

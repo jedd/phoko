@@ -124,7 +124,6 @@ class  Album extends  Controller {
 		$this->data['title'] = "Cache Management";
 		$this->data['footer_links'] = array ('Main gallery' => '/album/gallery');
 		$this->data['content']['top'] = "Cache management.<br />Use the <b>Main Gallery</b> link bottom right to return to the gallery.";
-		$this->data['content']['left'] = "Navigation stuff goes in here";
 
 		$cache_view['cache_file_list'] = $this->Cache->get_list_of_cache_files();
 		$kpa_db_full = $this->Kxml->get_pictures();

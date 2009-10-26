@@ -10,6 +10,7 @@
 <?php
 	// Load the right stylesheet
 	echo "\n". link_tag('theme/'. $theme .'/gallery.css');
+	echo "\n". link_tag('theme/jquery_ui/ui_darkness/jquery-ui-1.7.2.custom.css');
 
 	// Load the jquery library
 	$jquery = array (
@@ -17,6 +18,13 @@
 				"type" => "text/javascript",
 				);
 	echo "\n". link_tag($jquery);
+
+	// Load the jquery-UI library
+	$jquery_ui = array (
+				"href" => "js/jquery-ui-1.7.2.custom.min.js",
+				"type" => "text/javascript",
+				);
+	echo "\n". link_tag($jquery_ui);
 ?>
 </head>
 

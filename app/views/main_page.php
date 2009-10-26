@@ -7,7 +7,7 @@
 <?php
 	// Load the right stylesheet
 	echo "\n". link_tag('theme/'. $theme .'/gallery.css');
-	echo "\n". link_tag('theme/'. $theme .'/jquery-ui-1.7.2.custom.css');
+	echo "\n". link_tag('theme/'. $theme .'/jquery-ui.css');
 
 	// Load the jquery library
 	echo "\n<script type=\"text/javascript\" src=\"". base_url() . "js/jquery-1.3.2.js\"></script>";

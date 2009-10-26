@@ -92,7 +92,6 @@ class  Album extends  Controller {
 		$this->data['title'] = $this->config->item('name');
 		$this->data['footer_links'] = array ('Cache management' => '/album/cache');
 		$this->data['content']['top'] = "Thumbnails will appear up here.";
-		$this->data['content']['left'] = "Navigation stuff goes in here";
 		$this->data['content']['main'] = "Normal dispay stuff will appear in here - usually just a picture, with some navigation tools wrapped around it.";
 
 		// Load the primary view

@@ -85,11 +85,8 @@ class  Album extends  Controller {
 	 *
 	 **/
 	 function  gallery ( )  {
-		// Get all our settings - directories, paths, image sizes, etc
-		$index_xml_file_name = $this->config->item('index_xml_file');
-
 		// Load up the $kpa_db array with the images, tags, and member_groups
-		$kpa_db = $this->Kxml->get_pictures($index_xml_file_name);
+		$kpa_db = $this->Kxml->get_pictures();
 
 		// Prepare the view partials
 		$this->data['title'] = $this->config->item('name');
@@ -131,6 +128,9 @@ class  Album extends  Controller {
 		$this->data['content']['left'] = "Navigation stuff goes in here";
 
 		$cache_view['cache_file_list'] = $this->Cache->get_list_of_cache_files();
+		$kpa_db_full = $this->Kxml->get_pictures();
+		$cache_view['kpa_db_images'] = $kpa_db_full['images'];
+		$cache_view['stats'] = $this->_compare_cache_with_kpa_db($cache_view['cache_file_list'], $cache_view['kpa_db_images']);
 		$this->data['content']['main'] = $this->load->view('cache_status', $cache_view, TRUE);
 
 		// Load the primary view
@@ -177,8 +177,85 @@ class  Album extends  Controller {
 
 
 
+	// ========================================================================
+	// ------------------------------------------------------------------------
+	// P R I V A T E   F U N C T I O N S  -- nothing to see here.
+	// ------------------------------------------------------------------------
+	// ========================================================================
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Compare cache (reality) with kpa_db (ideal)
+	 *
+	 * Returns an array containing the following information:
+	 * [small]							// repeated for 'medium' and 'large'
+	 *		[cache_size] => 7
+	 *		[cache_count] => 1
+	 *		[extraneous_count] => 1
+	 *		[missing_count] => 565
+	 *		[extraneous] => Array
+	 *			(
+	 *				[0] => 63b6574ab3
+	 *				...
+	 *			)
+	 *		[missing] => Array
+	 *			(
+	 *				[0] => 63b6574ab4
+	 *				[1] => e27fcf562a
+	 *				...
+	 *			)
+	 * [kpa]
+	 *		[total] => 565
+	 *
+	 * @param	array		$cache_file_list		All the cache files currently on disk
+	 * @param	array		$kpa_db_images_full		The [images] sub-array ONLY of $kp_dba
+	 * @return	array
+	 **/
+	function  _compare_cache_with_kpa_db  ($cache_file_list , $kpa_db_images_full)  {
+		// Prepare the pro forma $stats array that we'll be returning
+		$stats = array();
+		$image_sizes = $this->config->item('image_sizes');
+		foreach ($image_sizes as $type => $foo)  {
+			$stats[$type]['cache_size'] = 0;			// Running total of cache files
+			$stats[$type]['cache_count'] = 0;			// Number of cache files
+			$stats[$type]['extraneous_count'] = 0;		// Cache files we don't need
+			$stats[$type]['missing_count'] = 0;			// Cache files we can't find
+			}
 
+		/// First - get the simple summary statistics
+		foreach ($cache_file_list as $type => $file_info)
+			foreach ($file_info as $file_name => $size)  {
+				$stats[$type]['cache_size'] += $size;
+				$stats[$type]['cache_count'] ++;
+				}
+
+		/// Second - tidy up the kpa_db_images array - we really only want a
+		/// very simple array like ('aabbccddee', 'bbccddeeff', 'ccddeeff00' ...)
+		$kpa_db_images = array();
+		foreach ($kpa_db_images_full as $name => $foo)
+			$kpa_db_images[] = $name;
+		$stats['kpa']['total'] = count ($kpa_db_images);
+
+		/// Third - go through the cache directory list and work out what files
+		/// are EXTRANEOUS - ie. not represented in the kpa_db_images
+		foreach ($cache_file_list as $type => $file_info)
+			foreach ($file_info as $file_name => $foo)
+				if (! in_array ($file_name, $kpa_db_images))  {
+					$stats[$type]['extraneous_count'] ++;
+					$stats[$type]['extraneous'][] = $file_name;
+					}
+
+		/// Fourth - go through the kpa_db_images list and work out what files
+		/// are MISSING - ie. not present in the cache.
+		foreach ($kpa_db_images as $kpa_image_id)
+			foreach ($cache_file_list as $type => $files)
+				if (! isset ($files[$kpa_image_id]))  {
+					$stats[$type]['missing_count'] ++;
+					$stats[$type]['missing'][] = $kpa_image_id;
+					}
+
+		return $stats;
+		}  // end-method  _compare_cache_with_kpa_db  ()
 
 
 

@@ -98,9 +98,7 @@ class  Kxml extends  Model {
 	 * @param	string		index.xml file (fully pathed)
 	 * @return	array of pictures
 	 **/
-	function  get_pictures  ( $index_xml_file_name = FALSE )  {
-		if (! $index_xml_file_name )
-			return FALSE;
+	function  get_pictures  ( )  {
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		// Config items we use in a few places
 		$shoosh_tags         = $this->config->item('shoosh_tags');
@@ -108,6 +106,7 @@ class  Kxml extends  Model {
 		$publish_keyword     = $this->config->item('publish_keyword');
 		$image_attributes    = $this->config->item('image_attributes');
 		$cache_xml_file_name = $this->config->item('cache_xml_file_name');
+		$index_xml_file_name = $this->config->item('index_xml_file');
 
 		// Get file timestamps
 		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file_name);

@@ -32,50 +32,30 @@
 // ------------------------------------------------------------------------
 
 if ($image['startDate'] == $image['endDate'])
-	echo "When: ". pretty_date($image['startDate']);
+	echo pretty_date($image['startDate']);
 else
 	echo "Between: ". $image['startDate'] ." and ". $image['endDate'];
 
-echo "<br />";
+echo "\n<hr />\n";
 
+if (isset ($image['tags']))  {
+	echo "<ul class=\"image_tags_headings\">\n";
+	foreach ($image['tags'] as $category => $tags)  {
+		echo "<li>\n";
+		echo $category .":\n";
+		echo "</li>\n";
+		echo "<ul class=\"image_tags\">\n";
+		foreach ($tags as $tag)  {
+			echo "<li>\n";
+			echo anchor ("/gallery/settings/filter/" , $tag) . "\n";
+			echo "</li>\n";
+			}
+		echo "</ul>\n";
+		}
+	echo "</ul>\n";
+	}
 
+echo "\n<hr />\n";
 
-
-
-
-
-
-
-// Array
-// (
-//     [width] => 3072
-//     [description] => An almighty pomegranate, who knows how old.  I estimate mine would take about 25 years to get to this size.
-//     [height] => 2304
-//     [startDate] => 2009-05-31T16:42:07
-//     [md5sum] => 42f6e426808405cde7f56b97661afe0a
-//     [file] => CanonPics/2009/20090531/img_0201.jpg
-//     [endDate] => 2009-05-31T16:42:07
-//     [label] => img_0201
-//     [tags] => Array
-//         (
-//             [Keywords] => Array
-//                 (
-//                     [0] => botanic gardens
-//                     [1] => flora - pomegranate
-//                 )
-//
-//             [Locations] => Array
-//                 (
-//                     [0] => madrid
-//                 )
-//
-//             [Persons] => Array
-//                 (
-//                     [0] => ruth
-//                     [1] => georgia
-//                 )
-//
-//         )
-//
-// )
+echo $image['description'];
 

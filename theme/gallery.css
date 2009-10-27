@@ -88,3 +88,20 @@ div#footer  {
 	padding: 1em;
 	letter-spacing: 2;
 	}
+
+/* unordered list used for 'this image' tag information */
+ul.image_tags_headings  {
+	font-size: 100%;
+	text-indent: 0px;
+/*	font-weight: bold;*/
+	list-style-position: outside;
+	padding: 0px;
+	list-style-type: none;
+}
+
+ul.image_tags  {
+	font-size: 82%;
+	list-style-position: outside;
+	padding-left: 1.0em; /* change to 1.5 if using disc/circle */
+	list-style-type: none ; /* none, disc, circle */
+}

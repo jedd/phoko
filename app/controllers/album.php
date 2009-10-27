@@ -43,9 +43,13 @@ class  Album extends  Controller {
 	function  __construct ()  {
 		parent::Controller();
 
-		// A very basic breadcrumb system - primarily for internal use only, on redirects.
-		$this->session->set_userdata('uri_penultimate' , $this->session->userdata('uri_ultimate'));
-		$this->session->set_userdata('uri_ultimate', uri_string());
+		// A very basic breadcrumb system - primarily for internal use only, on redirects - sometimes
+		// if a user clicks a link too fast (it seems) things can get confused, hence we check if
+		// the two links are identical - if so we don't change anything.
+		if ($this->session->userdata('uri_ultimate') != $this->session->userdata('uri_penultimate'))  {
+			$this->session->set_userdata('uri_penultimate' , $this->session->userdata('uri_ultimate'));
+			$this->session->set_userdata('uri_ultimate', uri_string());
+			}
 
 		// Set the default theme for new users - resides purely in session data
 		if (! $this->session->userdata('theme'))  {

@@ -91,6 +91,8 @@ div#footer  {
 
 /* unordered list used for 'this image' tag information */
 ul.image_tags_headings  {
+	margin-top: 0px;
+	margin-bottom: 0px;
 	font-size: 100%;
 	text-indent: 0px;
 /*	font-weight: bold;*/
@@ -100,8 +102,15 @@ ul.image_tags_headings  {
 }
 
 ul.image_tags  {
+	color: green;
 	font-size: 82%;
 	list-style-position: outside;
 	padding-left: 1.0em; /* change to 1.5 if using disc/circle */
 	list-style-type: none ; /* none, disc, circle */
 }
+
+/* The tilde between the yyyy-mm-dd and the time in the 'this image' tab in the gallery
+   -- mostly here for a placeholder, as it's usually the colour we change, and that goes
+   into the theme/gallery.css files */
+font.date_tilde  {
+	}

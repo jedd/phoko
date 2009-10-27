@@ -73,7 +73,7 @@ function  pretty_date ( $date_in )  {
 			else
 				$hh_string = $hh ."am";
 
-	$output = substr ($date_in, 0, 10) . nbs(1) ."~". nbs(1) . $hh_string;
+	$output = substr ($date_in, 0, 10) . nbs(1) ."<font class=\"date_tilde\">~</font>". nbs(1) . $hh_string;
 
 	return $output;
 	}  // end-function  pretty_date ()

@@ -58,12 +58,10 @@ $(function() {
 		<li><a href="#tabs-2">Explorifier</a></li>
 	</ul>
 	<div id="tabs-1">
-		<p>
 			<?php
 				if (isset ($image_info_view))
 					echo $image_info_view;
 			?>
-		</p>
 	</div>
 	<div id="tabs-2">
 		<p>

@@ -92,18 +92,21 @@ class  Album extends  Controller {
 		// Load up the $kpa_db array with the images, tags, and member_groups
 		$kpa_db = $this->Kxml->get_pictures();
 
-		// Prepare the view partials
+		// Prepare the generic view partials
 		$this->data['title'] = $this->config->item('name');
 		$this->data['footer_links'] = array ('Cache management' => '/album/cache');
 		$this->data['content']['top'] = "Thumbnails will appear up here.";
 		$this->data['content']['main'] = "Normal dispay stuff will appear in here - usually just a picture, with some navigation tools wrapped around it.";
 
+		// View partial for the current image information
+		$id = '42f6e42680'; /// @todo obviously need to pull this in from somewhere dynamically
+		$current_image_info['id'] = $id;
+		$current_image_info['image'] = $kpa_db['images'][$id];
+		$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
+
 		// Load the primary view
 		$this->load->view ("main_page", $this->data);
 		}  // end-method  gallery ()
-
-
-
 
 
 
@@ -190,7 +193,7 @@ class  Album extends  Controller {
 	 * Compare cache (reality) with kpa_db (ideal)
 	 *
 	 * Returns an array containing the following information:
-	 * [small]							// repeated for 'medium' and 'large'
+	 * [small]
 	 *		[cache_size] => 7
 	 *		[cache_count] => 1
 	 *		[extraneous_count] => 1
@@ -206,6 +209,7 @@ class  Album extends  Controller {
 	 *				[1] => e27fcf562a
 	 *				...
 	 *			)
+	 * [ ... ]  // (repeated for 'medium' and 'large' sizes)
 	 * [kpa]
 	 *		[total] => 565
 	 *

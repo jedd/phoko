@@ -54,14 +54,21 @@ $(function() {
 
 <div id="navi_tabs">
 	<ul>
-		<li><a href="#tabs-1">Image</a></li>
-		<li><a href="#tabs-2">Tags</a></li>
+		<li><a href="#tabs-1">This image</a></li>
+		<li><a href="#tabs-2">Explorifier</a></li>
 	</ul>
 	<div id="tabs-1">
-		<p>Tab 1 contents</p>
+		<p>
+			<?php
+				if (isset ($image_info_view))
+					echo $image_info_view;
+			?>
+		</p>
 	</div>
 	<div id="tabs-2">
-		<p>Tab 2 contents</p>
+		<p>
+			This will show all tags that exist - perhaps filtered based on what's already shown .. as per the original version?
+		</p>
 	</div>
 </div>
 

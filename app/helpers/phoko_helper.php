@@ -17,8 +17,6 @@
 
 
 
-
-
 // ------------------------------------------------------------------------
 /**
  * Super Dump!
@@ -28,7 +26,7 @@
  *
  * @param anything The variable to var_dump() straight to screen.
  **/
-function dump($var)  {
+function  dump ($var)  {
 	// echo "<pre>".__FILE__.' @ line: '.__LINE__ .'<br />Result: ';
 	echo "<pre>";
 	if (isset ($var))
@@ -39,7 +37,46 @@ function dump($var)  {
 	else
 		echo "dump() value not set.";
 	echo "</pre>";
-	} // end-function pdb_var_dump ()
+	} // end-function  dump ()
+
+
+// ------------------------------------------------------------------------
+/**
+ * Pretty date
+ *
+ * Takes one parameter - an ISO8601 formatted date - and returns it
+ * in slightly more human readable form.
+ *
+ * eg. 2009-05-31T16:42:07  ====>  2009-05-31 , 4pm
+ *
+ * @param	$date_in	string (iso8601 date)
+ * @return	string
+ **/
+function  pretty_date ( $date_in )  {
+	if (strlen ($date_in) != 19)
+		return $date_in;				// return in confusion!
+
+	$hh = substr ($date_in, 11, 2);
+	$mm = substr ($date_in, 14, 2);
+
+	if ($mm > 30)
+		$hh++;
+
+	if ( ($hh > 23) OR ($hh == '00'))
+		$hh_string = "midnight";
+	else
+		if ($hh > 12)
+			$hh_string = ($hh - 12) ."pm";
+		else
+			if ($hh == 12)
+				$hh_string = "midday";
+			else
+				$hh_string = $hh ."am";
+
+	$output = substr ($date_in, 0, 10) ." , ". $hh_string;
+
+	return $output;
+	}  // end-function  pretty_date ()
 
 
 

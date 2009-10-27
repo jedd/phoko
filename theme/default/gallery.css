@@ -40,34 +40,21 @@ div#everything  {
 	}
 
 div#top  {
-	clear: both;
-	height: 90px;
-	/* background-color: #235; */
-	padding: 4px;
 	}
 
 div#left  {
-	float: left;
-	width: 245px;
-	padding-top: 7px;
-	padding-left: 5px;
 	}
 
 div#main  {
-	padding-bottom: 10px;
-	padding-left: 5px;
-	margin-left: 255px;
-	background-color: #534;
-	font-size: 100%;
+	}
+
+div#main_box  {
+	border: 1px solid #000;
+	background: #24315c;
 	}
 
 div#footer  {
-	padding-top: 7px;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 5px;
 	clear: both;
-	font-size: 60%;
 	}
 
 #footer_box  {

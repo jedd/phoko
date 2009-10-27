@@ -92,8 +92,10 @@ $(function() {
 		<td width="25%" align="left">
 			<?php
 				echo "Page: ";
+				$footer_links_list = array();
 				foreach ($footer_links as $name=>$link_url)
-					echo anchor ($link_url, $name);
+					$footer_links_list[] = anchor ($link_url, $name);
+				echo implode ($footer_links_list);
 			?>
 			<br />
 			<?php

@@ -65,6 +65,7 @@ div#footer  {
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-bottom: 5px;
+	margin-right: 10px;
 	clear: both;
 	font-size: 60%;
 	}
@@ -73,6 +74,5 @@ div#footer  {
 	position: relative;
 	width: 100%;
 	padding: 1em;
-	letter-spacing: 0;
-	font-size: 1.2em;
+	letter-spacing: 2;
 	}

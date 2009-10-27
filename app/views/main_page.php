@@ -91,14 +91,17 @@ $(function() {
 
 		<td width="25%" align="left">
 			<?php
+				echo "Page: ";
 				foreach ($footer_links as $name=>$link_url)
 					echo anchor ($link_url, $name);
 			?>
 			<br />
 			<?php
 				echo "Theme: ";
+				$theme_list = array();
 				foreach ($valid_themes as $link=>$theme_name)
-					echo anchor ("/album/settings/theme/". $link, $link, array("title" => $theme_name)) . nbs(2);
+					$theme_list[] = anchor ("/album/settings/theme/". $link, $link, array("title" => $theme_name));
+				echo implode (', ', $theme_list);
 			?>
 		</td>
 

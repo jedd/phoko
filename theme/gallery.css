@@ -34,15 +34,22 @@ body  {
 	font-size: 82%;
 	}
 
+/* Everything = everything inside <body></body> */
 div#everything  {
 	padding-left:  10px;
 	padding-right: 10px;
 	}
 
+/* top = thumbnail bar */
 div#top  {
 	clear: both;
 	height: 90px;
 	padding: 4px;
+	}
+
+/* top_box = line around the thumbnail bar contents, using jquery ui's box */
+div#top_box  {
+	padding: 2px;
 	}
 
 div#left  {
@@ -58,9 +65,10 @@ div#main  {
 	font-size: 100%;
 	}
 
+/* main_box = line around the main contents, using jquery ui's box */
 #main_box  {
 	/*position: relative;*/
-	/*padding: 1em;*/
+	padding: 5px;
 	}
 
 div#footer  {
@@ -73,6 +81,7 @@ div#footer  {
 	font-size: 60%;
 	}
 
+/* footr_box = line around the footer contents, using jquery ui's box */
 #footer_box  {
 	position: relative;
 	width: 100%;

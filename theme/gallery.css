@@ -1,5 +1,11 @@
 /**
- * Gallery CSS - frosty (white) theme - for development
+ * Gallery CSS - primary stylesheet (gets cascaded by gallery.css
+ *               files located in the sub-directories for different
+ *               themes .. as cascading stylesheets tend to do).
+ *
+ *               Consequently most stuff in here is spacing and
+ *               the like, with colours being the main differences
+ *               in the THEME/gallery.css files.
  */
 
 
@@ -9,16 +15,13 @@
 
 A:link {
 	text-decoration:none;
-	color: darkblue;
 	}
 
 A:visited {
 	text-decoration:none;
-	color: darkblue;
 	}
 
 A:hover  {
-	color: lightblue;
 	background-color: #e8e8ff;
 	}
 
@@ -28,9 +31,6 @@ A:hover  {
  */
 
 body  {
-	background-color: #d9d9d9;
-	color: black;
-	/*min-width: 550px;*/
 	font-size: 82%;
 	}
 
@@ -57,7 +57,6 @@ div#main  {
 	padding-bottom: 10px;
 	padding-left: 5px;
 	margin-left: 255px;
-	background-color: #def;
 	font-size: 100%;
 	}
 
@@ -71,6 +70,9 @@ div#footer  {
 	}
 
 #footer_box  {
-	border: 1px solid #000;
-	background: #cbcbcb;
+	position: relative;
+	width: 100%;
+	padding: 1em;
+	letter-spacing: 0;
+	font-size: 1.2em;
 	}

@@ -33,22 +33,10 @@
 Cache status
 </h1>
 
-<h2>
-Statistics
-</h2>
 <p>
-We have a total of <?php echo $stats['kpa']['total']; ?> images available for viewing.
+We have a total of <?php echo $stats['kpa']['total']; ?> images being published.
 </p>
 
-<p>
-Within the image cache repository, we have:
-<?php
-	/// @todo pull the types array in from config or .. ?
-	$sizes = array ('small', 'medium', 'large');
-	foreach ($sizes as $size)
-		echo "<br> o". nbs(3) . $stats[$size]['cache_count'] ." ". $size ." files";
-?>
-</p>
 <table border="1" cellpadding="4" >
 	<tr>
 		<td>
@@ -64,6 +52,7 @@ Within the image cache repository, we have:
 		</td>
 	</tr>
 	<?php
+		$sizes = array ('small', 'medium', 'large');
 		$items = array ('cache_size', 'cache_count', 'extraneous_count', 'missing_count');
 		foreach ($items as $item)  {
 			echo "\n<tr>\n";

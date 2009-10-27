@@ -48,15 +48,15 @@ div#top  {
 
 div#left  {
 	float: left;
-	width: 150px;
+	width: 245px;
 	padding-top: 7px;
 	padding-left: 5px;
 	}
 
 div#main  {
 	padding-bottom: 10px;
-	padding-left: 10px;
-	margin-left: 160px;
+	padding-left: 5px;
+	margin-left: 255px;
 	background-color: #534;
 	font-size: 100%;
 	}
@@ -67,8 +67,10 @@ div#footer  {
 	padding-right: 10px;
 	padding-bottom: 5px;
 	clear: both;
-/*	background-color: #235;*/
 	font-size: 60%;
-
 	}
 
+#footer_box  {
+	border: 1px solid #000;
+	background: #24315c;
+	}

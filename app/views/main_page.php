@@ -5,15 +5,21 @@
 <head>
 <title><?php echo $title; ?></title>
 <?php
-	// Load the right stylesheet
+	// Load the common stylesheet (mostly for layout)
+	echo "\n". link_tag('theme/gallery.css');
+
+	// Load the theme-specific stylesheets (mostly for colour)
 	echo "\n". link_tag('theme/'. $theme .'/gallery.css');
 	echo "\n". link_tag('theme/'. $theme .'/jquery-ui.css');
 
 	// Load the jquery library
-	echo "\n<script type=\"text/javascript\" src=\"". base_url() . "js/jquery-1.3.2.js\"></script>";
+	echo "\n<script type=\"text/javascript\" src=\"". base_url() ."js/jquery-1.3.2.js\"></script>";
 
 	// Load the jquery-UI library
-	echo "\n<script type=\"text/javascript\" src=\"". base_url() . "js/jquery-ui-1.7.2.custom.min.js\"></script>";
+	echo "\n<script type=\"text/javascript\" src=\"". base_url() ."js/jquery-ui-1.7.2.custom.min.js\"></script>";
+
+	// Load any jquery-UI plugins
+	echo "\n<script type=\"text/javascript\" src=\"". base_url() ."js/jquery.cookie.js\"></script>";
 ?>
 
 </head>
@@ -38,16 +44,18 @@
 
 <script type="text/javascript">
 $(function() {
-	$("#tabs").tabs();
+	$("#navi_tabs").tabs({ fx: { opacity: 'toggle' } });
+	//getter
+	var cookie = $("#navi_tabs").tabs('option', 'cookie');
+	//setter
+	$("#navi_tabs").tabs('option', 'cookie', { expires: 30 });
 	});
-
 </script>
 
-
-<div id="tabs">
+<div id="navi_tabs">
 	<ul>
-		<li><a href="#tabs-1">This</a></li>
-		<li><a href="#tabs-2">All</a></li>
+		<li><a href="#tabs-1">Image</a></li>
+		<li><a href="#tabs-2">Tags</a></li>
 	</ul>
 	<div id="tabs-1">
 		<p>Tab 1 contents</p>
@@ -64,35 +72,39 @@ $(function() {
 	<?php
 		echo $content['main'];
 	?>
-
 </div> <!-- /main -->
 
 
 
 <div id="footer">
-	<table width="100%">
-	<tr width="00%">
-	<td width="35%" align="left">
-		Page rendered in {elapsed_time} seconds and using {memory_usage}
-	</td>
-	<td width="40%" align="center">
+	<div id="footer_box" class="newClass ui-corner-all">
+		<table width="100%">
+		<tr width="00%">
 
-	</td>
+		<td width="35%" align="left">
+			Page rendered in {elapsed_time} seconds and using {memory_usage}
+		</td>
 
-	<td width="25%" align="left">
-		<?php
-			foreach ($footer_links as $name=>$link_url)
-				echo anchor ($link_url, $name);
-		?>
-		<br />
-		<?php
-			echo "Theme: ";
-			foreach ($valid_themes as $link=>$theme_name)
-				echo anchor ("/album/settings/theme/". $link, $link, array("title" => $theme_name)) . nbs(2);
-		?>
-	</td>
-	</tr>
-	</table>
+		<td width="40%" align="center">
+
+		</td>
+
+		<td width="25%" align="left">
+			<?php
+				foreach ($footer_links as $name=>$link_url)
+					echo anchor ($link_url, $name);
+			?>
+			<br />
+			<?php
+				echo "Theme: ";
+				foreach ($valid_themes as $link=>$theme_name)
+					echo anchor ("/album/settings/theme/". $link, $link, array("title" => $theme_name)) . nbs(2);
+			?>
+		</td>
+
+		</tr>
+		</table>
+	</div>  <!-- /footer_box -->
 </div> <!-- /footer -->
 
 

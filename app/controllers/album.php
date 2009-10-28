@@ -94,7 +94,7 @@ class  Album extends  Controller {
 
 		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
 		$url_parsed = $this->_parse_url();
-
+		dump ($url_parsed);
 		// Prepare the generic view partials
 		$this->data['title'] = $this->config->item('name');
 		$this->data['footer_links'] = array ('Cache management' => '/album/cache');
@@ -206,7 +206,8 @@ class  Album extends  Controller {
 	 *
 	 * For each segment, we interpret the item based on the first character:
 	 * i = image
-	 * f = filter
+	 * f = filter  -- might want 2nd char on filter to be 'i' for include,
+	 *                so that later we can allow (e)xclude filters easily.
 	 *
 	 * These will be the settings that we don't want in session/cookie
 	 * data, simply because we want the URL to be meaningful if it is
@@ -217,7 +218,28 @@ class  Album extends  Controller {
 	 * @return	array	Options that we glean from the url
 	 **/
 	function  _parse_url ( )  {
+		$segs  = $this->uri->segment_array();
+		$seg_x = 3;								// We start at segment(3)
+		$parray = array ();						// parameter array - our return data
 
+		while ( isset($segs[$seg_x]) )  {
+			$segment = $segs[$seg_x];
+			switch ($segment[0])  {
+				case 'i':
+					// We make note of multiple /i.../ segments, jic.
+					if (isset ($parray['image_id']))
+						$parray['errors'][] = "Multiple attempts to define Image ID";
+					else
+						$parray['image_id'] = substr($segment, 1);
+					break;
+				case 'f':
+					/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
+					$parray['filters'][] = substr($segment, 1);
+					break;
+				}
+			$seg_x++;
+			}
+		return $parray;
 		}  // end-method  _parse_url ()
 
 

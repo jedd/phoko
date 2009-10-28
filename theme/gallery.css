@@ -51,7 +51,8 @@ div#top  {
 
 /* top_box = line around the thumbnail bar contents, using jquery ui's box */
 div#top_box  {
-	height: 90px;
+	padding: 3px;
+	height: 84px;
 	}
 
 div#left  {
@@ -62,7 +63,7 @@ div#left  {
 
 div#main  {
 	padding-bottom: 10px;
-	padding-left: 5px;
+	padding-left: 0px;
 	margin-left: 255px;
 	font-size: 100%;
 	}

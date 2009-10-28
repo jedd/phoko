@@ -55,6 +55,21 @@ div#top_box  {
 	height: 84px;
 	}
 
+/* filters = filter bar - entirely optional (hidden by PHP if no filters exist) */
+div#filters  {
+	clear: both;
+	height: 30px;
+	padding-left: 4px;
+	padding-top: 0px;
+	padding-bottom: 8px;
+	}
+
+/* filters_box = line around the filters bar, using jquery ui's box */
+div#filters_box  {
+	padding: 3px;
+	height: 24px;
+	}
+
 div#left  {
 	float: left;
 	width: 245px;
@@ -81,15 +96,12 @@ div#footer  {
 	padding-bottom: 5px;
 	margin-right: 10px;
 	clear: both;
-	font-size: 60%;
+	font-size: 70%;
 	}
 
 /* footr_box = line around the footer contents, using jquery ui's box */
 #footer_box  {
-	position: relative;
 	width: 100%;
-	padding: 1em;
-	letter-spacing: 2;
 	}
 
 /* unordered list used for 'this image' tag information */

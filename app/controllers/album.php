@@ -94,12 +94,15 @@ class  Album extends  Controller {
 
 		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
 		$url_parsed = $this->_parse_url();
-		dump ($url_parsed);
+
 		// Prepare the generic view partials
 		$this->data['title'] = $this->config->item('name');
 		$this->data['footer_links'] = array ('Cache management' => '/album/cache');
 		$this->data['content']['top'] = "Thumbnails will appear up here.";
 		$this->data['content']['main'] = "Normal dispay stuff will appear in here - usually just a picture, with some navigation tools wrapped around it.";
+
+		// Filters
+		$this->data['filters'] = "fe, fi, fo, fumb";
 
 		// View partial for the current image information
 		$id = '42f6e42680'; /// @todo obviously need to pull this in from somewhere dynamically

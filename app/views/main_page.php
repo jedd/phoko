@@ -36,6 +36,15 @@
 	</div>  <!-- /top_box -->
 </div> <!-- /top -->
 
+<?php
+	if (isset ($filters))  {
+		echo "<div id=\"filters\">";
+		echo "<div id=\"filters_box\" class=\"newClass ui-corner-all\">";
+		echo "Filters: ". $filters;  /// @todo obviously we need to handle this as an array soon
+		echo "</div>"; // filters_box
+		echo "</div>"; // filters
+		}
+?>
 
 <div id="left" >
 	<?php
@@ -119,7 +128,6 @@ $(function() {
 		</table>
 	</div>  <!-- /footer_box -->
 </div> <!-- /footer -->
-
 
 
 </div> <!-- /everything -->

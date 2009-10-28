@@ -40,9 +40,9 @@
 	if (isset ($filters))  {
 		echo "<div id=\"filters\">";
 		echo "<div id=\"filters_box\" class=\"newClass ui-corner-all\">";
-		echo "Filters: ";
+		echo "<font class=\"various_headings\">Filtering on: </font>";
 		foreach ($filters as $filter)
-			echo $filter ." [X]". nbs(3);
+			echo $filter['actual'] ." [X]". nbs(3);
 		echo "</div>"; // filters_box
 		echo "</div>"; // filters
 		}

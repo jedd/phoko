@@ -129,3 +129,12 @@ ul.image_tags  {
    into the theme/gallery.css files */
 font.date_tilde  {
 	}
+
+/* Various headings - such as 'Filtering on:' or 'Keyword:', 'Location:' and so on,
+   where we want to understate them somewhat - typically this involves greying them
+   out slightly.
+   This is mostly here for a placeholder, as it's usually the colour we change, and
+   that goes into the theme/gallery.css files */
+font.various_headings {
+	font-size: 90%;
+	}

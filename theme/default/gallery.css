@@ -79,3 +79,10 @@ div#footer  {
 font.date_tilde  {
 	color: grey;
 	}
+
+/* Various headings - such as 'Filtering on:' or 'Keyword:', 'Location:' and so on,
+   where we want to understate them somewhat - typically this involves greying them
+   out slightly. */
+font.various_headings {
+	color: grey;
+	}

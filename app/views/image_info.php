@@ -42,12 +42,13 @@ if (isset ($image['tags']))  {
 	echo "<ul class=\"image_tags_headings\">\n";
 	foreach ($image['tags'] as $category => $tags)  {
 		echo "<li>\n";
-		echo $category .":\n";
+		echo "<font class=\"various_headings\">". $category .": </font>\n";
 		echo "</li>\n";
 		echo "<ul class=\"image_tags\">\n";
 		foreach ($tags as $tag)  {
 			echo "<li>\n";
-			echo anchor ("/gallery/settings/filter/" , $tag) . "\n";
+			$url_with_this_as_new_filter = current_url() ."/f". urlencode ($tag);
+			echo anchor ($url_with_this_as_new_filter , $tag) . "\n";
 			echo "</li>\n";
 			}
 		echo "</ul>\n";

@@ -238,7 +238,10 @@ class  Album extends  Controller {
 					break;
 				case 'f':
 					/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
-					$parray['filters'][] = substr($segment, 1);
+					$parray['filters'][] = array (
+											"actual" => urldecode (substr($segment, 1)),
+											"urlencoded" => substr($segment, 1),
+											);
 					break;
 				}
 			$seg_x++;

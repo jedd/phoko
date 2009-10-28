@@ -102,7 +102,8 @@ class  Album extends  Controller {
 		$this->data['content']['main'] = "Normal dispay stuff will appear in here - usually just a picture, with some navigation tools wrapped around it.";
 
 		// Filters
-		$this->data['filters'] = "fe, fi, fo, fumb";
+		if (isset ($url_parsed['filters']))
+			$this->data['filters'] = $url_parsed['filters'];
 
 		// View partial for the current image information
 		$id = '42f6e42680'; /// @todo obviously need to pull this in from somewhere dynamically

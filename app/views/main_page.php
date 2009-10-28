@@ -28,11 +28,12 @@
 <div id="everything">
 
 <div id="top">
+	<div id="top_box" class="newClass ui-corner-all">
 	<?php
 		if ( isset($content['top']))
 			echo $content['top'];
 	?>
-
+	</div>  <!-- /top_box -->
 </div> <!-- /top -->
 
 

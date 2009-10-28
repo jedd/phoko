@@ -42,6 +42,11 @@ div#everything  {
 div#top  {
 	}
 
+/* top_box = line around the thumbnail bar contents, using jquery ui's box */
+div#top_box  {
+	border: 1px solid #aaaaaa;  /* Must match line#53 of jquery-ui : .ui-widget-content { 1px solid #... }  */
+	}
+
 div#left  {
 	}
 

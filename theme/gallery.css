@@ -44,12 +44,14 @@ div#everything  {
 div#top  {
 	clear: both;
 	height: 90px;
-	padding: 4px;
+	padding-left: 4px;
+	padding-bottom: 8px;
+	padding-top: 0px;
 	}
 
 /* top_box = line around the thumbnail bar contents, using jquery ui's box */
 div#top_box  {
-	padding: 2px;
+	height: 90px;
 	}
 
 div#left  {
@@ -73,7 +75,7 @@ div#main  {
 
 div#footer  {
 	padding-top: 7px;
-	padding-left: 10px;
+	padding-left: 4px;
 	padding-right: 10px;
 	padding-bottom: 5px;
 	margin-right: 10px;

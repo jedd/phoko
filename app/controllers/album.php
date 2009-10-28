@@ -92,6 +92,9 @@ class  Album extends  Controller {
 		// Load up the $kpa_db array with the images, tags, and member_groups
 		$kpa_db = $this->Kxml->get_pictures();
 
+		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
+		$url_parsed = $this->_parse_url();
+
 		// Prepare the generic view partials
 		$this->data['title'] = $this->config->item('name');
 		$this->data['footer_links'] = array ('Cache management' => '/album/cache');
@@ -187,6 +190,37 @@ class  Album extends  Controller {
 	// P R I V A T E   F U N C T I O N S  -- nothing to see here.
 	// ------------------------------------------------------------------------
 	// ========================================================================
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Parse url
+	 *
+	 * Interrogates ->rsegment() stuff and works out what each of the
+	 * parameters means - there's no clean way of re-ordering them on
+	 * each new link, and pretty pointless anyway as this function
+	 * _should_ be reasonably inexpensive.
+	 *
+	 * Making the standard up as I go, so this is a work in progress.
+	 *
+	 * For each segment, we interpret the item based on the first character:
+	 * i = image
+	 * f = filter
+	 *
+	 * These will be the settings that we don't want in session/cookie
+	 * data, simply because we want the URL to be meaningful if it is
+	 * sent to someone else.  Things like tag-types that are expanded
+	 * in the Explorifier - we don't care about their state if you're
+	 * sending the URL to a friend.
+	 *
+	 * @return	array	Options that we glean from the url
+	 **/
+	function  _parse_url ( )  {
+
+		}  // end-method  _parse_url ()
+
+
 
 	// ------------------------------------------------------------------------
 	/**

@@ -37,7 +37,7 @@ else
 	echo "Between: ". $image['startDate'] ." and ". $image['endDate'];
 
 echo "\n<hr />\n";
-dump ($url_parsed);
+
 if (isset ($image['tags']))  {
 	echo "<ul class=\"image_tags_headings\">\n";
 	foreach ($image['tags'] as $category => $tags)  {
@@ -49,10 +49,13 @@ if (isset ($image['tags']))  {
 			echo "<li>\n";
 			// We only turn this tag into a link if it's NOT already a filter!
 			/// @todo later we can also disable linking a tag if we've reached X filter count
-
-			// Include Filters start with 'fi' and then have the urlencoded (safe) tag
-			$url_with_this_as_new_filter = current_url() ."/fi". urlencode ($tag);
-			echo anchor ($url_with_this_as_new_filter , $tag) . "\n";
+			if ( ( ! isset ($url_parsed['actual_filters'])) OR
+				( (isset($url_parsed['actual_filters'])) AND (! in_array ($tag, $url_parsed['actual_filters'])) ) )  {
+				$url_with_this_as_new_filter = current_url() ."/f". urlencode ($tag);
+				echo anchor ($url_with_this_as_new_filter , $tag) . "\n";
+				}
+			else
+				echo $tag;
 			echo "</li>\n";
 			}
 		echo "</ul>\n";

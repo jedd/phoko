@@ -239,20 +239,24 @@ class  Album extends  Controller {
 						$parray['image_id'] = substr($segment, 1);
 					break;
 				case 'f':
-					switch ($segment[1])  {
-						case 'i':	// (I)nclude filter (later we'll cope with (E)xclude filters)
-							/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
-							$parray['filters'][] = array (
-													"actual" => urldecode (substr($segment, 2)),
-													"urlencoded" => substr($segment, 2),
-													"url_minus_this_filter" => $this->_create_url_minus_this_segment($segs, $segment),
-													);
-							break;
-							}
+					/// @todo exclude filters will start with 'e' or something
+					/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
+					$parray['filters'][] = array (
+											"actual" => urldecode (substr($segment, 1)),
+											"urlencoded" => substr($segment, 1),
+											"url_minus_this_filter" => $this->_create_url_minus_this_segment($segs, $segment),
+											);
 					break;
 				}
 			$seg_x++;
 			}
+
+		// This introduces REDUNDANT data into the array, however
+		// it's VERY handy later to have the filters in this format.
+		if (isset ($parray['filters']))
+			foreach ($parray['filters'] as $filter)
+				$parray['actual_filters'][] = $filter['actual'];
+
 		return $parray;
 		}  // end-method  _parse_url ()
 

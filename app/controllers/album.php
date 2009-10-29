@@ -107,11 +107,15 @@ class  Album extends  Controller {
 			$this->data['filters'] = $url_parsed['filters'];
 
 		// View partial for the current image information
-		$id = $url_parsed['image_id'];
-		$current_image_info['id'] = $id;
-		$current_image_info['image'] = $kpa_db['images'][$id];
-		$current_image_info['url_parsed'] = $url_parsed;
-		$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
+		if (isset ($url_parsed['image_id']))  {
+			$id = $url_parsed['image_id'];
+			$current_image_info['id'] = $id;
+			$current_image_info['image'] = $kpa_db['images'][$id];
+			$current_image_info['url_parsed'] = $url_parsed;
+			$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
+			}
+		else
+			$this->data['image_info_view'] = "No image selected for viewing.";
 
 		// Load the primary view
 		$this->load->view ("main_page", $this->data);

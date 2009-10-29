@@ -58,7 +58,7 @@ div#top_box  {
 /* filters = filter bar - entirely optional (hidden by PHP if no filters exist) */
 div#filters  {
 	clear: both;
-	height: 30px;
+	height: 1.64em;
 	padding-left: 4px;
 	padding-top: 0px;
 	padding-bottom: 8px;
@@ -67,7 +67,7 @@ div#filters  {
 /* filters_box = line around the filters bar, using jquery ui's box */
 div#filters_box  {
 	padding: 3px;
-	height: 24px;
+	height: 1.36em;
 	}
 
 div#left  {
@@ -137,4 +137,10 @@ font.date_tilde  {
    that goes into the theme/gallery.css files */
 font.various_headings {
 	font-size: 90%;
+	}
+
+/* deletelink class created for filter links where clicking them is *destructive*
+   so we want to highlight that.  This is for placeholder only, as we'll set the
+   colour only, I expect - though I also expect it will consistently be RED */
+a.deletelink:hover  {
 	}

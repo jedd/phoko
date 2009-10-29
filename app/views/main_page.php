@@ -37,12 +37,13 @@
 </div> <!-- /top -->
 
 <?php
+	/// @todo shift this into a view partial
 	if (isset ($filters))  {
 		echo "<div id=\"filters\">";
 		echo "<div id=\"filters_box\" class=\"newClass ui-corner-all\">";
 		echo "<font class=\"various_headings\">Filtering on: </font>";
 		foreach ($filters as $filter)
-			echo $filter['actual'] ." [X]". nbs(3);
+			echo anchor ($filter['url_minus_this_filter'], $filter['actual'], array ('title'=>'Remove this filter', 'class'=>'deletelink')) . nbs(2) ."::". nbs(2);
 		echo "</div>"; // filters_box
 		echo "</div>"; // filters
 		}

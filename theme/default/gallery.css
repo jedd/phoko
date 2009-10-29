@@ -86,3 +86,10 @@ font.date_tilde  {
 font.various_headings {
 	color: grey;
 	}
+
+/* deletelink class created for filter links where clicking them is *destructive*
+   so we want to highlight that.  I expect it will consistently be RED */
+a.deletelink:hover  {
+	background-color: red;
+	color: pink;
+	}

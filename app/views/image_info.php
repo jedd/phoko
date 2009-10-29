@@ -47,7 +47,8 @@ if (isset ($image['tags']))  {
 		echo "<ul class=\"image_tags\">\n";
 		foreach ($tags as $tag)  {
 			echo "<li>\n";
-			$url_with_this_as_new_filter = current_url() ."/f". urlencode ($tag);
+			// Include Filters start with 'fi' and then have the urlencoded (safe) tag
+			$url_with_this_as_new_filter = current_url() ."/fi". urlencode ($tag);
 			echo anchor ($url_with_this_as_new_filter , $tag) . "\n";
 			echo "</li>\n";
 			}

@@ -237,17 +237,45 @@ class  Album extends  Controller {
 						$parray['image_id'] = substr($segment, 1);
 					break;
 				case 'f':
-					/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
-					$parray['filters'][] = array (
-											"actual" => urldecode (substr($segment, 1)),
-											"urlencoded" => substr($segment, 1),
-											);
+					switch ($segment[1])  {
+						case 'i':	// (I)nclude filter (later we'll cope with (E)xclude filters)
+							/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
+							$parray['filters'][] = array (
+													"actual" => urldecode (substr($segment, 2)),
+													"urlencoded" => substr($segment, 2),
+													"url_minus_this_filter" => $this->_create_url_minus_this_segment($segs, $segment),
+													);
+							break;
+							}
 					break;
 				}
 			$seg_x++;
 			}
 		return $parray;
 		}  // end-method  _parse_url ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Create URL minus this segment
+	 *
+	 * Takes a full segment dump, and removes segment in question, and
+	 * returns the segment dump back.  Hopefully a one or two liner,
+	 * that we can relocate into the _parse_url() function - but might
+	 * need more smarts, and might be used elsewhere.
+	 *
+	 * @param	array	$segs		A full uri->segment_array()
+	 * @param	string	$segment	The segment we want to remove
+	 * @return	array
+	 */
+	function  _create_url_minus_this_segment ($segs, $segment)  {
+		$newuri = "";
+		foreach ($segs as $seg)
+			if ($seg != $segment)
+				$newuri .= $seg ."/";
+		return $newuri;
+		}  //  end-method  _create_url_minus_this_segment ()
 
 
 

@@ -46,7 +46,7 @@ class  Album extends  Controller {
 		// A very basic breadcrumb system - primarily for internal use only, on redirects - sometimes
 		// if a user clicks a link too fast (it seems) things can get confused, hence we check if
 		// the two links are identical - if so we don't change anything.
-		if ($this->session->userdata('uri_ultimate') != $this->session->userdata('uri_penultimate'))  {
+		if ($this->session->userdata('uri_ultimate') != uri_string())  {
 			$this->session->set_userdata('uri_penultimate' , $this->session->userdata('uri_ultimate'));
 			$this->session->set_userdata('uri_ultimate', uri_string());
 			}
@@ -189,7 +189,7 @@ class  Album extends  Controller {
 			}
 
 		// We never display a 'settings' screen - so we return to origin here.
-		redirect ($return_to);
+ 		redirect ($return_to);
 		}  // end-method  settings ()
 
 

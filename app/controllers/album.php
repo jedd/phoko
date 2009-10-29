@@ -101,14 +101,16 @@ class  Album extends  Controller {
 		$this->data['content']['top'] = "Thumbnails will appear up here.";
 		$this->data['content']['main'] = "Normal dispay stuff will appear in here - usually just a picture, with some navigation tools wrapped around it.";
 
-		// Filters
+		// Filters for Main View
+		/// @todo we should move filter generation into a view partial
 		if (isset ($url_parsed['filters']))
 			$this->data['filters'] = $url_parsed['filters'];
 
 		// View partial for the current image information
-		$id = '42f6e42680'; /// @todo obviously need to pull this in from somewhere dynamically
+		$id = $url_parsed['image_id'];
 		$current_image_info['id'] = $id;
 		$current_image_info['image'] = $kpa_db['images'][$id];
+		$current_image_info['url_parsed'] = $url_parsed;
 		$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
 
 		// Load the primary view

@@ -47,12 +47,11 @@ if (isset ($image['tags']))  {
 		echo "<ul class=\"image_tags\">\n";
 		foreach ($tags as $tag)  {
 			echo "<li>\n";
-			// We only turn this tag into a link if it's NOT already a filter!
 			/// @todo later we can also disable linking a tag if we've reached X filter count
 			if ( ( ! isset ($url_parsed['actual_filters'])) OR
 				( (isset($url_parsed['actual_filters'])) AND (! in_array ($tag, $url_parsed['actual_filters'])) ) )  {
 				$url_with_this_as_new_filter = current_url() ."/f". urlencode ($tag);
-				echo anchor ($url_with_this_as_new_filter , $tag) . "\n";
+				echo anchor ($url_with_this_as_new_filter , $tag, array ('title'=>'Add this as a filter')) . "\n";
 				}
 			else
 				echo $tag;

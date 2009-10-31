@@ -95,6 +95,33 @@ class  Cache extends  Model {
 
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Prepare image
+	 *
+	 * If the image is present, returns TRUE immediately.
+	 *
+	 * If the image is not present in the cache, generate it and then return TRUE.
+	 *
+	 * It's possible, but unlikely, that we'll ever return FALSE -- if we do it's
+	 * because something unpleasant has happened - run out of space, gd library
+	 * isn't working, original file can't be found, etc.
+	 *
+	 * @NOTE that RAW is an exception that we don't play with yet - and when
+	 * we do, a call of $type=ALL won't return RAW unless it has its nominated
+	 * tag in the kpa_xml_db file.  Raws are likely to be offered for wallpapers
+	 * only, where the original size & quality of the file should be preserved.
+	 *
+	 * @param	string	$image_id	The ID of the image we're about to provide
+	 * @param	string	$type		The type of image (all, small, medium, large, raw)
+	 * @return	array
+	 **/
+	function  prepare_image  ( $image_id = FALSE, $type = 'all' )  {
+
+		return TRUE;
+		}  // end-method  prepare_image ()
+
+
 
 
 	// ========================================================================

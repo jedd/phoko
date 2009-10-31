@@ -116,7 +116,24 @@ class  Cache extends  Model {
 	 * @param	string	$type		The type of image (all, small, medium, large, raw)
 	 * @return	array
 	 **/
-	function  prepare_image  ( $image_id = FALSE, $type = 'all' )  {
+	function  prepare_image  ( $image_id = FALSE, $image_type = 'all' )  {
+		// If 'all', recursively call this function with 'small', 'medium' and 'large'
+		$image_sizes = $this->config->item('image_sizes');
+
+		if ($image_type == 'all')
+			foreach ($image_sizes as $type => $foo)  {
+				$status = $this->prepare_image($image_id, $type);
+				if (! $status)  /// @todo handle different failure types differently
+					return FALSE;
+				}
+
+		// Okay, we're now definitely dealing with one of small, medium or large
+		switch ($image_type)  {
+			case 'small':
+			case 'medium':
+			case 'large':
+
+			}
 
 		return TRUE;
 		}  // end-method  prepare_image ()

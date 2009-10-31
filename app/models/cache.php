@@ -128,12 +128,13 @@ class  Cache extends  Model {
 				}
 
 		// Okay, we're now definitely dealing with one of small, medium or large
-		switch ($image_type)  {
-			case 'small':
-			case 'medium':
-			case 'large':
 
-			}
+		// First things first - if the image exists, we return TRUE immediately.
+		if ( file_exists("cache/". $image_type ."/". $image_id .".jpg")
+			return TRUE;
+
+		// Second things second - we have to create the new image
+
 
 		return TRUE;
 		}  // end-method  prepare_image ()

@@ -112,11 +112,15 @@ class  Cache extends  Model {
 	 * tag in the kpa_xml_db file.  Raws are likely to be offered for wallpapers
 	 * only, where the original size & quality of the file should be preserved.
 	 *
-	 * @param	string	$image_id	The ID of the image we're about to provide
-	 * @param	string	$type		The type of image (all, small, medium, large, raw)
-	 * @return	array
+	 * @param	string	$image_id		The ID of the image we're about to provide
+	 * @param	array	$image_info		A dump from the [images] sub-array of kpa_db
+	 * @param	string	$type			The type of image (all, small, medium, large, raw)
+	 * @return	string
 	 **/
-	function  prepare_image  ( $image_id = FALSE, $image_type = 'all' )  {
+	function  prepare_image  ( $image_id = FALSE, $original_file = '', $image_info, $image_type = 'all' )  {
+		/// @todo Here is where we'd check if image_type is 'raw', and handle that
+		/// separately, then return.
+
 		// If 'all', recursively call this function with 'small', 'medium' and 'large'
 		$image_sizes = $this->config->item('image_sizes');
 
@@ -127,16 +131,38 @@ class  Cache extends  Model {
 					return FALSE;
 				}
 
-		// Okay, we're now definitely dealing with one of small, medium or large
+		/// Okay, we're now definitely dealing with one of small, medium or large
+
+		$cache_file_name = "cache/". $image_type ."/". $image_id .".jpg";
+		$tmp_file_name   = "cache/". $image_type ."/". $image_id ."_tmp.jpg";
 
 		// First things first - if the image exists, we return TRUE immediately.
-		if ( file_exists("cache/". $image_type ."/". $image_id .".jpg")
-			return TRUE;
+		if ( file_exists($cache_file_name) )
+			return $cache_file_name;
 
-		// Second things second - we have to create the new image
+		// Second things second - we MUST have access to the original.
+		if (! file_exists($original_file))
+			return FALSE;
 
+		// Third - we generate the new cache file
+		$this->image_lib->clear();
+		$image_config['new_image'] = $tmp_file_name;
+		$image_config['source_image'] = $original_file;
+		$image_config['width'] = $image_sizes[$image_type]['x'];
+		$image_config['height'] = $image_sizes[$image_type]['y'];
+		$image_config['quality'] = 70;
 
-		return TRUE;
+		$image_config['maintain_ratio'] = TRUE;
+		$this->image_lib->initialize($image_config);
+		$this->image_lib->resize();
+
+		// Hopefully this is fast/atomic enough to not have a PHP timeout occur during the rename
+		if (file_exists ($tmp_file_name))
+			rename ($tmp_file_name, $cache_file_name);
+
+		echo $this->image_lib->display_errors();
+
+		return $cache_file_name;
 		}  // end-method  prepare_image ()
 
 

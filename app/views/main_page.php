@@ -91,7 +91,7 @@ $(function() {
 <div id="main">
 	<div id="main_box" class="newClass ui-corner-all">
 		<?php
-			echo $content['main'];
+			echo $content['image_proper'];
 		?>
 	</div>  <!-- /main_box -->
 </div> <!-- /main -->

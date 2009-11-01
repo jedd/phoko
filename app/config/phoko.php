@@ -255,9 +255,9 @@ $config['image_sizes'] = array (
 					"small" =>
 						array ("x" => 80,   "y" => 60),
 					"medium"  =>
-						array ("x" => 640,  "y" => 480),
+						array ("x" => 1200,  "y" => 900),
 					"large"  =>
-						array ("x" => 1200,  "y" => 900));
+						array ("x" => 1500,  "y" => 1125));
 
 
 

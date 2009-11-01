@@ -31,11 +31,12 @@
 
 foreach ($thumbs as $thumb)  {
 	$image_properties = array(
-						'src' => $thumb,
-						'alt' => 'thumb alt here',
+						'src' => $thumb['file_name'],
+						'alt' => $thumb['info']['description'],
 						'height' => '70px',
-						'title' => 'thumb title here',
+						'title' => $thumb['info']['description'],
 						);
 
 	echo img($image_properties);
+	echo nbs(2);
 	}

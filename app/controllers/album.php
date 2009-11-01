@@ -121,7 +121,14 @@ class  Album extends  Controller {
 			$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 
 			// The thumbnail view (top)
-			$thumb_image_stuff['thumbs'][] = $this->Cache->prepare_image ( $id, $image_original_file_name, $kpa_db['images'][$id], $image_type = 'small' );
+			$tharray = array ("4952a634ac", "4c3d775755", "9c67233418", "04e5363c72", "c5e3873a6e");
+			foreach ($tharray as $thumb_to_show)  {
+				$thumb_image_stuff['thumbs'][$thumb_to_show]['file_name'] = $this->Cache->prepare_image ( $thumb_to_show,
+												$image_repository. $kpa_db['images'][$thumb_to_show]['file'],
+												$kpa_db['images'][$thumb_to_show],
+												$image_type = 'small' );
+				$thumb_image_stuff['thumbs'][$thumb_to_show]['info'] = $kpa_db['images'][$thumb_to_show];
+				}
 			$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_image_stuff, TRUE);
 			}
 		else

@@ -121,7 +121,6 @@ class  Album extends  Controller {
 			$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 
 			// The thumbnail view (top)
-			$thumb_image_stuff['thumb_width'] = 40;
 			$thumb_image_stuff['thumbs'][] = $this->Cache->prepare_image ( $id, $image_original_file_name, $kpa_db['images'][$id], $image_type = 'small' );
 			$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_image_stuff, TRUE);
 			}

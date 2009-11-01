@@ -29,15 +29,13 @@
 
 // ------------------------------------------------------------------------
 
-$image_properties = array(
-           'src' => $path,
-           'alt' => 'something here',
-           'height' => '70px',
-           // 'class' => 'post_images',
-           // 'width' => '100%',
-           // 'height' => '200',
-           'title' => 'something else here',
-           // 'rel' => 'lightbox',
- );
+foreach ($thumbs as $thumb)  {
+	$image_properties = array(
+						'src' => $thumb,
+						'alt' => 'thumb alt here',
+						'height' => '70px',
+						'title' => 'thumb title here',
+						);
 
-echo img($image_properties);
+	echo img($image_properties);
+	}

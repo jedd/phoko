@@ -76,7 +76,7 @@ $config['cache_xml_file_name'] = "cache/index.kphp";
  *  tried to make it portable throughout the application (the only
  *  place we really use it is kxml / get_pictures()) but it's not
  *  something we should ever need to change.  If you have so many
- *  images you're getting collisions in a 16*10 space, you probably
+ *  images you're getting collisions in a 16^10 space, you probably
  *  have already hit other problems by now.
  *
  *  NOTE If you do change this, all your cache items will need to be

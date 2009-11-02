@@ -124,7 +124,10 @@ $(function() {
 				echo "Theme: ";
 				$theme_list = array();
 				foreach ($valid_themes as $link=>$theme_name)
-					$theme_list[] = anchor ("/album/settings/theme/". $link, $link, array("title" => $theme_name));
+					if ($link == $theme)
+						$theme_list[] = $link;
+					else
+						$theme_list[] = anchor ("/album/settings/theme/". $link, $link, array("title" => $theme_name));
 				echo implode (', ', $theme_list);
 			?>
 		</td>

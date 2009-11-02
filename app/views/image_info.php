@@ -48,8 +48,10 @@ if (isset ($image['tags']))  {
 		foreach ($tags as $tag)  {
 			echo "<li>\n";
 			/// @todo later we can also disable linking a tag if we've reached X filter count
+			// Ugly logic --> my humble apologies.  I'll try to explain it simply:
+			// IF (we have no filters) OR (we have some filters AND the current tag is NOT one of them)
 			if ( ( ! isset ($url_parsed['actual_filters'])) OR
-				( (isset($url_parsed['actual_filters'])) AND (! in_array ($tag, $url_parsed['actual_filters'])) ) )  {
+				( (isset($url_parsed['actual_filters'])) AND (! array_search ($tag, $url_parsed['actual_filters'])) ) )  {
 				$url_with_this_as_new_filter = current_url() ."/f". urlencode ($tag);
 				echo anchor ($url_with_this_as_new_filter , $tag, array ('title'=>'Add this as a filter')) . "\n";
 				}

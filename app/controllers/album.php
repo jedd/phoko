@@ -245,7 +245,7 @@ class  Album extends  Controller {
 	 **/
 	function  _parse_url ( )  {
 		$segs  = $this->uri->segment_array();
-		dump ($segs);
+		// dump ($segs);
 		$seg_x = 3;								// We start at segment(3)
 		$parray = array ();						// parameter array - our return data
 

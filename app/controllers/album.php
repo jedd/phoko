@@ -262,8 +262,8 @@ class  Album extends  Controller {
 				case 'f':
 					/// @todo exclude filters will start with 'e' or something
 					/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
-					dump ( substr($segment, 1));
-					dump (urldecode (substr($segment, 1)));
+					// dump ( substr($segment, 1));
+					// dump (urldecode (substr($segment, 1)));
 					$parray['filters'][] = array (
 											"actual" => urldecode (substr($segment, 1)),
 											"urlencoded" => substr($segment, 1),

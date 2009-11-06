@@ -128,7 +128,7 @@ class  Album extends  Controller {
 												$kpa_db['images'][$thumb_to_show],
 												$image_type = 'small' );
 				$thumb_image_stuff['thumbs'][$thumb_to_show]['info'] = $kpa_db['images'][$thumb_to_show];
-				$thumb_image_stuff['thumbs'][$thumb_to_show]['link'] = $this->_create_url_with_this_image_id($thumb_to_show);
+				$thumb_image_stuff['thumbs'][$thumb_to_show]['link'] = $this->_create_url_with_new_image_id($thumb_to_show);
 				}
 			$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_image_stuff, TRUE);
 			}
@@ -320,7 +320,7 @@ class  Album extends  Controller {
 	 * @param	string	$image_id
 	 * @return	string
 	 */
-	function  _create_url_with_this_image_id  ($image_id)  {
+	function  _create_url_with_new_image_id  ($image_id)  {
 		$segs   = $this->uri->segment_array();
 		$newuri = $segs[1] ."/". $segs[2] ."/";
 
@@ -334,7 +334,7 @@ class  Album extends  Controller {
 		$newuri .= "i". $image_id ;
 
 		return $newuri;
-		}  // end-method  _create_url_with_this_image_id  ()
+		}  // end-method  _create_url_with_new_image_id  ()
 
 
 

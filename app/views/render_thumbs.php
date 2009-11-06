@@ -41,5 +41,5 @@ foreach ($thumbs as $thumb)  {
 	echo img($image_properties);
 	echo "</a>\n";
 
-	echo nbs(2);
+	echo nbs(1);
 	}

@@ -137,6 +137,36 @@ $config['thumbs_per_page'] = 9;
 $config['publish_keyword'] = "PUBLISH - jedd";
 
 
+/**
+ *  Filter Abbreviations
+ *
+ *  This array defines the abbrevitaion (1 character) used
+ *  in URL segments to denote the type of filter - Keyword,
+ *  Person, Location.
+ *
+ *  Originally this was going to be determined programmatically,
+ *  however that approach would require handling collisions, and/or
+ *  making the namespace suitably large to reduce that risk (2+ chars)
+ *  which in turn would make the URL's less attractive, and also less
+ *  portable in the event that you changed the name of your custom
+ *  category.
+ *
+ *  Using this approach means the onus is on the administrator to
+ *  select a character to represent a custom category - most people
+ *  have one or two additional categories only, so it generally
+ *  won't be of interest to most people.
+ *
+ *  NOTE: If you have one or more custom categories you MUST MODIFY this.
+ *        You MUST have each custom category represented here.
+ **/
+$config['category_abbreviation'] = array (
+			"Keywords" => "K",
+			"Persons" => "P",
+			"Locations" => "L",
+			"The Farm" => "F",
+			);
+
+
 
 /**
  *  Shoosh tags
@@ -297,7 +327,10 @@ $panoramasizes = array ("s" =>  // Small - MSI Wind size
  *
  **/
 // $config['themes'] = array ("default" => "Nice and dark, like a nice dark night", "frosty" => "Frosty like a cool winters day");
-$config['valid_themes'] = array ("default" => "Nice and dark, like a nice dark night", "frosty" => "Frosty like a cool winters day");
+$config['valid_themes'] = array (
+						"default" => "Nice and dark, like a nice dark night",
+						"frosty" => "Frosty like a cool winters day"
+						);
 
 
 

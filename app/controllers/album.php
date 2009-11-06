@@ -128,6 +128,7 @@ class  Album extends  Controller {
 												$kpa_db['images'][$thumb_to_show],
 												$image_type = 'small' );
 				$thumb_image_stuff['thumbs'][$thumb_to_show]['info'] = $kpa_db['images'][$thumb_to_show];
+				$thumb_image_stuff['thumbs'][$thumb_to_show]['link'] = $this->_create_url_with_this_image_id($thumb_to_show);
 				}
 			$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_image_stuff, TRUE);
 			}
@@ -305,6 +306,35 @@ class  Album extends  Controller {
 				$newuri .= $seg ."/";
 		return $newuri;
 		}  //  end-method  _create_url_minus_this_segment ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Create URL with new image ID
+	 *
+	 * Replaces the URL's current image ID (if it exists) with this new one.
+	 *
+	 * Good for then generating things like links under thumbnails and the like.
+	 *
+	 * @param	string	$image_id
+	 * @return	string
+	 */
+	function  _create_url_with_this_image_id  ($image_id)  {
+		$segs   = $this->uri->segment_array();
+		$newuri = $segs[1] ."/". $segs[2] ."/";
+
+		array_shift ($segs);  // get rid of controller name
+		array_shift ($segs);  // get rid of method name
+
+		foreach ($segs as $seg)
+			if ($seg[0] != 'i')
+				$newuri .= $seg ."/";
+
+		$newuri .= "i". $image_id ;
+
+		return $newuri;
+		}  // end-method  _create_url_with_this_image_id  ()
 
 
 

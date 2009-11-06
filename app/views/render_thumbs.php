@@ -30,13 +30,15 @@
 // ------------------------------------------------------------------------
 
 foreach ($thumbs as $thumb)  {
+	echo "<a href=\"". site_url() . $thumb['link'] ."\">";
 	$image_properties = array(
 						'src' => $thumb['file_name'],
 						'alt' => $thumb['info']['description'],
 						'height' => '70px',
 						'title' => $thumb['info']['description'],
 						);
-
 	echo img($image_properties);
+	echo "</a>";
+
 	echo nbs(2);
 	}

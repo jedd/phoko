@@ -51,6 +51,7 @@ div#filters  {
 /* filters_box = line around the filters, using jquery ui's box */
 div#filters_box  {
 	border: 1px solid #aaaaaa;  /* Must match line#53 of jquery-ui : .ui-widget-content { 1px solid #... }  */
+	background-color: #e9f5e9;
 	}
 
 div#left  {

@@ -138,9 +138,9 @@ $config['publish_keyword'] = "PUBLISH - jedd";
 
 
 /**
- *  Filter Abbreviations
+ *  Filter category abbreviations
  *
- *  This array defines the abbrevitaion (1 character) used
+ *  This array defines the abbreviation (1 character) used
  *  in URL segments to denote the type of filter - Keyword,
  *  Person, Location.
  *
@@ -159,7 +159,7 @@ $config['publish_keyword'] = "PUBLISH - jedd";
  *  NOTE: If you have one or more custom categories you MUST MODIFY this.
  *        You MUST have each custom category represented here.
  **/
-$config['category_abbreviation'] = array (
+$config['category_abbreviations'] = array (
 			"Keywords" => "K",
 			"Persons" => "P",
 			"Locations" => "L",

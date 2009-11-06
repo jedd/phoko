@@ -250,6 +250,7 @@ class  Album extends  Controller {
 		$seg_x = 3;								// We start at segment(3)
 		$parray = array ();						// parameter array - our return data
 
+		$category_abbreviations = $this->config->item('category_abbreviations');
 		while ( isset($segs[$seg_x]) )  {
 			$segment = $segs[$seg_x];
 			switch ($segment[0])  {
@@ -265,10 +266,12 @@ class  Album extends  Controller {
 					/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
 					// dump ( substr($segment, 1));
 					// dump (urldecode (substr($segment, 1)));
+					$filter_category = array_search ($segment[1], $category_abbreviations);
 					$parray['filters'][] = array (
-											"actual" => urldecode (substr($segment, 1)),
-											"urlencoded" => substr($segment, 1),
+											"actual" => urldecode (substr($segment, 2)),
+											"urlencoded" => substr($segment, 2),
 											"url_minus_this_filter" => $this->_create_url_minus_this_segment($segs, $segment),
+											"category" => $filter_category,
 											);
 					break;
 				}

@@ -38,6 +38,8 @@ else
 
 echo "\n<hr />\n";
 
+$category_abbreviations = $this->config->item('category_abbreviations');
+
 if (isset ($image['tags']))  {
 	echo "<ul class=\"image_tags_headings\">\n";
 	foreach ($image['tags'] as $category => $tags)  {
@@ -50,7 +52,7 @@ if (isset ($image['tags']))  {
 			/// @todo later we can also disable linking a tag if we've reached X filter count
 			// The 2nd half of the OR is only ever evaluated IF we have filters
 			if ( ( ! isset ($url_parsed['actual_filters'])) OR (! in_array ($tag, $url_parsed['actual_filters'])) )  {
-				$url_with_this_as_new_filter = current_url() ."/f". urlencode ($tag);
+				$url_with_this_as_new_filter = current_url() ."/f". $category_abbreviations[$category] . urlencode ($tag);
 				echo anchor ($url_with_this_as_new_filter , $tag, array ('title'=>'Add this as a filter')) . "\n";
 				}
 			else

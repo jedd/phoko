@@ -91,3 +91,18 @@ a.deletelink:hover  {
 	background-color: red;
 	color: pink;
 	}
+
+/* Thumbnail images get custom hover/border/etc colours because they are actually href links */
+A.img_thumb:link  {
+	color: #00ff00;
+	}
+A.img_thumb:active  {
+	color: #ff0000;
+	}
+A.img_thumb:visited  {
+	color: #ffFF00;
+	}
+A.img_thumb:hover  {
+	color: blue;
+	border-bottom: 2px solid;
+	}

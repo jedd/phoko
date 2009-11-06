@@ -144,3 +144,17 @@ font.various_headings {
    colour only, I expect - though I also expect it will consistently be RED */
 a.deletelink:hover  {
 	}
+
+/* Thumbnail images get custom hover/border/etc colours - defined elsewhere - these are placeholders */
+A.img_thumb:link  {
+	border: none;
+	}
+A.img_thumb:active  {
+	border: none;
+	}
+A.img_thumb:visited  {
+	border: none;
+	}
+A.img_thumb:hover  {
+	border: none;
+	}

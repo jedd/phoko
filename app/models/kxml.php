@@ -38,7 +38,15 @@ class  Kxml extends  Model {
 	 *   Attributes
 	 **/
 
+	// Offset is used to determine which thumbnail to show first
+	// (number of thumbs to show is determined by phoko config)
 	var $offset = 1;
+
+	// Thumbs are the list of thumbnails we will be showing this time round
+	// (they are loaded by select_thumbs())
+	var $thumbs = array();
+
+
 
 	// ------------------------------------------------------------------------
 	/**
@@ -214,6 +222,23 @@ class  Kxml extends  Model {
 
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Select thumbs to show
+	 *
+	 * Sets the local attribute $thumbs (array) with information on the
+	 * thumbs we'll be showing on this trip through.
+	 *
+	 * Caters for:
+	 *     * config setting of thumbs-to-show-at-a-time
+	 *     * offset (local attribute)
+	 *     * filters (just not yet...)
+	 *
+	 **/
+	function  select_thumbs ()  {
+		$tharray = array ("4952a634ac", "4c3d775755", "9c67233418", "04e5363c72", "c5e3873a6e");
+		$this->thumbs = $tharray;
+		}  // end-method  select_thumbs ()
 
 
 

@@ -275,17 +275,20 @@ class  Album extends  Controller {
 											);
 					break;
 				case 'o':		// Offset (for thumbnail position)
-					$offset = substr($segment, 1);
-					if (is_numeric ($offset))
-						$parray['offset'] = $offset;
+					$offset_segment = substr($segment, 1);
+					if (is_numeric ($offset_segment))
+						$offset = $offset_segment;
 					break;
 				}
 			$seg_x++;
 			}
 
 		// No offset provided?  Set it to 1.
-		if (! isset ($parray['offset']))
-			$parray['offset'] = 1;
+		if (! isset ($offset))
+			$offset = 1;
+
+		// Set the offset in kxml (historical note - our first foray into using the kxml as an object)
+		$this->kxml->offset = $offset;
 
 		// This introduces REDUNDANT data into the array, however
 		// it's VERY handy later to have the filters in this format.

@@ -254,29 +254,38 @@ class  Album extends  Controller {
 		while ( isset($segs[$seg_x]) )  {
 			$segment = $segs[$seg_x];
 			switch ($segment[0])  {
-				case 'i':
+				case 'i':		// Image ID (hex string, 10 chars)
 					// We make note of multiple /i.../ segments, jic.
 					if (isset ($parray['image_id']))
 						$parray['errors'][] = "Multiple attempts to define Image ID";
 					else
 						$parray['image_id'] = substr($segment, 1);
 					break;
-				case 'f':
+				case 'f':		// Filter
 					/// @todo exclude filters will start with 'e' or something
 					/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
 					// dump ( substr($segment, 1));
 					// dump (urldecode (substr($segment, 1)));
 					$filter_category = array_search ($segment[1], $category_abbreviations);
 					$parray['filters'][] = array (
-											"actual" => urldecode (substr($segment, 2)),
-											"urlencoded" => substr($segment, 2),
+											"actual" => urldecode (substr($segment, 2)),		// eg 'foo bar'
+											"urlencoded" => substr($segment, 2),				// eg 'foo_bar'
 											"url_minus_this_filter" => $this->_create_url_minus_this_segment($segs, $segment),
-											"category" => $filter_category,
+											"category" => $filter_category,						// eg 'Keywords'
 											);
+					break;
+				case 'o':		// Offset (for thumbnail position)
+					$offset = substr($segment, 1);
+					if (is_numeric ($offset))
+						$parray['offset'] = $offset;
 					break;
 				}
 			$seg_x++;
 			}
+
+		// No offset provided?  Set it to 1.
+		if (! isset ($parray['offset']))
+			$parray['offset'] = 1;
 
 		// This introduces REDUNDANT data into the array, however
 		// it's VERY handy later to have the filters in this format.

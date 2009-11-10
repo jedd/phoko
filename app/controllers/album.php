@@ -104,38 +104,44 @@ class  Album extends  Controller {
 		if (isset ($url_parsed['filters']))
 			$this->data['filters'] = $url_parsed['filters'];
 
-		// View partials
-		if (isset ($url_parsed['image_id']))  {
+		// Set the current image to show
+		if (isset ($url_parsed['image_id']))
 			$id = $url_parsed['image_id'];
-
-			// The image-info window (left)
-			$current_image_info['id'] = $id;
-			$current_image_info['image'] = $kpa_db['images'][$id];
-			$current_image_info['url_parsed'] = $url_parsed;
-			$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
-
-			// The main picture window (middle)
-			$image_repository = $this->config->item('repository');
-			$image_original_file_name = $image_repository . $kpa_db['images'][$id]['file'];
-			$main_image_stuff['path'] = $this->Cache->prepare_image ( $id, $image_original_file_name, $kpa_db['images'][$id], $image_type = 'medium' );
-			$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
-
-			// The thumbnail view (top)
-			$this->Kxml->select_thumbs();
-			$thumb_view_data = $this->Kxml->thumbs;
-			$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
-
-			foreach ($tharray as $thumb_to_show)  {
-				$thumb_image_stuff['thumbs'][$thumb_to_show]['file_name'] = $this->Cache->prepare_image ( $thumb_to_show,
-												$image_repository. $kpa_db['images'][$thumb_to_show]['file'],
-												$kpa_db['images'][$thumb_to_show],
-												$image_type = 'small' );
-				$thumb_image_stuff['thumbs'][$thumb_to_show]['info'] = $kpa_db['images'][$thumb_to_show];
-				$thumb_image_stuff['thumbs'][$thumb_to_show]['link'] = $this->_create_url_with_new_image_id($thumb_to_show);
-				}
-			}
 		else
-			$this->data['image_info_view'] = "No image selected for viewing.";
+			$id = "c5e3873a6e"; /// @todo - pull this in via kxml method perhaps?
+
+
+		/// --------------------------------
+		/// Generating the various view bits
+
+		// The image-info window (left)
+		$current_image_info['id'] = $id;
+		$current_image_info['image'] = $kpa_db['images'][$id];
+		$current_image_info['url_parsed'] = $url_parsed;
+		$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
+
+		// The main picture window (middle)
+		$image_repository = $this->config->item('repository');
+		$image_original_file_name = $image_repository . $kpa_db['images'][$id]['file'];
+		$main_image_stuff['path'] = $this->Cache->prepare_image ( $id, $image_original_file_name, $kpa_db['images'][$id], $image_type = 'medium' );
+		$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
+
+		// The thumbnail view (top)
+		$this->Kxml->select_thumbs();
+		$thumb_view_data = $this->Kxml->thumbs;
+
+		$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
+
+		foreach ($tharray as $thumb_to_show)  {
+			$thumb_image_stuff['thumbs'][$thumb_to_show]['file_name']
+						= $this->Cache->prepare_image (
+										$thumb_to_show,
+										$image_repository. $kpa_db['images'][$thumb_to_show]['file'],
+										$kpa_db['images'][$thumb_to_show],
+										$image_type = 'small' );
+			$thumb_image_stuff['thumbs'][$thumb_to_show]['info'] = $kpa_db['images'][$thumb_to_show];
+			$thumb_image_stuff['thumbs'][$thumb_to_show]['link'] = $this->_create_url_with_new_image_id($thumb_to_show);
+			}
 
 		// Load the primary view
 		$this->load->view ("main_page", $this->data);

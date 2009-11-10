@@ -46,6 +46,12 @@ class  Kxml extends  Model {
 	// (they are loaded by select_thumbs())
 	var $thumbs = array();
 
+	// kpa_db is the subset of KPA's index.xml file, containing information
+	// for every PUBLISH'd image, super-groups, and custom categories.  It
+	// is instantiated by get_pictures() - historically this was returned,
+	// and is slowly being migrated into a OO approach (master copy here)
+	var $kpa_db = array();
+
 
 
 	// ------------------------------------------------------------------------
@@ -216,6 +222,8 @@ class  Kxml extends  Model {
 
 		// Create/overwrite the cached xml output for next time
 		file_put_contents ($cache_xml_file_name, serialize($kpa_db));
+
+		$this->kpa_db = $kpa_db;
 
 		return $kpa_db;
 		}  // end-method  get_pictures ()

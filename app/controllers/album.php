@@ -122,8 +122,9 @@ class  Album extends  Controller {
 
 			// The thumbnail view (top)
 			$this->Kxml->select_thumbs();
-			$tharray = $this->Kxml->thumbs;
-			$thumb_image_stuff = array ();
+			$thumb_view_data = $this->Kxml->thumbs;
+			$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
+
 			foreach ($tharray as $thumb_to_show)  {
 				$thumb_image_stuff['thumbs'][$thumb_to_show]['file_name'] = $this->Cache->prepare_image ( $thumb_to_show,
 												$image_repository. $kpa_db['images'][$thumb_to_show]['file'],
@@ -132,7 +133,6 @@ class  Album extends  Controller {
 				$thumb_image_stuff['thumbs'][$thumb_to_show]['info'] = $kpa_db['images'][$thumb_to_show];
 				$thumb_image_stuff['thumbs'][$thumb_to_show]['link'] = $this->_create_url_with_new_image_id($thumb_to_show);
 				}
-			$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_image_stuff, TRUE);
 			}
 		else
 			$this->data['image_info_view'] = "No image selected for viewing.";

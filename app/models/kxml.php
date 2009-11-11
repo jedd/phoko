@@ -40,7 +40,7 @@ class  Kxml extends  Model {
 
 	// Offset is used to determine which thumbnail to show first
 	// (number of thumbs to show is determined by phoko config)
-	var $offset = 1;
+	var $offset ;
 
 	// Thumbs are the list of thumbnails we will be showing this time round
 	// (they are loaded by select_thumbs())
@@ -62,6 +62,17 @@ class  Kxml extends  Model {
 	function  __construct ()  {
 		parent::Model();
 		} // end-constructor
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *   Setters
+	 **/
+	function set_offset ($new_offset)  {
+		$this->offset = $new_offset;
+		}
+
 
 
 	// ------------------------------------------------------------------------
@@ -132,8 +143,12 @@ class  Kxml extends  Model {
 			return FALSE;
 
 		// If cache file is newer, we use it immediately.
-		if ($cache_xml_file_time > $index_xml_file_time)
-			return ( unserialize (file_get_contents ($cache_xml_file_name) ) );
+		if ($cache_xml_file_time > $index_xml_file_time)  {
+			$kpa_db = unserialize (file_get_contents ($cache_xml_file_name) );
+			$this->kpa_db = $kpa_db;
+			/// @todo We can later avoid returning this.
+			return $kpa_db;
+			}
 
 		// If we get here, we know we're going to use index.xml
 		$xml_content = simplexml_load_file($index_xml_file_name);
@@ -244,8 +259,41 @@ class  Kxml extends  Model {
 	 *
 	 **/
 	function  select_thumbs ()  {
-		$tharray = array ("4952a634ac", "4c3d775755", "9c67233418", "04e5363c72", "c5e3873a6e");
+		$image_repository = $this->config->item('repository');
+		$thumbs_per_page  = $this->config->item('thumbs_per_page');
+		$CI =& get_instance();
+
+		/// @todo Change this to look through filtered set of pictures ($publish-kpa-xml) rather than FULL list
+
+		$tharray = array();
+
+		$x = 0;
+		$foo = $this->kpa_db;
+
+		foreach ($foo['images'] as $thumb_id => $thumb_details)  {
+			if ($x++ > $this->offset)  {
+				$tharray[$thumb_id]['description'] = $thumb_details['description'];
+				$tharray[$thumb_id]['file_name'] = $CI->Cache->prepare_image (
+														$thumb_id,
+														$image_repository. $thumb_details['file'],
+														$thumb_details,
+														$image_type = 'small' );
+
+				/// @todo Work out a better place for this - either another loop in the controller,
+				/// or relocate the function into this model.
+				$tharray[$thumb_id]['link'] = $CI->_create_url_with_new_image_id($thumb_id);
+
+				// Depart once we have our $thumbs_per_page worth of thumbs information
+				/// @todo Check for end of list happening before full # of thumbs acquired
+				if ($x > ($this->offset + $thumbs_per_page))
+					break;
+				}
+			}
+
+
 		$this->thumbs = $tharray;
+		// No need to return anything here - but perhaps TRUE/FALSE or number of thumbs?
+
 		}  // end-method  select_thumbs ()
 
 

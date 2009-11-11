@@ -57,6 +57,12 @@
 			echo $content['left'];
 	?>
 
+<div id="prev_next_box" class="newClass ui-corner-all">
+	<?php
+		echo $prev_next_view;
+	?>
+</div>  <!-- /prev_next_buttons -->
+
 <script type="text/javascript">
 $(function() {
 	$("#navi_tabs").tabs({ fx: { opacity: 'toggle' } });

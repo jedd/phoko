@@ -92,6 +92,7 @@ class  Album extends  Controller {
 		// Load up the $kpa_db array with the images, tags, and member_groups
 		$kpa_db = $this->Kpa->get_pictures();
 
+
 		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
 		$url_parsed = $this->_parse_url();
 
@@ -113,6 +114,9 @@ class  Album extends  Controller {
 
 		/// --------------------------------
 		/// Generating the various view bits
+
+		// The prev-next buttons (left)
+		$this->data['prev_next_view'] = $this->load->view("prev_next", NULL ,TRUE);
 
 		// The image-info window (left)
 		$current_image_info['id'] = $id;

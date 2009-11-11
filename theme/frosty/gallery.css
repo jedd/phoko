@@ -54,6 +54,11 @@ div#filters_box  {
 	background-color: #e9f5e9;
 	}
 
+div#prev_next_box  {
+	border: 1px solid #aaaaaa;  /* Must match line#53 of jquery-ui : .ui-widget-content { 1px solid #... }  */
+	background: #cbcbcb;
+	}
+
 div#left  {
 	}
 

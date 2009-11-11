@@ -56,7 +56,7 @@ class  Kpa extends  Model {
 	// and is slowly being migrated into a OO approach (master copy here)
 	var $kpa_db = array();
 
-
+	var $kpa_filtered = array();
 
 	// ------------------------------------------------------------------------
 	/**
@@ -277,7 +277,7 @@ class  Kpa extends  Model {
 		foreach ($foo['images'] as $thumb_id => $thumb_details)  {
 			if ($x++ > $this->offset)  {
 				$tharray[$thumb_id]['description'] = $thumb_details['description'];
-				$tharray[$thumb_id]['file_name'] = $CI->Cache->prepare_image (
+				$tharray[$thumb_id]['file_name'] = $this->prepare_image (
 														$thumb_id,
 														$image_repository. $thumb_details['file'],
 														$thumb_details,

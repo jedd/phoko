@@ -322,14 +322,14 @@ class  Kpa extends  Model {
 		$thumbs_per_page  = $this->config->item('thumbs_per_page');
 		$CI =& get_instance();
 
-		/// @todo Change this to look through filtered set of pictures ($publish-kpa-xml) rather than FULL list
+		$last_thumb_to_show = $this->offset + $thumbs_per_page;
 
 		$tharray = array();
 
-		$x = 0;
+		$x = 1;
 
 		foreach ($this->kpa_filt['images'] as $thumb_id => $thumb_details)  {
-			if ($x++ > $this->offset)  {
+			if ( ($x >= $this->offset) AND ($x < $last_thumb_to_show) )  {
 				$tharray[$thumb_id]['description'] = $thumb_details['description'];
 				$tharray[$thumb_id]['file_name'] = $this->prepare_image (
 														$thumb_id,
@@ -343,9 +343,10 @@ class  Kpa extends  Model {
 
 				// Depart once we have our $thumbs_per_page worth of thumbs information
 				/// @todo Check for end of list happening before full # of thumbs acquired
-				if ($x > ($this->offset + $thumbs_per_page))
+				if ($x > $last_thumb_to_show)
 					break;
 				}
+			$x++;
 			}
 
 
@@ -482,6 +483,30 @@ class  Kpa extends  Model {
 
 		return $cache_file_name;
 		}  // end-method  prepare_image ()
+
+
+
+	/**
+	 * Get position number of image (in set)
+	 *
+	 * Returns an integer, somewhere betweeen 1 and sizeof($kpa_filt)
+	 *
+	 *
+	 * @param	string		$image_id
+	 * @return	integer
+	 **/
+	function   get_position_number  ($current_image)  {
+		$x = 1;
+		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
+			if ($current_image == $image_id)
+				$position = $x;
+			$x++;
+			}
+		return $position;
+		}  // end-method  get_position_number  ()
+
+
+
 
 
 

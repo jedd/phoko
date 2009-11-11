@@ -29,4 +29,4 @@
 // ------------------------------------------------------------------------
 ?>
 
-&lt; PREV &nbsp; :: &nbsp; NEXT &gt;
+&lt; PREV &nbsp; (<?php echo $this_image_position; ?> / <?php echo $total_number_of_images ?>) &nbsp; NEXT &gt;

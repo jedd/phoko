@@ -123,7 +123,7 @@ class  Album extends  Controller {
 		// The main picture window (middle)
 		$image_repository = $this->config->item('repository');
 		$image_original_file_name = $image_repository . $kpa_db['images'][$id]['file'];
-		$main_image_stuff['path'] = $this->Cache->prepare_image ( $id, $image_original_file_name, $kpa_db['images'][$id], $image_type = 'medium' );
+		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $kpa_db['images'][$id], $image_type = 'medium' );
 		$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 
 		// The thumbnail view (top)
@@ -159,7 +159,7 @@ class  Album extends  Controller {
 		$this->data['footer_links'] = array ('Main gallery' => '/album/gallery');
 		$this->data['content']['top'] = "Cache management.<br />Use the <b>Main Gallery</b> link bottom right to return to the gallery.";
 
-		$cache_view['cache_file_list'] = $this->Cache->get_list_of_cache_files();
+		$cache_view['cache_file_list'] = $this->Kpa->cache_get_list_of_files();
 		$kpa_db_full = $this->Kpa->get_pictures();
 		$cache_view['kpa_db_images'] = $kpa_db_full['images'];
 		$cache_view['stats'] = $this->_compare_cache_with_kpa_db($cache_view['cache_file_list'], $cache_view['kpa_db_images']);

@@ -115,7 +115,7 @@ $config['image_attributes'] = array ("width", "description", "height", "startDat
  *  9 works well on small screens - specifically my MSI Wind netbook,
  *  with its 1024x600 LCD.
  **/
-$config['thumbs_per_page'] = 10;
+$config['thumbs_per_page'] = 9;
 
 
 /**

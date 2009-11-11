@@ -128,9 +128,20 @@ class  Album extends  Controller {
 
 		// The thumbnail view (top)
 		$this->Kxml->select_thumbs();
-		$thumb_view_data['thumbs'] = $this->Kxml->thumbs;
+		$thumb_view_data = $this->Kxml->thumbs;
 
 		$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
+
+		foreach ($tharray as $thumb_to_show)  {
+			$thumb_image_stuff['thumbs'][$thumb_to_show]['file_name']
+						= $this->Cache->prepare_image (
+										$thumb_to_show,
+										$image_repository. $kpa_db['images'][$thumb_to_show]['file'],
+										$kpa_db['images'][$thumb_to_show],
+										$image_type = 'small' );
+			$thumb_image_stuff['thumbs'][$thumb_to_show]['info'] = $kpa_db['images'][$thumb_to_show];
+			$thumb_image_stuff['thumbs'][$thumb_to_show]['link'] = $this->_create_url_with_new_image_id($thumb_to_show);
+			}
 
 		// Load the primary view
 		$this->load->view ("main_page", $this->data);
@@ -285,8 +296,7 @@ class  Album extends  Controller {
 			$offset = 1;
 
 		// Set the offset in kxml (historical note - our first foray into using the kxml as an object)
-		$this->Kxml->set_offset($offset);
-
+		$this->kxml->offset = $offset;
 
 		// This introduces REDUNDANT data into the array, however
 		// it's VERY handy later to have the filters in this format.

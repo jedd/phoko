@@ -96,9 +96,7 @@ class  Album extends  Controller {
 		$url_parsed = $this->_parse_url();
 
 		// Generate the FILTERED list (kpa_filt) of images to show
-		$x = $this->Kpa->generate_kpa_filt( $url_parsed['filters'] );
-
-		echo "We're playing with ". $x ." items in our list.<br />";
+		$this->Kpa->generate_kpa_filt( $url_parsed['filters'] );
 
 		// Prepare the generic view partials
 		$this->data['title'] = $this->config->item('name');

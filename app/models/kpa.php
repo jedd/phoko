@@ -102,6 +102,12 @@ class  Kpa extends  Model {
 	 *              ['width'] = 789
 	 *              ['startDate'] = 1999-08-23T12:32:00
 	 *              ...
+	 *              ['label'] = 'pict0003.jpg'
+	 *              ['tags']
+	 *                   ['Keywords']
+	 *                         0 = 'church - of the vera cruz (templar)'
+	 *                   ['Locations']
+	 *                         0 = 'segovia'
 	 *         ...
 	 *     ['tags']
 	 *         ['Locations']
@@ -268,9 +274,32 @@ class  Kpa extends  Model {
 			return sizeof ($this->kpa_filt['images']);
 			}
 
-		// Okay, we need to generate ['images'], ['tags'] and ['member_groups']
 
+		// Start with the larger set - the complete published image collection,
+		// and for each image check if we have a match across ALL filters (we
+		// treat them as AND, not OR) and if so, transcribe the image information
+		// and populate ['tags'] and ['member_groups'] too.
+		$kf = array();
+		$number_of_filters = sizeof($filters);
+		foreach ($this->kpa_full['images'] as $image_id => $image_details)  {
+			$filters_met = 0;
+			foreach ($filters as $filter)  {
+				if (isset ($image_details['tags'][$filter['category']]))  {
+					if (in_array ($filter['actual'] , $image_details['tags'][$filter['category']]))  {
+						$filters_met++;
+						}
+					}
+				}
+			if ($filters_met >= $number_of_filters)  {
+				$kf['images'][$image_id] = $image_details;
+				}
+			}
 
+		// Set our attribute
+		$this->kpa_filt = $kf;
+
+		// Might be useful to know the number of images in our new set
+		return sizeof ($kf['images']);
 		}  //  end-method  generate_kpa_filt  ()
 
 

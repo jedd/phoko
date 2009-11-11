@@ -90,7 +90,7 @@ class  Album extends  Controller {
 	 **/
 	 function  gallery ( )  {
 		// Load up the $kpa_db array with the images, tags, and member_groups
-		$kpa_db = $this->Kxml->get_pictures();
+		$kpa_db = $this->Kpa->get_pictures();
 
 		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
 		$url_parsed = $this->_parse_url();
@@ -108,7 +108,7 @@ class  Album extends  Controller {
 		if (isset ($url_parsed['image_id']))
 			$id = $url_parsed['image_id'];
 		else
-			$id = "c5e3873a6e"; /// @todo - pull this in via kxml method perhaps?
+			$id = "c5e3873a6e"; /// @todo - pull this in via Kpa method perhaps?
 
 
 		/// --------------------------------
@@ -127,8 +127,8 @@ class  Album extends  Controller {
 		$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 
 		// The thumbnail view (top)
-		$this->Kxml->select_thumbs();
-		$thumb_view_data['thumbs'] = $this->Kxml->thumbs;
+		$this->Kpa->select_thumbs();
+		$thumb_view_data['thumbs'] = $this->Kpa->thumbs;
 
 		$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
 
@@ -160,7 +160,7 @@ class  Album extends  Controller {
 		$this->data['content']['top'] = "Cache management.<br />Use the <b>Main Gallery</b> link bottom right to return to the gallery.";
 
 		$cache_view['cache_file_list'] = $this->Cache->get_list_of_cache_files();
-		$kpa_db_full = $this->Kxml->get_pictures();
+		$kpa_db_full = $this->Kpa->get_pictures();
 		$cache_view['kpa_db_images'] = $kpa_db_full['images'];
 		$cache_view['stats'] = $this->_compare_cache_with_kpa_db($cache_view['cache_file_list'], $cache_view['kpa_db_images']);
 		$this->data['content']['main'] = $this->load->view('cache_status', $cache_view, TRUE);
@@ -284,8 +284,8 @@ class  Album extends  Controller {
 		if (! isset ($offset))
 			$offset = 1;
 
-		// Set the offset in kxml (historical note - our first foray into using the kxml as an object)
-		$this->Kxml->set_offset($offset);
+		// Set the offset in Kpa (historical note - our first foray into using the Kpa as an object)
+		$this->Kpa->set_offset($offset);
 
 
 		// This introduces REDUNDANT data into the array, however

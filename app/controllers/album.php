@@ -89,12 +89,16 @@ class  Album extends  Controller {
 	 *
 	 **/
 	 function  gallery ( )  {
-		// Load up the $kpa_db array with the images, tags, and member_groups
-		$kpa_db = $this->Kpa->get_pictures();
-
+		// Load up the $kpa_full array with the images, tags, and member_groups
+		$kpa_full = $this->Kpa->get_pictures();
 
 		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
 		$url_parsed = $this->_parse_url();
+
+		// Generate the FILTERED list (kpa_filt) of images to show
+		$x = $this->Kpa->generate_kpa_filt( $url_parsed['filters'] );
+
+		echo "We're playing with ". $x ." items in our list.<br />";
 
 		// Prepare the generic view partials
 		$this->data['title'] = $this->config->item('name');
@@ -120,14 +124,14 @@ class  Album extends  Controller {
 
 		// The image-info window (left)
 		$current_image_info['id'] = $id;
-		$current_image_info['image'] = $kpa_db['images'][$id];
+		$current_image_info['image'] = $kpa_full['images'][$id];
 		$current_image_info['url_parsed'] = $url_parsed;
 		$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
 
 		// The main picture window (middle)
 		$image_repository = $this->config->item('repository');
-		$image_original_file_name = $image_repository . $kpa_db['images'][$id]['file'];
-		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $kpa_db['images'][$id], $image_type = 'medium' );
+		$image_original_file_name = $image_repository . $kpa_full['images'][$id]['file'];
+		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $kpa_full['images'][$id], $image_type = 'medium' );
 		$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 
 		// The thumbnail view (top)
@@ -164,8 +168,8 @@ class  Album extends  Controller {
 		$this->data['content']['top'] = "Cache management.<br />Use the <b>Main Gallery</b> link bottom right to return to the gallery.";
 
 		$cache_view['cache_file_list'] = $this->Kpa->cache_get_list_of_files();
-		$kpa_db_full = $this->Kpa->get_pictures();
-		$cache_view['kpa_db_images'] = $kpa_db_full['images'];
+		$kpa_full = $this->Kpa->get_pictures();
+		$cache_view['kpa_db_images'] = $kpa_full['images'];
 		$cache_view['stats'] = $this->_compare_cache_with_kpa_db($cache_view['cache_file_list'], $cache_view['kpa_db_images']);
 		$this->data['content']['main'] = $this->load->view('cache_status', $cache_view, TRUE);
 
@@ -255,6 +259,7 @@ class  Album extends  Controller {
 		while ( isset($segs[$seg_x]) )  {
 			$segment = $segs[$seg_x];
 			switch ($segment[0])  {
+
 				case 'i':		// Image ID (hex string, 10 chars)
 					// We make note of multiple /i.../ segments, jic.
 					if (isset ($parray['image_id']))
@@ -262,6 +267,7 @@ class  Album extends  Controller {
 					else
 						$parray['image_id'] = substr($segment, 1);
 					break;
+
 				case 'f':		// Filter
 					/// @todo exclude filters will start with 'e' or something
 					/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
@@ -275,6 +281,7 @@ class  Album extends  Controller {
 											"category" => $filter_category,						// eg 'Keywords'
 											);
 					break;
+
 				case 'o':		// Offset (for thumbnail position)
 					$offset_segment = substr($segment, 1);
 					if (is_numeric ($offset_segment))
@@ -294,9 +301,12 @@ class  Album extends  Controller {
 
 		// This introduces REDUNDANT data into the array, however
 		// it's VERY handy later to have the filters in this format.
-		if (isset ($parray['filters']))
+		if (isset ($parray['filters']))  {
 			foreach ($parray['filters'] as $filter)
 				$parray['actual_filters'][] = $filter['actual'];
+			}
+		else
+			$parray['filters'] = NULL;
 
 		return $parray;
 		}  // end-method  _parse_url ()
@@ -357,7 +367,7 @@ class  Album extends  Controller {
 
 	// ------------------------------------------------------------------------
 	/**
-	 * Compare cache (reality) with kpa_db (ideal)
+	 * Compare cache (reality) with kpa_full (ideal)
 	 *
 	 * Returns an array containing the following information:
 	 * [small]
@@ -381,10 +391,10 @@ class  Album extends  Controller {
 	 *		[total] => 565
 	 *
 	 * @param	array		$cache_file_list		All the cache files currently on disk
-	 * @param	array		$kpa_db_images_full		The [images] sub-array ONLY of $kp_dba
+	 * @param	array		$kpa_images_full		The [images] sub-array ONLY of $kp_dba
 	 * @return	array
 	 **/
-	function  _compare_cache_with_kpa_db  ($cache_file_list , $kpa_db_images_full)  {
+	function  _compare_cache_with_kpa_db  ($cache_file_list , $kpa_images_full)  {
 		// Prepare the pro forma $stats array that we'll be returning
 		$stats = array();
 		$image_sizes = $this->config->item('image_sizes');
@@ -405,7 +415,7 @@ class  Album extends  Controller {
 		/// Second - tidy up the kpa_db_images array - we really only want a
 		/// very simple array like ('aabbccddee', 'bbccddeeff', 'ccddeeff00' ...)
 		$kpa_db_images = array();
-		foreach ($kpa_db_images_full as $name => $foo)
+		foreach ($kpa_images_full as $name => $foo)
 			$kpa_db_images[] = $name;
 		$stats['kpa']['total'] = count ($kpa_db_images);
 

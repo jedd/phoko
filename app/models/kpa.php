@@ -50,13 +50,17 @@ class  Kpa extends  Model {
 	// (they are loaded by select_thumbs())
 	var $thumbs = array();
 
-	// kpa_db is the subset of KPA's index.xml file, containing information
-	// for every PUBLISH'd image, super-groups, and custom categories.  It
-	// is instantiated by get_pictures() - historically this was returned,
-	// and is slowly being migrated into a OO approach (master copy here)
-	var $kpa_db = array();
+	// kpa_full is the PUBLISHED set of images from KPA's index.xml file, and
+	// contains information for each publishable image, super-groups, and
+	// custom categories.  It is instantiated by get_pictures() - originally
+	// under-utilised here, but as we OO things it becomes more important.
+	var $kpa_full = array();
 
-	var $kpa_filtered = array();
+	// kpa_filt is the SUBSET of the PUBLISHED set - it contains only the
+	// images that meet the various FILTERS provided in the URL.  It is
+	// instantiated by generate_kpa_filt()
+	var $kpa_filt = array();
+
 
 	// ------------------------------------------------------------------------
 	/**
@@ -92,7 +96,7 @@ class  Kpa extends  Model {
 	 * Otherwise, we use the index.xml to generate the serialised-array file.
 	 *
 	 * Format of returned array:
-	 * $kpa_db
+	 * $kpa_full
 	 *     ['images']
 	 *         ['3f66e0ba7a']
 	 *              ['width'] = 789
@@ -148,10 +152,10 @@ class  Kpa extends  Model {
 
 		// If cache file is newer, we use it immediately.
 		if ($cache_xml_file_time > $index_xml_file_time)  {
-			$kpa_db = unserialize (file_get_contents ($cache_xml_file_name) );
-			$this->kpa_db = $kpa_db;
+			$kpa_full = unserialize (file_get_contents ($cache_xml_file_name) );
+			$this->kpa_full = $kpa_full;
 			/// @todo We can later avoid returning this.
-			return $kpa_db;
+			return $kpa_full;
 			}
 
 		// If we get here, we know we're going to use index.xml
@@ -192,7 +196,7 @@ class  Kpa extends  Model {
 
 								// We must cast as (string) here, otherwise we end up with Objects.
 								foreach ($image_attributes as $attr)
-									$kpa_db['images'][$image_id][$attr] = (string)$image[$attr];
+									$kpa_full['images'][$image_id][$attr] = (string)$image[$attr];
 
 								// HERE we have to 'step back' to an earlier nested loop, to get ALL the image's data.
 
@@ -208,13 +212,13 @@ class  Kpa extends  Model {
 
 										// Publish-tag is added to shoosh_tags in the config, so we just use that.
 										if (! (in_array ($tag_value, $shoosh_tags[$tag_category])) ) {
-											$kpa_db['images'][$image_id]['tags'][$tag_category][$x++] = $tag_value;
+											$kpa_full['images'][$image_id]['tags'][$tag_category][$x++] = $tag_value;
 
 											// We keep a counter of occurences of each tag.
-											if (isset ($kpa_db['tags'][$tag_category][$tag_value]))
-												$kpa_db['tags'][$tag_category][$tag_value] += 1;
+											if (isset ($kpa_full['tags'][$tag_category][$tag_value]))
+												$kpa_full['tags'][$tag_category][$tag_value] += 1;
 											else
-												$kpa_db['tags'][$tag_category][$tag_value] = 1;
+												$kpa_full['tags'][$tag_category][$tag_value] = 1;
 											}  // end-if (picture not in shoosh tags)
 										}  // end-foreach ($revisted_option->value as $tagset)
 									}  // end-foreach ($image->options->option as $revisted_option)
@@ -225,11 +229,11 @@ class  Kpa extends  Model {
 				}  // end-if ($image->options)
 			}  // end-foreach
 
-		// HERE we have $kpa_db[] with two sub-arrays: ['images'] and ['tags']
+		// HERE we have $kpa_full[] with two sub-arrays: ['images'] and ['tags']
 
-		// Sort the contents of each of the $kpa_db['tags'] sub-arrays.
-		foreach ($kpa_db['tags'] as $y => $z)
-			ksort (&$kpa_db['tags'][$y]);
+		// Sort the contents of each of the $kpa_full['tags'] sub-arrays.
+		foreach ($kpa_full['tags'] as $y => $z)
+			ksort (&$kpa_full['tags'][$y]);
 
 
 		// Stage 2 - calculate member groups - only note groups that contain tags that we care about, of course.
@@ -237,15 +241,37 @@ class  Kpa extends  Model {
 		// Have to do this, because you can't -> to a variable with a hyphen.
 		$mg_string = "member-groups";
 		$member_groups = $xml_content->$mg_string;
-		$kpa_db['member_groups'] = $this->_massage_member_groups ($member_groups, $kpa_db['tags'] );
+		$kpa_full['member_groups'] = $this->_massage_member_groups ($member_groups, $kpa_full['tags'] );
 
 		// Create/overwrite the cached xml output for next time
-		file_put_contents ($cache_xml_file_name, serialize($kpa_db));
+		file_put_contents ($cache_xml_file_name, serialize($kpa_full));
 
-		$this->kpa_db = $kpa_db;
+		$this->kpa_full = $kpa_full;
 
-		return $kpa_db;
+		return $kpa_full;
 		}  // end-method  get_pictures ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Generate KPA FILTered set
+	 *
+	 * Based on the Filters provided in the URL, produce a subset of
+	 * the $kpa_full array, showing just images that we want.
+	 *
+	 * @param	array	$filters	The array of filters from the URL
+	 **/
+	function  generate_kpa_filt  ( $filters = NULL )  {
+		if ($filters == NULL)  {
+			$this->kpa_filt = $this->kpa_full;
+			return sizeof ($this->kpa_filt['images']);
+			}
+
+		// Okay, we need to generate ['images'], ['tags'] and ['member_groups']
+
+
+		}  //  end-method  generate_kpa_filt  ()
 
 
 
@@ -272,7 +298,7 @@ class  Kpa extends  Model {
 		$tharray = array();
 
 		$x = 0;
-		$foo = $this->kpa_db;
+		$foo = $this->kpa_full;
 
 		foreach ($foo['images'] as $thumb_id => $thumb_details)  {
 			if ($x++ > $this->offset)  {
@@ -377,7 +403,7 @@ class  Kpa extends  Model {
 	 * only, where the original size & quality of the file should be preserved.
 	 *
 	 * @param	string	$image_id		The ID of the image we're about to provide
-	 * @param	array	$image_info		A dump from the [images] sub-array of kpa_db
+	 * @param	array	$image_info		A dump from the [images] sub-array of kpa_full
 	 * @param	string	$type			The type of image (all, small, medium, large, raw)
 	 * @return	string
 	 **/

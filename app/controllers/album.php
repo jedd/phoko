@@ -90,13 +90,18 @@ class  Album extends  Controller {
 	 **/
 	 function  gallery ( )  {
 		// Load up the $kpa_full array with the images, tags, and member_groups
-		$kpa_full = $this->Kpa->get_pictures();
+		/// @todo - set this up as part of the model's constructor?
+		$this->Kpa->get_pictures();
 
 		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
 		$url_parsed = $this->_parse_url();
 
 		// Generate the FILTERED list (kpa_filt) of images to show
 		$this->Kpa->generate_kpa_filt( $url_parsed['filters'] );
+
+		// At this time, kpa->kpa_full and kpa->kpa_filt are both populated.  We'll
+		// always choose to show kpa_filt, but need to differentiate elsewhere.
+		$kpa_show = $this->Kpa->kpa_filt;
 
 		// Prepare the generic view partials
 		$this->data['title'] = $this->config->item('name');
@@ -122,14 +127,14 @@ class  Album extends  Controller {
 
 		// The image-info window (left)
 		$current_image_info['id'] = $id;
-		$current_image_info['image'] = $kpa_full['images'][$id];
+		$current_image_info['image'] = $kpa_show['images'][$id];
 		$current_image_info['url_parsed'] = $url_parsed;
 		$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
 
 		// The main picture window (middle)
 		$image_repository = $this->config->item('repository');
-		$image_original_file_name = $image_repository . $kpa_full['images'][$id]['file'];
-		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $kpa_full['images'][$id], $image_type = 'medium' );
+		$image_original_file_name = $image_repository . $kpa_show['images'][$id]['file'];
+		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $kpa_show['images'][$id], $image_type = 'medium' );
 		$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 
 		// The thumbnail view (top)

@@ -327,9 +327,8 @@ class  Kpa extends  Model {
 		$tharray = array();
 
 		$x = 0;
-		$foo = $this->kpa_full;
 
-		foreach ($foo['images'] as $thumb_id => $thumb_details)  {
+		foreach ($this->kpa_filt['images'] as $thumb_id => $thumb_details)  {
 			if ($x++ > $this->offset)  {
 				$tharray[$thumb_id]['description'] = $thumb_details['description'];
 				$tharray[$thumb_id]['file_name'] = $this->prepare_image (

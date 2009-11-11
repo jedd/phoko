@@ -27,6 +27,16 @@
  **/
 
 // ------------------------------------------------------------------------
-?>
 
-&lt; PREV &nbsp; (<?php echo $this_image_position; ?> / <?php echo $total_number_of_images ?>) &nbsp; NEXT &gt;
+
+if ($prev_image_url)
+	echo anchor ($prev_image_url, "PREV");
+else
+	echo "PREV";
+
+echo " (". $this_image_position ." / ". $total_number_of_images .") ";
+
+if ($next_image_url)
+	echo anchor ($next_image_url, "NEXT");
+else
+	echo "NEXT";

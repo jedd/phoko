@@ -123,6 +123,12 @@ class  Album extends  Controller {
 		/// Generating the various view bits
 
 		// The prev-next buttons (left)
+		$prev_image_id = $this->Kpa->get_prev_image_id ($id);
+		$next_image_id = $this->Kpa->get_next_image_id ($id);
+
+		$prev_next_data['prev_image_url'] = ($prev_image_id) ? $this->_create_url_with_new_image_id ($prev_image_id) : FALSE;
+		$prev_next_data['next_image_url'] = ($next_image_id) ? $this->_create_url_with_new_image_id ($next_image_id) : FALSE;
+
 		$prev_next_data['this_image_position'] = $this->Kpa->get_position_number ($id);
 		$prev_next_data['total_number_of_images'] = sizeof ($this->Kpa->kpa_filt['images']);
 		$this->data['prev_next_view'] = $this->load->view("prev_next", $prev_next_data, TRUE);

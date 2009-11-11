@@ -126,8 +126,11 @@ class  Album extends  Controller {
 		$prev_image_id = $this->Kpa->get_prev_image_id ($id);
 		$next_image_id = $this->Kpa->get_next_image_id ($id);
 
-		$prev_next_data['prev_image_url'] = ($prev_image_id) ? $this->_create_url_with_new_image_id ($prev_image_id) : FALSE;
-		$prev_next_data['next_image_url'] = ($next_image_id) ? $this->_create_url_with_new_image_id ($next_image_id) : FALSE;
+		$prev_offset = $this->Kpa->get_prev_offset ();
+		$next_offset = $this->Kpa->get_next_offset ();
+
+		$prev_next_data['prev_image_url'] = ($prev_image_id) ? $this->_create_url_with_new_image_id ($prev_image_id , $prev_offset) : FALSE;
+		$prev_next_data['next_image_url'] = ($next_image_id) ? $this->_create_url_with_new_image_id ($next_image_id , $next_offset) : FALSE;
 
 		$prev_next_data['this_image_position'] = $this->Kpa->get_position_number ($id);
 		$prev_next_data['total_number_of_images'] = sizeof ($this->Kpa->kpa_filt['images']);
@@ -356,20 +359,42 @@ class  Album extends  Controller {
 	 * Good for then generating things like links under thumbnails and the like.
 	 *
 	 * @param	string	$image_id
+	 * @param	int		$offset (optional) if you want to change this at the same time
 	 * @return	string
 	 */
-	function  _create_url_with_new_image_id  ($image_id)  {
-		$segs   = $this->uri->segment_array();
-		$newuri = $segs[1] ."/". $segs[2] ."/";
+	function  _create_url_with_new_image_id  ($image_id, $new_offset = FALSE)  {
+		$segs    = $this->uri->segment_array();
+		$newsegs = array();
+
+		$original_controller_and_method = $segs[1] ."/". $segs[2];
 
 		array_shift ($segs);  // get rid of controller name
 		array_shift ($segs);  // get rid of method name
 
 		foreach ($segs as $seg)
 			if ($seg[0] != 'i')
-				$newuri .= $seg ."/";
+				$newsegs[] = $seg;
 
-		$newuri .= "i". $image_id ;
+		$newsegs[] = "i". $image_id ;
+
+		if ($new_offset)  {
+			$segs_with_new_offset = array();
+			foreach ($newsegs as $newseg)
+				if ($newseg[0] != 'o')
+					$segs_with_new_offset[] = $newseg;
+
+			/// @todo validate that offset is sensible .. or not?  (Elsewhere?)
+			$segs_with_new_offset[] = "o". $new_offset;
+
+			$segs_to_use = $segs_with_new_offset;
+			}
+		else
+			$segs_to_use = $newsegs;
+
+
+		$newuri = $original_controller_and_method;
+		foreach ($segs_to_use as $s)
+			$newuri .= "/". $s;
 
 		return $newuri;
 		}  // end-method  _create_url_with_new_image_id  ()

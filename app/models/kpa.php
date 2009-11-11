@@ -358,6 +358,118 @@ class  Kpa extends  Model {
 
 
 
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get position number of image (in set)
+	 *
+	 * Returns an integer, somewhere betweeen 1 and sizeof($kpa_filt)
+	 *
+	 *
+	 * @param	string		$image_id
+	 * @return	integer
+	 **/
+	function   get_position_number  ($current_image)  {
+		$x = 1;
+		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
+			if ($current_image == $image_id)  {
+				$position = $x;
+				break;
+				}
+			$x++;
+			}
+		return $position;
+		}  // end-method  get_position_number  ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get position number of previous (in set) image
+	 *
+	 * Returns an integer, somewhere betweeen 1 and sizeof($kpa_filt)
+	 *
+	 *
+	 * @param	string		$image_id
+	 * @return	integer
+	 **/
+	function   get_prev_image_id ($current_image)  {
+		$prev_image_id = FALSE;
+		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
+			if ($current_image == $image_id)
+				break;
+			$prev_image_id = $image_id;
+			}
+		return $prev_image_id;
+		}  // end-method  get_prev_image_id
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get position number of next (in set) image
+	 *
+	 * Returns an integer, somewhere betweeen 1 and sizeof($kpa_filt)
+	 *
+	 *
+	 * @param	string		$image_id
+	 * @return	integer
+	 **/
+	function   get_next_image_id ($current_image)  {
+		$next_flag = $next_image_id = FALSE;
+
+		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
+			if ($next_flag)  {
+				$next_image_id = $image_id;
+				break;
+				}
+			if ($current_image == $image_id)
+				$next_flag = TRUE;
+			}
+		return $next_image_id;
+		}  // end-method  get_next_image_id
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get previous offset number (if valid)
+	 *
+	 * Returns an integer, somewhere betweeen 1 and ( sizeof($kpa_filt) - $thumbs_to_show)
+	 *
+	 * @return	integer
+	 **/
+	function   get_prev_offset  ()  {
+		if ($this->offset > 1)
+			return ($this->offset - 1);
+		else
+			return FALSE;
+		}  // end-method  get_prev_offset ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get next offset number (if valid)
+	 *
+	 * Returns an integer, somewhere betweeen 1 and ( sizeof($kpa_filt) - $thumbs_to_show)
+	 *
+	 * @return	integer
+	 **/
+	function   get_next_offset  ()  {
+		$thumbs_per_page  = $this->config->item('thumbs_per_page');
+
+		$max_offset = sizeof ($this->kpa_filt['images']) - $thumbs_per_page + 1;
+
+		if (  $this->offset <= $max_offset)
+			return ($this->offset + 1);
+		else
+			return FALSE;
+		}  // end-method  get_next_offset ()
+
+
+
+
+
 	// ========================================================================
 	// ------------------------------------------------------------------------
 	// C A C H E    M A N A G E M E N T    S T U F F
@@ -484,77 +596,6 @@ class  Kpa extends  Model {
 		return $cache_file_name;
 		}  // end-method  prepare_image ()
 
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 * Get position number of image (in set)
-	 *
-	 * Returns an integer, somewhere betweeen 1 and sizeof($kpa_filt)
-	 *
-	 *
-	 * @param	string		$image_id
-	 * @return	integer
-	 **/
-	function   get_position_number  ($current_image)  {
-		$x = 1;
-		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
-			if ($current_image == $image_id)  {
-				$position = $x;
-				break;
-				}
-			$x++;
-			}
-		return $position;
-		}  // end-method  get_position_number  ()
-
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 * Get position number of previous (in set) image
-	 *
-	 * Returns an integer, somewhere betweeen 1 and sizeof($kpa_filt)
-	 *
-	 *
-	 * @param	string		$image_id
-	 * @return	integer
-	 **/
-	function   get_prev_image_id ($current_image)  {
-		$prev_image_id = FALSE;
-		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
-			if ($current_image == $image_id)
-				break;
-			$prev_image_id = $image_id;
-			}
-		return $prev_image_id;
-		}  // end-method  get_prev_image_id
-
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 * Get position number of next (in set) image
-	 *
-	 * Returns an integer, somewhere betweeen 1 and sizeof($kpa_filt)
-	 *
-	 *
-	 * @param	string		$image_id
-	 * @return	integer
-	 **/
-	function   get_next_image_id ($current_image)  {
-		$next_flag = $next_image_id = FALSE;
-
-		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
-			if ($next_flag)  {
-				$next_image_id = $image_id;
-				break;
-				}
-			if ($current_image == $image_id)
-				$next_flag = TRUE;
-			}
-		return $next_image_id;
-		}  // end-method  get_next_image_id
 
 
 

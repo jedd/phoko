@@ -108,7 +108,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('Kxml', 'Cache');
+$autoload['model'] = array('Kpa', 'Cache');
 
 
 

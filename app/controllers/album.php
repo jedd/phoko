@@ -150,8 +150,8 @@ class  Album extends  Controller {
 
 		// The thumbnail view (top)
 		$this->Kpa->select_thumbs();
+		$thumb_view_data['current_image_id'] = $id;
 		$thumb_view_data['thumbs'] = $this->Kpa->thumbs;
-
 		$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
 
 		// Load the primary view
@@ -305,9 +305,11 @@ class  Album extends  Controller {
 			$seg_x++;
 			}
 
-		// No offset provided?  Set it to 1.
-		if (! isset ($offset))
+		if (! isset($offset))
 			$offset = 1;
+		/// @todo - work out how to do this earlier, too.
+// 		if (! isset ($offset))
+// 			$offset = $this->Kpa->get_best_offset ($parray['image_id']);
 
 ///		@todo work out how to do this - we can't calculate offset until
 ///		filters have been calculated, so a possible catch-22 arises.

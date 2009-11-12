@@ -30,8 +30,10 @@
 // ------------------------------------------------------------------------
 
 
-foreach ($thumbs as $thumb)  {
-	echo "\n<a class=\"img_thumb\" href=\"". site_url() . $thumb['link'] ."\">";
+foreach ($thumbs as $thumb_id => $thumb)  {
+	if ($current_image_id != $thumb_id)
+		echo "\n<a class=\"img_thumb\" href=\"". site_url() . $thumb['link'] ."\">";
+
 	$image_properties = array(
 						'src' => $thumb['file_name'],
 						'alt' => $thumb['description'],
@@ -39,8 +41,13 @@ foreach ($thumbs as $thumb)  {
 						'title' => $thumb['description'],
 						'border' => '0'
 						);
+
+	if ($current_image_id == $thumb_id)  {
+		$image_properties['border'] = "1";
+		}
 	echo img($image_properties);
-	echo "</a>\n";
+	if ($current_image_id != $thumb_id)
+		echo "</a>\n";
 
 	echo nbs(1);
 	}

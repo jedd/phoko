@@ -483,6 +483,27 @@ class  Kpa extends  Model {
 
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Get best offset
+	 *
+	 * Returns the best possible valid offset (for thumbnails) for a given image ID
+	 *
+	 * @param	string	$image_id
+	 * @return	integer
+	 **/
+	function   get_best_offset  ( $current_image_id )  {
+		$x = $best_offset = 1;
+		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
+			if ($current_image_id == $image_id)
+				$best_offset = $x;
+			$x++;
+			}
+
+		return $best_offset;
+
+		}  //  end-method  get_best_offset();
+
 
 
 	// ========================================================================

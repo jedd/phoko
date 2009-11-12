@@ -309,6 +309,12 @@ class  Album extends  Controller {
 		if (! isset ($offset))
 			$offset = 1;
 
+///		@todo work out how to do this - we can't calculate offset until
+///		filters have been calculated, so a possible catch-22 arises.
+// 		$max_offset = $this->Kpa->get_max_offset();
+// 		if ($offset > $max_offset)
+// 			$offset = $max_offset;
+
 		// Set the offset in Kpa (historical note - our first foray into using the Kpa as an object)
 		$this->Kpa->set_offset($offset);
 
@@ -390,6 +396,14 @@ class  Album extends  Controller {
 			}
 		else
 			$segs_to_use = $newsegs;
+
+		$offset_missing = TRUE;
+		foreach ($segs_to_use as $seg_to_check)
+			if ($seg_to_check[0] == "o")
+				$offset_missing = FALSE;
+
+		if ($offset_missing)
+			$segs_to_use[] = "o1";	/// @todo DEFINITELY clean this logic up
 
 
 		$newuri = $original_controller_and_method;

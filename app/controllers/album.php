@@ -103,7 +103,19 @@ class  Album extends  Controller {
 		$this->_extract_filters_from_url();
 
 		// Generate the FILTERED list (kpa_filt) of images to show
-		$this->Kpa->generate_kpa_filt ( $this->url_array['filters']);
+		$total_number_of_images_in_set = $this->Kpa->generate_kpa_filt ($this->url_array['filters']);
+
+		// Extract OFFSET from URL
+		$url_offset = $this->_extract_offset_from_url();
+
+		// Determine sanity of offset setting
+		$thumbs_per_page = $this->config->item('thumbs_per_page');
+		if ($url_offset > ($total_number_of_images_in_set  - $thumbs_per_page + 1))
+			$url_offset = 1;
+
+		// Set it in the controller attribute
+		$this->url_array['offset'] = $url_offset;
+
 
 		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
 		$url_parsed = $this->_parse_url();
@@ -250,6 +262,41 @@ class  Album extends  Controller {
 
 
 
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Extract offset from URL
+	 *
+	 * Pull the /o... entry from the URL we arrived with.
+	 *
+	 * @return	int		The offset we discover (or 1 on no offset)
+	 **/
+	function  _extract_offset_from_url  ( )  {
+		$segs  = $this->uri->segment_array();
+
+		$seg_x = 3;						// We start at segment(3)
+		$farray = array ();				// filter array - our return data
+
+		$offset_in_url = FALSE;
+		while ( isset($segs[$seg_x]) )  {
+			$segment = $segs[$seg_x];
+			if ($segment[0] == 'o')  {
+				$offset_segment = substr($segment, 1);
+				if (is_numeric($offset_segment))  {
+					$offset_in_url = TRUE;
+					$offset = substr ($offset_segment);
+					}
+				}
+			}
+
+		if ($offset_in_url)
+			return $offset;
+		else
+			return 1;
+		}
+
+
 	// ------------------------------------------------------------------------
 	/**
 	 * Extract filters from URL
@@ -353,30 +400,9 @@ class  Album extends  Controller {
 											);
 					break;
 
-				case 'o':		// Offset (for thumbnail position)
-					$offset_segment = substr($segment, 1);
-					if (is_numeric ($offset_segment))
-						$offset = $offset_segment;
-					break;
 				}
 			$seg_x++;
 			}
-
-		if (! isset($offset))
-			$offset = 1;
-		/// @todo - work out how to do this earlier, too.
-// 		if (! isset ($offset))
-// 			$offset = $this->Kpa->get_best_offset ($parray['image_id']);
-
-///		@todo work out how to do this - we can't calculate offset until
-///		filters have been calculated, so a possible catch-22 arises.
-// 		$max_offset = $this->Kpa->get_max_offset();
-// 		if ($offset > $max_offset)
-// 			$offset = $max_offset;
-
-		// Set the offset in Kpa (historical note - our first foray into using the Kpa as an object)
-		$this->Kpa->set_offset($offset);
-
 
 		// This introduces REDUNDANT data into the array, however
 		// it's VERY handy later to have the filters in this format.

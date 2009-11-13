@@ -100,13 +100,13 @@ class  Album extends  Controller {
 		$this->Kpa->get_pictures();
 
 		// Extract FILTERS from URL - we need this before doing almost everything else.
-		$url_filters = $this->_extract_filters_from_url();
+		$this->_extract_filters_from_url();
+
+		// Generate the FILTERED list (kpa_filt) of images to show
+		$this->Kpa->generate_kpa_filt ( $this->url_array['filters']);
 
 		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
 		$url_parsed = $this->_parse_url();
-
-		// Generate the FILTERED list (kpa_filt) of images to show
-		$this->Kpa->generate_kpa_filt( $url_parsed['filters'] );
 
 		// At this time, kpa->kpa_full and kpa->kpa_filt are both populated.  We'll
 		// always choose to show kpa_filt, but need to differentiate elsewhere.

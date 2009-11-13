@@ -34,6 +34,12 @@ class  Album extends  Controller {
 	 *   Attributes
 	 **/
 
+	// This is where bits of the URL, once parsed, get dumped.  It's an array
+	// of arrays, for instance $url_array['filters'] => array ('actual'=> 'foo', ...)
+	var $url_array = array ();
+
+
+
 
 	// ------------------------------------------------------------------------
 	/**
@@ -92,6 +98,9 @@ class  Album extends  Controller {
 		// Load up the $kpa_full array with the images, tags, and member_groups
 		/// @todo - set this up as part of the model's constructor?
 		$this->Kpa->get_pictures();
+
+		// Extract FILTERS from URL - we need this before doing almost everything else.
+		$url_filters = $this->_extract_filters_from_url();
 
 		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
 		$url_parsed = $this->_parse_url();
@@ -236,6 +245,54 @@ class  Album extends  Controller {
 	// P R I V A T E   F U N C T I O N S  -- nothing to see here.
 	// ------------------------------------------------------------------------
 	// ========================================================================
+
+
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Extract filters from URL
+	 *
+	 * Pull any /f... entries from the URL we arrived with.
+	 *
+	 * $this->url_array['filters'] is set with whatever it finds (or FALSE on empty)
+	 *
+	 * @return	bool	TRUE if filters exist, FALSE otherwise
+	 **/
+	function  _extract_filters_from_url  ( )  {
+		$segs  = $this->uri->segment_array();
+
+		$seg_x = 3;						// We start at segment(3)
+		$farray = array ();				// filter array - our return data
+
+		// K=Keywords, L=Locations ...
+		$category_abbreviations = $this->config->item('category_abbreviations');
+
+		while ( isset($segs[$seg_x]) )  {
+			$segment = $segs[$seg_x];
+			if ($segment[0] == 'f')  {
+				/// @todo exclude filters will start with 'e' or something
+				/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
+				$filter_category = array_search ($segment[1], $category_abbreviations);
+				$farray['filters'][] = array (
+										"actual" => urldecode (substr($segment, 2)),		// eg 'foo bar'
+										"urlencoded" => substr($segment, 2),				// eg 'foo_bar'
+										"url_minus_this_filter" => $this->_create_url_minus_this_segment($segs, $segment),
+										"category" => $filter_category,						// eg 'Keywords'
+										);
+				}
+			$seg_x++;
+			}
+
+		$this->url_array['filters'] = (sizeof ($farray) > 0)  ?  $farray  :  FALSE;
+
+		return ($farray) ?  TRUE  :  FALSE;
+		} // end-method  extract_filters_from_url
+
+
+
+
 
 
 

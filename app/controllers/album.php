@@ -278,22 +278,18 @@ class  Album extends  Controller {
 		$seg_x = 3;						// We start at segment(3)
 		$farray = array ();				// filter array - our return data
 
-		$offset_in_url = FALSE;
+		$offset = FALSE;
 		while ( isset($segs[$seg_x]) )  {
 			$segment = $segs[$seg_x];
 			if ($segment[0] == 'o')  {
 				$offset_segment = substr($segment, 1);
-				if (is_numeric($offset_segment))  {
-					$offset_in_url = TRUE;
+				if (is_numeric($offset_segment))
 					$offset = substr ($offset_segment);
-					}
 				}
+			$seg_x++;
 			}
 
-		if ($offset_in_url)
-			return $offset;
-		else
-			return 1;
+		return ($offset) ? $offset : 1;
 		}
 
 

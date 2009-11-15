@@ -106,19 +106,10 @@ class  Album extends  Controller {
 		$total_number_of_images_in_set = $this->Kpa->generate_kpa_filt ($this->url_array['filters']);
 
 		// Extract OFFSET from URL
-		$url_offset = $this->_extract_offset_from_url();
+		$this->_extract_offset_from_url();
 
-		// Determine sanity of offset setting
-		$thumbs_per_page = $this->config->item('thumbs_per_page');
-		if ($url_offset > ($total_number_of_images_in_set  - $thumbs_per_page + 1))
-			$url_offset = 1;
-
-		// Set it in the controller attribute
-		$this->url_array['offset'] = $url_offset;
-
-
-		// Parse the URL - we have a variable number of inputs, so it's gonna be out-sourced!
-		$url_parsed = $this->_parse_url();
+		// Extract the image_id from the URL (it gets saved at $this->url_array['image_id')
+		$this->_extract_image_id_from_url();
 
 		// At this time, kpa->kpa_full and kpa->kpa_filt are both populated.  We'll
 		// always choose to show kpa_filt, but need to differentiate elsewhere.
@@ -130,25 +121,23 @@ class  Album extends  Controller {
 
 		// Filters for Main View
 		/// @todo we should move filter generation into a view partial
-		if (isset ($url_parsed['filters']))
-			$this->data['filters'] = $url_parsed['filters'];
-
-		// Set the current image to show
-		if (isset ($url_parsed['image_id']))
-			$id = $url_parsed['image_id'];
-		else
-			$id = "c5e3873a6e"; /// @todo - pull this in via Kpa method perhaps?
+		if (isset ($this->url_array['filters']))
+			$this->data['filters'] = $this->url_array['filters'];
 
 
 		/// --------------------------------
 		/// Generating the various view bits
 
+		// This will save us a bit of typing
+		$id     = $this->url_array['image_id'];
+		$offset = $this->url_array['offset'];
+
 		// The prev-next buttons (left)
 		$prev_image_id = $this->Kpa->get_prev_image_id ($id);
 		$next_image_id = $this->Kpa->get_next_image_id ($id);
 
-		$prev_offset = $this->Kpa->get_prev_offset ();
-		$next_offset = $this->Kpa->get_next_offset ();
+		$prev_offset = $this->_get_prev_offset ();
+		$next_offset = $this->_get_next_offset ();
 
 		$prev_next_data['prev_image_url'] = ($prev_image_id) ? $this->_create_url_with_new_image_id ($prev_image_id , $prev_offset) : FALSE;
 		$prev_next_data['next_image_url'] = ($next_image_id) ? $this->_create_url_with_new_image_id ($next_image_id , $next_offset) : FALSE;
@@ -160,7 +149,7 @@ class  Album extends  Controller {
 		// The image-info window (left)
 		$current_image_info['id'] = $id;
 		$current_image_info['image'] = $kpa_show['images'][$id];
-		$current_image_info['url_parsed'] = $url_parsed;
+		$current_image_info['url_array'] = $this->url_array;
 		$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
 
 		// The main picture window (middle)
@@ -260,6 +249,42 @@ class  Album extends  Controller {
 
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Get previous offset number (if valid)
+	 *
+	 * Returns an integer, somewhere betweeen 1 and ( sizeof($kpa_filt) - $thumbs_to_show)
+	 *
+	 * @return	integer
+	 **/
+	function   _get_prev_offset  ()  {
+		if ($this->url_array['offset'] > 1)
+			return ($this->url_array['offset'] - 1);
+		else
+			return FALSE;
+		}  // end-method  _get_prev_offset ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get next offset number (if valid)
+	 *
+	 * Returns an integer, somewhere betweeen 1 and ( sizeof($kpa_filt) - $thumbs_to_show)
+	 *
+	 * @return	integer
+	 **/
+	function   _get_next_offset  ()  {
+		$max_offset = $this->Kpa->get_max_offset();
+
+		if ( $this->url_array['offset'] <= $max_offset)
+			return ($this->url_array['offset'] + 1);
+		else
+			return FALSE;
+		}  // end-method  _get_next_offset ()
+
+
+
 
 
 
@@ -268,9 +293,9 @@ class  Album extends  Controller {
 	/**
 	 * Extract offset from URL
 	 *
-	 * Pull the /o... entry from the URL we arrived with.
+	 * Pull the /o... entry from the URL we arrived with, or assume '1' if
+	 * not present.  Save directly to $this->url_array['offset']
 	 *
-	 * @return	int		The offset we discover (or 1 on no offset)
 	 **/
 	function  _extract_offset_from_url  ( )  {
 		$segs  = $this->uri->segment_array();
@@ -284,12 +309,21 @@ class  Album extends  Controller {
 			if ($segment[0] == 'o')  {
 				$offset_segment = substr($segment, 1);
 				if (is_numeric($offset_segment))
-					$offset = substr ($offset_segment);
+					$offset = $offset_segment;
 				}
 			$seg_x++;
 			}
 
-		return ($offset) ? $offset : 1;
+		if (! $offset)  {
+			// Determine sanity of offset setting ...
+			$thumbs_per_page = $this->config->item('thumbs_per_page');
+			$total_number_of_images_in_set = $this->Kpa->generate_kpa_filt ($this->url_array['filters']);
+
+			if ($offset > ($total_number_of_images_in_set  - $thumbs_per_page + 1))
+				$offset = 1;
+			}
+
+		$this->url_array['offset'] = $offset;
 		}
 
 
@@ -318,99 +352,65 @@ class  Album extends  Controller {
 				/// @todo exclude filters will start with 'e' or something
 				/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
 				$filter_category = array_search ($segment[1], $category_abbreviations);
-				$farray['filters'][] = array (
-										"actual" => urldecode (substr($segment, 2)),		// eg 'foo bar'
-										"urlencoded" => substr($segment, 2),				// eg 'foo_bar'
-										"url_minus_this_filter" => $this->_create_url_minus_this_segment($segs, $segment),
-										"category" => $filter_category,						// eg 'Keywords'
-										);
+				$farray[] = array (
+							"actual" => urldecode (substr($segment, 2)),		// eg 'foo bar'
+							"urlencoded" => substr($segment, 2),				// eg 'foo_bar'
+							"url_minus_this_filter" => $this->_create_url_minus_this_segment($segs, $segment),
+							"category" => $filter_category,						// eg 'Keywords'
+							);
 				}
 			$seg_x++;
 			}
 
+		$filters_actual = array();
+		if (isset ($farray))  {
+			foreach ($farray as $filter)
+				$filters_actual[] = $filter['actual'];
+			}
+		else
+			$farray = NULL;
+
+
 		$this->url_array['filters'] = (sizeof ($farray) > 0)  ?  $farray  :  FALSE;
+		$this->url_array['filters_actual'] = (sizeof ($filters_actual) > 0)  ?  $filters_actual  :  FALSE;
 
 		return ($farray) ?  TRUE  :  FALSE;
 		} // end-method  extract_filters_from_url
 
 
 
-
-
-
-
 	// ------------------------------------------------------------------------
 	/**
-	 * Parse url
+	 * Extract image_id from URL
 	 *
-	 * Interrogates ->rsegment() stuff and works out what each of the
-	 * parameters means - there's no clean way of re-ordering them on
-	 * each new link, and pretty pointless anyway as this function
-	 * _should_ be reasonably inexpensive.
+	 * Pull the /i... entry from the URL we arrived with.
 	 *
-	 * Making the standard up as I go, so this is a work in progress.
+	 * $this->url_array['image_id'] is set with whatever it finds,
+	 * or given a default value (the first ID in the current set)
 	 *
-	 * For each segment, we interpret the item based on the first character:
-	 * i = image
-	 * f = filter  -- might want 2nd char on filter to be 'i' for include,
-	 *                so that later we can allow (e)xclude filters easily.
-	 *
-	 * These will be the settings that we don't want in session/cookie
-	 * data, simply because we want the URL to be meaningful if it is
-	 * sent to someone else.  Things like tag-types that are expanded
-	 * in the Explorifier - we don't care about their state if you're
-	 * sending the URL to a friend.
-	 *
-	 * @return	array	Options that we glean from the url
 	 **/
-	function  _parse_url ( )  {
+	function  _extract_image_id_from_url  ( )  {
 		$segs  = $this->uri->segment_array();
-		// dump ($segs);
-		$seg_x = 3;								// We start at segment(3)
-		$parray = array ();						// parameter array - our return data
 
-		$category_abbreviations = $this->config->item('category_abbreviations');
+		$seg_x = 3;						// We start at segment(3)
+		$farray = array ();				// filter array - our return data
+		$image_id = FALSE;
+
 		while ( isset($segs[$seg_x]) )  {
 			$segment = $segs[$seg_x];
-			switch ($segment[0])  {
-
-				case 'i':		// Image ID (hex string, 10 chars)
-					// We make note of multiple /i.../ segments, jic.
-					if (isset ($parray['image_id']))
-						$parray['errors'][] = "Multiple attempts to define Image ID";
-					else
-						$parray['image_id'] = substr($segment, 1);
-					break;
-
-				case 'f':		// Filter
-					/// @todo exclude filters will start with 'e' or something
-					/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
-					// dump ( substr($segment, 1));
-					// dump (urldecode (substr($segment, 1)));
-					$filter_category = array_search ($segment[1], $category_abbreviations);
-					$parray['filters'][] = array (
-											"actual" => urldecode (substr($segment, 2)),		// eg 'foo bar'
-											"urlencoded" => substr($segment, 2),				// eg 'foo_bar'
-											"url_minus_this_filter" => $this->_create_url_minus_this_segment($segs, $segment),
-											"category" => $filter_category,						// eg 'Keywords'
-											);
-					break;
-
-				}
+			/// @todo Do we want to handle errors of multiple /i's or just ignore them?
+			if ($segment[0] == "i")
+				$image_id = substr($segment, 1);
 			$seg_x++;
 			}
 
-		// This introduces REDUNDANT data into the array, however
-		// it's VERY handy later to have the filters in this format.
-		if (isset ($parray['filters']))  {
-			foreach ($parray['filters'] as $filter)
-				$parray['actual_filters'][] = $filter['actual'];
-			}
-		else
-			$parray['filters'] = NULL;
+		// If none is given on the URL, take the first in the filtered set we have.
+		if (! $image_id)
+			$image_id = $this->Kpa->get_first_image_id_from_kpa_filt();
 
-		return $parray;
-		}  // end-method  _parse_url ()
+		$this->url_array['image_id'] = $image_id;
+		}  // end-method  _extract_image_id_from_url  ()
+
 
 
 

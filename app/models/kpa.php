@@ -42,10 +42,6 @@ class  Kpa extends  Model {
 	 *   Attributes
 	 **/
 
-	// Offset is used to determine which thumbnail to show first
-	// (number of thumbs to show is determined by phoko config)
-	var $offset ;
-
 	// Thumbs are the list of thumbnails we will be showing this time round
 	// (they are loaded by select_thumbs())
 	var $thumbs = array();
@@ -77,9 +73,6 @@ class  Kpa extends  Model {
 	/**
 	 *   Setters
 	 **/
-	function set_offset ($new_offset)  {
-		$this->offset = $new_offset;
-		}
 
 
 
@@ -274,7 +267,6 @@ class  Kpa extends  Model {
 			return sizeof ($this->kpa_filt['images']);
 			}
 
-
 		// Start with the larger set - the complete published image collection,
 		// and for each image check if we have a match across ALL filters (we
 		// treat them as AND, not OR) and if so, transcribe the image information
@@ -317,19 +309,19 @@ class  Kpa extends  Model {
 	 *     * filters (just not yet...)
 	 *
 	 **/
-	function  select_thumbs ()  {
+	function  select_thumbs ( $offset = 1 )  {
 		$image_repository = $this->config->item('repository');
 		$thumbs_per_page  = $this->config->item('thumbs_per_page');
 		$CI =& get_instance();
 
-		$last_thumb_to_show = $this->offset + $thumbs_per_page;
+		$last_thumb_to_show = $offset + $thumbs_per_page;
 
 		$tharray = array();
 
 		$x = 1;
 
 		foreach ($this->kpa_filt['images'] as $thumb_id => $thumb_details)  {
-			if ( ($x >= $this->offset) AND ($x < $last_thumb_to_show) )  {
+			if ( ($x >= $offset) AND ($x < $last_thumb_to_show) )  {
 				$tharray[$thumb_id]['description'] = $thumb_details['description'];
 				$tharray[$thumb_id]['file_name'] = $this->prepare_image (
 														$thumb_id,
@@ -385,6 +377,32 @@ class  Kpa extends  Model {
 
 	// ------------------------------------------------------------------------
 	/**
+	 * Get first image_id
+	 *
+	 * Returns the image_id of the first image in the $kpa_filt array
+	 *
+	 * @return	string
+	 **/
+	function   get_first_image_id_from_kpa_filt  ( )  {
+		$image_id_size = $this->config->item('image_id_size');
+
+		// Can't think of a better way of identifying the first in the array
+		foreach ($this->kpa_filt as $image_id => $foo)  {
+			break;
+			}
+
+		// Sanity check - confirm $image_id is '10' chars long
+		if (strlen ($image_id) == $image_id_size)
+			return $image_id;
+		else
+			return FALSE;
+		}  // end-method  get_first_image_id_from_kpa_filt  ()
+
+
+
+
+	// ------------------------------------------------------------------------
+	/**
 	 * Get position number of previous (in set) image
 	 *
 	 * Returns an integer, somewhere betweeen 1 and sizeof($kpa_filt)
@@ -429,40 +447,6 @@ class  Kpa extends  Model {
 		return $next_image_id;
 		}  // end-method  get_next_image_id
 
-
-	// ------------------------------------------------------------------------
-	/**
-	 * Get previous offset number (if valid)
-	 *
-	 * Returns an integer, somewhere betweeen 1 and ( sizeof($kpa_filt) - $thumbs_to_show)
-	 *
-	 * @return	integer
-	 **/
-	function   get_prev_offset  ()  {
-		if ($this->offset > 1)
-			return ($this->offset - 1);
-		else
-			return FALSE;
-		}  // end-method  get_prev_offset ()
-
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 * Get next offset number (if valid)
-	 *
-	 * Returns an integer, somewhere betweeen 1 and ( sizeof($kpa_filt) - $thumbs_to_show)
-	 *
-	 * @return	integer
-	 **/
-	function   get_next_offset  ()  {
-		$max_offset = $this->get_max_offset();
-
-		if ( $this->offset <= $max_offset)
-			return ($this->offset + 1);
-		else
-			return FALSE;
-		}  // end-method  get_next_offset ()
 
 
 	// ------------------------------------------------------------------------

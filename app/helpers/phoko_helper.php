@@ -31,7 +31,7 @@ function  dump ($var)  {
 	echo "<pre>";
 	if (isset ($var))
 		if ($var)
-			var_dump ($var);
+			print_r ($var);
 		else
 			echo "dump() value FALSE or NULL";
 	else

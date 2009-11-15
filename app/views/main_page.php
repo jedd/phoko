@@ -38,7 +38,7 @@
 
 <?php
 	/// @todo shift this into a view partial
-	if (isset ($filters))  {
+	if ($filters)  {
 		echo "<div id=\"filters\">";
 		echo "<div id=\"filters_box\" class=\"newClass ui-corner-all\">";
 		echo "<font class=\"various_headings\">Filtering on: </font>";

@@ -159,7 +159,7 @@ class  Album extends  Controller {
 		$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 
 		// The thumbnail view (top)
-		$this->Kpa->select_thumbs();
+		$this->Kpa->select_thumbs( $offset );
 		$thumb_view_data['current_image_id'] = $id;
 		$thumb_view_data['thumbs'] = $this->Kpa->thumbs;
 		$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
@@ -449,49 +449,32 @@ class  Album extends  Controller {
 	 * @param	int		$offset (optional) if you want to change this at the same time
 	 * @return	string
 	 */
-	function  _create_url_with_new_image_id  ($image_id, $new_offset = FALSE)  {
+	function  _create_url_with_new_image_id  ($new_image_id, $new_offset = FALSE)  {
 		$segs    = $this->uri->segment_array();
-		$newsegs = array();
+		$new_url = $segs[1] ."/". $segs[2];
 
-		$original_controller_and_method = $segs[1] ."/". $segs[2];
+		// We used to build the new URL based on the current uri segments,
+		// but now we build it from scratch using $this->url_array components.
 
-		array_shift ($segs);  // get rid of controller name
-		array_shift ($segs);  // get rid of method name
+		/// image_id will ALWAYS be present - @todo generate an error if not found?
+		$new_url .= "/i" . $new_image_id;
 
-		foreach ($segs as $seg)
-			if ($seg[0] != 'i')
-				$newsegs[] = $seg;
-
-		$newsegs[] = "i". $image_id ;
-
-		if ($new_offset)  {
-			$segs_with_new_offset = array();
-			foreach ($newsegs as $newseg)
-				if ($newseg[0] != 'o')
-					$segs_with_new_offset[] = $newseg;
-
-			/// @todo validate that offset is sensible .. or not?  (Elsewhere?)
-			$segs_with_new_offset[] = "o". $new_offset;
-
-			$segs_to_use = $segs_with_new_offset;
+		// Filters
+		if ($this->url_array['filters'])  {
+			$category_abbreviations = $this->config->item('category_abbreviations');
+			foreach ($this->url_array['filters'] as $filter)  {
+				$category = $filter['category'];
+				$new_url .= "/f" . $category_abbreviations[$category] . $filter['urlencoded'];
+				}
 			}
+
+		/// offset will ALWAYS be present - @todo generate an error if not found?
+		if ($new_offset)
+			$new_url .= "/o" . $new_offset;
 		else
-			$segs_to_use = $newsegs;
+			$new_url .= "/o" . $this->url_array['offset'];
 
-		$offset_missing = TRUE;
-		foreach ($segs_to_use as $seg_to_check)
-			if ($seg_to_check[0] == "o")
-				$offset_missing = FALSE;
-
-		if ($offset_missing)
-			$segs_to_use[] = "o1";	/// @todo DEFINITELY clean this logic up
-
-
-		$newuri = $original_controller_and_method;
-		foreach ($segs_to_use as $s)
-			$newuri .= "/". $s;
-
-		return $newuri;
+		return $new_url;
 		}  // end-method  _create_url_with_new_image_id  ()
 
 

@@ -111,6 +111,9 @@ class  Album extends  Controller {
 		// Extract the image_id from the URL (it gets saved at $this->url_array['image_id')
 		$this->_extract_image_id_from_url();
 
+		// Optimising means re-calculating the offset if it's unreasonable or we are /a/djusting
+		$this->_optimise_offset();
+
 		// At this time, kpa->kpa_full and kpa->kpa_filt are both populated.  We'll
 		// always choose to show kpa_filt, but need to differentiate elsewhere.
 		$kpa_show = $this->Kpa->kpa_filt;
@@ -143,7 +146,7 @@ class  Album extends  Controller {
 		$prev_next_data['next_image_url'] = ($next_image_id) ? $this->_create_url_with_new_image_id ($next_image_id , $next_offset) : FALSE;
 
 		$prev_next_data['this_image_position'] = $this->Kpa->get_position_number ($id);
-		$prev_next_data['total_number_of_images'] = sizeof ($this->Kpa->kpa_filt['images']);
+		$prev_next_data['total_number_of_images'] = $total_number_of_images_in_set;
 		$this->data['prev_next_view'] = $this->load->view("prev_next", $prev_next_data, TRUE);
 
 		// The image-info window (left)
@@ -248,6 +251,59 @@ class  Album extends  Controller {
 	// ========================================================================
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Optimise offset
+	 *
+	 * Returns the best offset for the thumbnail view.
+	 *
+	 * We call this on every page load, but we only change the /offset under
+	 * one of two conditions:
+	 *
+	 *  *  an /a flag in the URL (means to adjust - present on filter links etc)
+	 *  *  the offset we have is greater than the max offset for the set.
+	 *
+	 **/
+	function   _optimise_offset  ()  {
+		$optimise_the_offset = FALSE;
+		$segs  = $this->uri->segment_array();
+		$seg_x = 3;		// We start at segment(3)
+
+		while ( isset($segs[$seg_x]) )  {
+			$segment = $segs[$seg_x];
+			if ($segment[0] == 'a')
+				$optimise_the_offset = TRUE;
+			$seg_x++;
+			}
+
+		$max_offset = $this->_get_max_offset();
+		if ($this->url_array['offset'] > $max_offset)
+			$optimise_the_offset = TRUE;
+
+		if ($optimise_the_offset)
+			$this->url_array['offset'] = $this->Kpa->get_position_number($this->url_array['image_id']);
+
+		}  // end-method  _optimise_offset ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get max offset
+	 *
+	 * Returns the largest possible valid offset (for thumbnails).
+	 *
+	 * @return	integer
+	 **/
+	function   _get_max_offset  ()  {
+		$thumbs_per_page  = $this->config->item('thumbs_per_page');
+
+		$max_offset = sizeof ($this->Kpa->kpa_filt['images']) - $thumbs_per_page + 1;
+
+		return $max_offset;
+		}  //  end-method  _get_max_offset();
+
+
 
 	// ------------------------------------------------------------------------
 	/**
@@ -275,9 +331,7 @@ class  Album extends  Controller {
 	 * @return	integer
 	 **/
 	function   _get_next_offset  ()  {
-		$max_offset = $this->Kpa->get_max_offset();
-
-		if ( $this->url_array['offset'] <= $max_offset)
+		if ( $this->url_array['offset'] <= $this->_get_max_offset())
 			return ($this->url_array['offset'] + 1);
 		else
 			return FALSE;

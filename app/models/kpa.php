@@ -449,23 +449,6 @@ class  Kpa extends  Model {
 
 
 
-	// ------------------------------------------------------------------------
-	/**
-	 * Get max offset
-	 *
-	 * Returns the largest possible valid offset (for thumbnails).
-	 *
-	 * @return	integer
-	 **/
-	function   get_max_offset  ()  {
-		$thumbs_per_page  = $this->config->item('thumbs_per_page');
-
-		$max_offset = sizeof ($this->kpa_filt['images']) - $thumbs_per_page + 1;
-
-		return $max_offset;
-		}  //  end-method  get_max_offset();
-
-
 
 	// ------------------------------------------------------------------------
 	/**

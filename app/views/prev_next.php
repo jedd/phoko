@@ -30,13 +30,13 @@
 
 
 if ($prev_image_url)
-	echo anchor ($prev_image_url, "PREV");
+	echo anchor ($prev_image_url ."/a", "PREV");
 else
 	echo "PREV";
 
 echo " (". $this_image_position ." / ". $total_number_of_images .") ";
 
 if ($next_image_url)
-	echo anchor ($next_image_url, "NEXT");
+	echo anchor ($next_image_url ."/a", "NEXT");
 else
 	echo "NEXT";

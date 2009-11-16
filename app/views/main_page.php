@@ -44,7 +44,7 @@
 		echo "<font class=\"various_headings\">Filtering on: </font>";
 		$fstring = array ();
 		foreach ($filters as $filter)
-			$fstring[] = anchor ($filter['url_minus_this_filter'], $filter['actual'], array ('title'=>'Remove this filter', 'class'=>'deletelink'));
+			$fstring[] = anchor ($filter['url_minus_this_filter'] ."/a", $filter['actual'], array ('title'=>'Remove this filter', 'class'=>'deletelink'));
 		echo implode (nbs(2) ."::". nbs(2) , $fstring);
 		echo "</div>"; // filters_box
 		echo "</div>"; // filters

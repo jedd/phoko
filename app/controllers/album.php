@@ -114,6 +114,10 @@ class  Album extends  Controller {
 		// Optimising means re-calculating the offset if it's unreasonable or we are /a/djusting
 		$this->_optimise_offset();
 
+		// Add 'url less this filter' key/val to the $url_array['filters'] array
+		// (couldn't do it earlier as it relies on having the rest of the URL parsed).
+		$this->_generate_remove_this_filter_keys();
+
 		// At this time, kpa->kpa_full and kpa->kpa_filt are both populated.  We'll
 		// always choose to show kpa_filt, but need to differentiate elsewhere.
 		$kpa_show = $this->Kpa->kpa_filt;
@@ -266,22 +270,40 @@ class  Album extends  Controller {
 	 **/
 	function   _optimise_offset  ()  {
 		$optimise_the_offset = FALSE;
-		$segs  = $this->uri->segment_array();
-		$seg_x = 3;		// We start at segment(3)
+		$adust_url_flag_present = FALSE;
+		$is_current_image_id_not_shown_in_thumbnails = TRUE;
 
+		$thumbs_per_page  = $this->config->item('thumbs_per_page');
+		$image_position = $this->Kpa->get_position_number($this->url_array['image_id']);
+
+		$segs  = $this->uri->segment_array();
+		$seg_x = 3;
 		while ( isset($segs[$seg_x]) )  {
 			$segment = $segs[$seg_x];
 			if ($segment[0] == 'a')
-				$optimise_the_offset = TRUE;
+				$adust_url_flag_present = TRUE;
 			$seg_x++;
 			}
 
+		// This will catch those /next/prev/ buttons that default to having /a
+		// appended - we really only want to respect that if the image we're
+		// showing IS NOT going to be visible in the thumbs too.
+		$leftmost_thumb  = $this->url_array['offset'];
+		$rightmost_thumb = $this->url_array['offset'] + $thumbs_per_page;
+		if (($image_position >= $leftmost_thumb) AND ($image_position <= $rightmost_thumb) ) {
+			$is_current_image_id_not_shown_in_thumbnails = FALSE;
+			}
+
+		if ($is_current_image_id_not_shown_in_thumbnails AND $adust_url_flag_present)
+			$optimise_the_offset = TRUE;
+
+		// And if we're clearly out of bounds ...
 		$max_offset = $this->_get_max_offset();
 		if ($this->url_array['offset'] > $max_offset)
 			$optimise_the_offset = TRUE;
 
 		if ($optimise_the_offset)
-			$this->url_array['offset'] = $this->Kpa->get_position_number($this->url_array['image_id']);
+			$this->url_array['offset'] = $image_position;
 
 		}  // end-method  _optimise_offset ()
 
@@ -336,10 +358,6 @@ class  Album extends  Controller {
 		else
 			return FALSE;
 		}  // end-method  _get_next_offset ()
-
-
-
-
 
 
 
@@ -409,7 +427,6 @@ class  Album extends  Controller {
 				$farray[] = array (
 							"actual" => urldecode (substr($segment, 2)),		// eg 'foo bar'
 							"urlencoded" => substr($segment, 2),				// eg 'foo_bar'
-							"url_minus_this_filter" => $this->_create_url_minus_this_segment($segs, $segment),
 							"category" => $filter_category,						// eg 'Keywords'
 							);
 				}
@@ -470,23 +487,27 @@ class  Album extends  Controller {
 
 	// ------------------------------------------------------------------------
 	/**
-	 * Create URL minus this segment
+	 * Generate a 'remove this filter' value for all filters
 	 *
-	 * Takes a full segment dump, and removes segment in question, and
-	 * returns the segment dump back.  Hopefully a one or two liner,
-	 * that we can relocate into the _parse_url() function - but might
-	 * need more smarts, and might be used elsewhere.
+	 * Update url_array['filters'] with 'url_minus_this_filter' key
 	 *
-	 * @param	array	$segs		A full uri->segment_array()
-	 * @param	string	$segment	The segment we want to remove
-	 * @return	array
 	 */
-	function  _create_url_minus_this_segment ($segs, $segment)  {
-		$newuri = "";
-		foreach ($segs as $seg)
-			if ($seg != $segment)
-				$newuri .= $seg ."/";
-		return $newuri;
+	function  _generate_remove_this_filter_keys ( )  {
+		$segs = $this->uri->segment_array();
+		$category_abbreviations = $this->config->item('category_abbreviations');
+
+		$new_url = $segs[1] ."/". $segs[2] ;
+		$new_url .= "/i". $this->url_array['image_id'];
+		$new_url .= "/o". $this->url_array['offset'];
+
+		$x = 0;
+		while (isset ($this->url_array['filters'][$x])) {
+			$category = $this->url_array['filters'][$x]['category'];
+			$category_code = $category_abbreviations[$category];
+			$this->url_array['filters'][$x]['url_minus_this_filter'] = $new_url . "/f". $category_code . $this->url_array['filters'][$x]['urlencoded'];
+			$x++;
+			}
+
 		}  //  end-method  _create_url_minus_this_segment ()
 
 

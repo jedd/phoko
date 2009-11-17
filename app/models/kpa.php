@@ -581,6 +581,9 @@ class  Kpa extends  Model {
 		// Third - we generate the new cache file
 		$this->image_lib->clear();
 		$image_config['new_image'] = $tmp_file_name;
+		$image_config['image_library'] = 'ImageMagick';
+		// $image_config['library_path'] = '/usr/lib/php5/20060613+lfs/';
+		$image_config['library_path'] = '/usr/bin';
 		$image_config['source_image'] = $original_file;
 		$image_config['width'] = $image_sizes[$image_type]['x'];
 		$image_config['height'] = $image_sizes[$image_type]['y'];

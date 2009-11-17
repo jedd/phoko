@@ -364,10 +364,11 @@ class  Album extends  Controller {
 	 * @return	integer
 	 **/
 	function   _get_next_offset  ()  {
-		if ( $this->url_array['offset'] <= $this->_get_max_offset())
+		$max_offset = $this->_get_max_offset();
+		if ( $this->url_array['offset'] < $max_offset)
 			return ($this->url_array['offset'] + 1);
 		else
-			return FALSE;
+			return $max_offset;
 		}  // end-method  _get_next_offset ()
 
 
@@ -442,6 +443,8 @@ class  Album extends  Controller {
 		if (! $offset)  {
 			// Determine sanity of offset setting ...
 			$total_number_of_images_in_set = $this->Kpa->generate_kpa_filt ($this->url_array['filters']);
+			$thumbs_per_page = $this->config->item('thumbs_per_page');
+
 
 			if ($offset > ($total_number_of_images_in_set  - $thumbs_per_page + 1))
 				$offset = 1;
@@ -477,7 +480,7 @@ class  Album extends  Controller {
 				/// @todo do we cull > 5 filters here, elsewhere, or allow infinite filters?
 				$filter_category = array_search ($segment[1], $category_abbreviations);
 				$farray[] = array (
-							"actual" => urldecode (substr($segment, 2)),		// eg 'foo bar'
+							"actual" => rawurldecode (substr($segment, 2)),		// eg 'foo bar'
 							"urlencoded" => substr($segment, 2),				// eg 'foo_bar'
 							"category" => $filter_category,						// eg 'Keywords'
 							);
@@ -553,6 +556,7 @@ class  Album extends  Controller {
 		$new_url .= "/o". $this->url_array['offset'];
 
 		$x = 0;
+		$copy_of_filters = $this->url_array['filters'];
 		while (isset ($this->url_array['filters'][$x])) {
 			$category = $this->url_array['filters'][$x]['category'];
 			$category_code = $category_abbreviations[$category];

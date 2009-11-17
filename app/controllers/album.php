@@ -139,19 +139,27 @@ class  Album extends  Controller {
 		$id     = $this->url_array['image_id'];
 		$offset = $this->url_array['offset'];
 
+
 		// The prev-next buttons (left)
 		$prev_image_id = $this->Kpa->get_prev_image_id ($id);
 		$next_image_id = $this->Kpa->get_next_image_id ($id);
 
 		$prev_offset = $this->_get_prev_offset ();
 		$next_offset = $this->_get_next_offset ();
-
 		$prev_next_data['prev_image_url'] = ($prev_image_id) ? $this->_create_url_with_new_image_id ($prev_image_id , $prev_offset) : FALSE;
 		$prev_next_data['next_image_url'] = ($next_image_id) ? $this->_create_url_with_new_image_id ($next_image_id , $next_offset) : FALSE;
+
+		// The 'next {thumbs per page}' buttons - only need the offset to change.
+		$prev_offset_by_page = $this->_get_prev_offset_by_page ();
+		$next_offset_by_page = $this->_get_next_offset_by_page ();
+		$prev_next_data['prev_offset_by_page_url'] = ($prev_offset_by_page) ? $this->_create_url_with_new_image_id ($id , $prev_offset_by_page) : FALSE;
+		$prev_next_data['next_offset_by_page_url'] = ($next_offset_by_page) ? $this->_create_url_with_new_image_id ($id , $next_offset_by_page) : FALSE;
+
 
 		$prev_next_data['this_image_position'] = $this->Kpa->get_position_number ($id);
 		$prev_next_data['total_number_of_images'] = $total_number_of_images_in_set;
 		$this->data['prev_next_view'] = $this->load->view("prev_next", $prev_next_data, TRUE);
+
 
 		// The image-info window (left)
 		$current_image_info['id'] = $id;
@@ -159,17 +167,20 @@ class  Album extends  Controller {
 		$current_image_info['url_array'] = $this->url_array;
 		$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
 
+
 		// The main picture window (middle)
 		$image_repository = $this->config->item('repository');
 		$image_original_file_name = $image_repository . $kpa_show['images'][$id]['file'];
 		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $kpa_show['images'][$id], $image_type = 'medium' );
 		$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 
+
 		// The thumbnail view (top)
 		$this->Kpa->select_thumbs( $offset );
 		$thumb_view_data['current_image_id'] = $id;
 		$thumb_view_data['thumbs'] = $this->Kpa->thumbs;
 		$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
+
 
 		// Load the primary view
 		$this->load->view ("main_page", $this->data);
@@ -363,6 +374,48 @@ class  Album extends  Controller {
 
 	// ------------------------------------------------------------------------
 	/**
+	 * Get prev offset by page (thumbs-per-page)
+	 *
+	 * Returns an integer, somewhere betweeen 1 and ( sizeof($kpa_filt) - $thumbs_to_show)
+	 *
+	 * @return	integer
+	 **/
+	function   _get_prev_offset_by_page  ()  {
+		$thumbs_per_page = $this->config->item('thumbs_per_page');
+
+		if ($this->url_array['offset'] > $thumbs_per_page)
+			return ( $this->url_array['offset'] - $thumbs_per_page);
+		else
+			return 1;
+
+		} // end-method  _get_prev_offset_by_page ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get next offset by page (thumbs-per-page)
+	 *
+	 * Returns an integer, somewhere betweeen 1 and ( sizeof($kpa_filt) - $thumbs_to_show)
+	 *
+	 * @return	integer
+	 **/
+	function   _get_next_offset_by_page  ()  {
+		$thumbs_per_page = $this->config->item('thumbs_per_page');
+		$max_offset      = $this->_get_max_offset();
+
+		if ($this->url_array['offset']  <  ($max_offset - $thumbs_per_page))
+			return ($this->url_array['offset'] + $thumbs_per_page);
+		else
+			return $max_offset;
+
+		}  // end-method  _get_next_offset_by_page ()
+
+
+
+
+	// ------------------------------------------------------------------------
+	/**
 	 * Extract offset from URL
 	 *
 	 * Pull the /o... entry from the URL we arrived with, or assume '1' if
@@ -388,7 +441,6 @@ class  Album extends  Controller {
 
 		if (! $offset)  {
 			// Determine sanity of offset setting ...
-			$thumbs_per_page = $this->config->item('thumbs_per_page');
 			$total_number_of_images_in_set = $this->Kpa->generate_kpa_filt ($this->url_array['filters']);
 
 			if ($offset > ($total_number_of_images_in_set  - $thumbs_per_page + 1))
@@ -551,6 +603,8 @@ class  Album extends  Controller {
 
 		return $new_url;
 		}  // end-method  _create_url_with_new_image_id  ()
+
+
 
 
 

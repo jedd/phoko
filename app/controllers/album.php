@@ -551,16 +551,30 @@ class  Album extends  Controller {
 		$segs = $this->uri->segment_array();
 		$category_abbreviations = $this->config->item('category_abbreviations');
 
-		$new_url = $segs[1] ."/". $segs[2] ;
-		$new_url .= "/i". $this->url_array['image_id'];
-		$new_url .= "/o". $this->url_array['offset'];
+		$base_url = $segs[1] ."/". $segs[2] ;
+		$base_url .= "/i". $this->url_array['image_id'];
+		$base_url .= "/o". $this->url_array['offset'];
+
+		// Okay - loosely, we take a copy of the set of filters, and do a loop
+		// within a loop - the outer loop is where we generate the 'url minus
+		// this particular filter'.  The inner loop runs through each filter,
+		// comparing it to the current outer-loop filter - if it's not a match
+		// then we keep it in the new URL we're generating (in other words, if
+		// they match, quietly drop it from the URL). Inside the outer loop we
+		// then assign this new URL to the ['url_minus_this_filter'] key.
 
 		$x = 0;
 		$copy_of_filters = $this->url_array['filters'];
 		while (isset ($this->url_array['filters'][$x])) {
-			$category = $this->url_array['filters'][$x]['category'];
-			$category_code = $category_abbreviations[$category];
-			$this->url_array['filters'][$x]['url_minus_this_filter'] = $new_url . "/f". $category_code . $this->url_array['filters'][$x]['urlencoded'];
+			$this_filter_urlencoded = $this->url_array['filters'][$x]['urlencoded'];
+			$new_url = "";
+			foreach ($copy_of_filters as $copy_filter)  {
+				$category = $copy_filter['category'];
+				$category_code = $category_abbreviations[$category];
+				if ($this_filter_urlencoded != $copy_filter['urlencoded'])
+					$new_url .= "/f". $category_code . $copy_filter['urlencoded'];
+				}
+			$this->url_array['filters'][$x]['url_minus_this_filter'] = $base_url . $new_url;
 			$x++;
 			}
 

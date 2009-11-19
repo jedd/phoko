@@ -43,15 +43,26 @@ $category_abbreviations = $this->config->item('category_abbreviations');
 if (isset ($image['tags']))  {
 	echo "<ul class=\"image_tags_headings\">\n";
 	foreach ($image['tags'] as $category => $tags)  {
+		/// @todo work out a better place to put this
+		/// This is truly ugly, I know, but the underscore is used in space-embedded
+		/// category keys (eg. The_Farm) however it is NOT replaced consistently in
+		/// KPA's XML, and consequently we have to deal with it somewhere.  This will
+		/// in turn obviously break any underscores legitimately contained in category
+		/// keys - but OTOH this code will more likely continue to act sanely if/when
+		/// KPA fixes up its current inconsistency with handling embedded spaces.
+		$category = str_replace ("_", " ", $category);
+
 		echo "<li>\n";
 		echo "<font class=\"various_headings\">". $category .": </font>\n";
 		echo "</li>\n";
 		echo "<ul class=\"image_tags\">\n";
+
+		// Under each category (eg. 'Persons') we have a line for each tag (eg. 'jedd')
 		foreach ($tags as $tag)  {
 			echo "<li>\n";
 			/// @todo later we can also disable linking a tag if we've reached X filter count
 			// The 2nd half of the OR is only ever evaluated IF we have filters
-			if ( (($url_array['filters_actual'])) AND (! in_array ($tag, $url_array['filters_actual'])) )  {
+			if ( ( isset ($url_array['filters_actual'])) AND (! in_array ($tag, $url_array['filters_actual'])) )  {
 				$url_with_this_as_new_filter = current_url() ."/f". $category_abbreviations[$category] . rawurlencode ($tag);
 				echo anchor ($url_with_this_as_new_filter , $tag, array ('title'=>'Add this as a filter')) . "\n";
 				}

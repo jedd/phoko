@@ -179,6 +179,9 @@ class  Album extends  Controller {
 		$this->Kpa->select_thumbs( $offset );
 		$thumb_view_data['current_image_id'] = $id;
 		$thumb_view_data['thumbs'] = $this->Kpa->thumbs;
+		$thumb_view_data['max_offset'] = $this->_get_max_offset();
+		$thumb_view_data['current_offset'] = $this->url_array['offset'];
+		$thumb_view_data['url_sans_offset'] = $this->_create_url_with_no_offset();
 		$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
 
 
@@ -618,6 +621,37 @@ class  Album extends  Controller {
 			$new_url .= "/o" . $new_offset;
 		else
 			$new_url .= "/o" . $this->url_array['offset'];
+
+		return $new_url;
+		}  // end-method  _create_url_with_new_image_id  ()
+
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Create URL with no offset value
+	 *
+	 * Generates a full current URL but without any /o offset value at all.  We
+	 * need this for the jquery-ui SLIDER that we use in the thumbnail section,
+	 * as we add the /o bit in there dynamically.
+	 *
+	 * @return	string
+	 */
+	function  _create_url_with_no_offset  ( )  {
+		$segs    = $this->uri->segment_array();
+		$new_url = $segs[1] ."/". $segs[2];
+
+		$new_url .= "/i" . $this->url_array['image_id'];
+
+		// Filters
+		if ($this->url_array['filters'])  {
+			$category_abbreviations = $this->config->item('category_abbreviations');
+			foreach ($this->url_array['filters'] as $filter)  {
+				$category = $filter['category'];
+				$new_url .= "/f" . $category_abbreviations[$category] . $filter['urlencoded'];
+				}
+			}
 
 		return $new_url;
 		}  // end-method  _create_url_with_new_image_id  ()

@@ -51,3 +51,38 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 
 	echo nbs(1);
 	}
+
+
+	// Now the slider bar for quickly shifting around the thumbnail collection
+?>
+<style type="text/css">
+	#demo-frame > div.demo { padding: 10px !important; };
+</style>
+
+<script type="text/javascript">
+	$( function() {
+		$("#slider").slider({
+			// o1 is left-most slider position
+			min: 1,
+
+			// o$max_offset is the largest slider position we'll offer
+			max: <?php echo $max_offset; ?>,
+
+			// current slider position determined by current /o value
+			value: <?php echo $current_offset; ?>,
+
+			stop: function (ev, ui) {
+				// This is reasonably straightforward - 'stop' means when the user
+				// lets go of the slider.  We grab the new value of the slider at
+				// that time, and generate the new URL we want, and then simply
+				// launch to that new location.  Easy, huh?
+				var newvalue = $("#slider").slider('value');
+				var newurl = "<?php echo site_url() . $url_sans_offset ."/o"; ?>" + newvalue;
+				self.location = newurl;
+				}
+			});
+		} );
+</script>
+
+<div id="slider" title="Drag and release to move around the thumbnails.">
+</div>

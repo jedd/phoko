@@ -359,8 +359,14 @@ class  Kpa extends  Model {
 	 **/
 	function   create_date_stamp_array() {
 		$date_array = array();
+
+		// Javascript starts at 0, like PHP, but our /o image offset starts at 1,
+		// so we need a dummy entry here as a place filler.
+		// $date_array[] = "0000-00-00";
+
+		// We only want the date portion - yyyy-mm-dd (10 chars)
 		foreach ($this->kpa_filt['images'] as $image )
-			$date_array[] = $image['startDate'];
+			$date_array[] = '"'. substr ($image['startDate'] , 0, 10) .'"';
 
 		$return_value = implode (", ", $date_array);
 

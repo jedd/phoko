@@ -71,15 +71,30 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 			// current slider position determined by current /o value
 			value: <?php echo $current_offset; ?>,
 
+			// This is reasonably straightforward - 'stop' means when the user
+			// lets go of the slider.  We grab the new value of the slider at
+			// that time, and generate the new URL we want, and then simply
+			// launch to that new location.  Easy, huh?
 			stop: function (ev, ui) {
-				// This is reasonably straightforward - 'stop' means when the user
-				// lets go of the slider.  We grab the new value of the slider at
-				// that time, and generate the new URL we want, and then simply
-				// launch to that new location.  Easy, huh?
 				var newvalue = $("#slider").slider('value');
 				var newurl = "<?php echo site_url() . $url_sans_offset ."/o"; ?>" + newvalue;
 				self.location = newurl;
+				},
+
+			// We want the slider's ALT tag to be modified with the DATE
+			// of the image that it corresponds to - this might get messy.
+			// We have $every_date_stamp - a comma separated list from PHP,
+			// that we assign to an array, and then just index[] into that.
+			slide: function (ev, ui) {
+				var datestamp_array = Array ( <?php echo $every_date_stamp; ?> );
+				$("#slider")
+				// self.alert ('hi there');
+				var newvalue = $("#slider").slider('value');
+				$("#slider").attr({  title: datestamp_array[newvalue] } );
+
+
 				}
+
 			});
 		} );
 </script>

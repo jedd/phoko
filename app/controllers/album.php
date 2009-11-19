@@ -182,6 +182,7 @@ class  Album extends  Controller {
 		$thumb_view_data['max_offset'] = $this->_get_max_offset();
 		$thumb_view_data['current_offset'] = $this->url_array['offset'];
 		$thumb_view_data['url_sans_offset'] = $this->_create_url_with_no_offset();
+		$thumb_view_data['every_date_stamp'] = $this->Kpa->create_date_stamp_array();
 		$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
 
 

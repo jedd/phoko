@@ -348,6 +348,27 @@ class  Kpa extends  Model {
 		}  // end-method  select_thumbs ()
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Create date-stamp array (of $kpa_filt)
+	 *
+	 * Returns an array for later use by a javascript function,
+	 * so we just want ("1999-01-05", "2000-04-30" ...) string.
+	 *
+	 * @return	integer
+	 **/
+	function   create_date_stamp_array() {
+		$date_array = array();
+		foreach ($this->kpa_filt['images'] as $image )
+			$date_array[] = $image['startDate'];
+
+		$return_value = implode (", ", $date_array);
+
+		return $return_value;
+		}  // end-method  create_date_stamp_array ()
+
+
+
 
 
 

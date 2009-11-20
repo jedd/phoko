@@ -28,20 +28,24 @@
 
 // ------------------------------------------------------------------------
 
-if ($prev_offset_by_page_url)
-	echo anchor ($prev_offset_by_page_url , "<|") . nbs(4);
+// if ($prev_offset_by_page_url)
+// 	echo anchor ($prev_offset_by_page_url , "<|") . nbs(4);
 
 if ($prev_image_url)
-	echo anchor ($prev_image_url ."/a", "PREV");
+	echo anchor ($prev_image_url ."/a", "&lt;prev");
 else
-	echo "PREV";
+	echo "&lt;prev";
+
+echo nbs(2);
 
 echo " (". $this_image_position ." <font size=\"-2\">of</font> ". $total_number_of_images .") ";
 
-if ($next_image_url)
-	echo anchor ($next_image_url ."/a", "NEXT");
-else
-	echo "NEXT";
+echo nbs(2);
 
-if ($next_offset_by_page_url)
-	echo nbs(4) . anchor ($next_offset_by_page_url , "|>");
+if ($next_image_url)
+	echo anchor ($next_image_url ."/a", "next&gt;");
+else
+	echo "next&gt;";
+
+// if ($next_offset_by_page_url)
+// 	echo nbs(4) . anchor ($next_offset_by_page_url , "|>");

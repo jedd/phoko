@@ -152,8 +152,9 @@ class  Album extends  Controller {
 		// The 'next {thumbs per page}' buttons - only need the offset to change.
 		$prev_offset_by_page = $this->_get_prev_offset_by_page ();
 		$next_offset_by_page = $this->_get_next_offset_by_page ();
-		$prev_next_data['prev_offset_by_page_url'] = ($prev_offset_by_page) ? $this->_create_url_with_new_image_id ($id , $prev_offset_by_page) : FALSE;
-		$prev_next_data['next_offset_by_page_url'] = ($next_offset_by_page) ? $this->_create_url_with_new_image_id ($id , $next_offset_by_page) : FALSE;
+		// The next/prev page jump links are probably confusing and redundant, after the slider has been implemented.
+		// $prev_next_data['prev_offset_by_page_url'] = ($prev_offset_by_page) ? $this->_create_url_with_new_image_id ($id , $prev_offset_by_page) : FALSE;
+		// $prev_next_data['next_offset_by_page_url'] = ($next_offset_by_page) ? $this->_create_url_with_new_image_id ($id , $next_offset_by_page) : FALSE;
 
 
 		$prev_next_data['this_image_position'] = $this->Kpa->get_position_number ($id);

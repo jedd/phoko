@@ -181,6 +181,6 @@ A.img_thumb:hover  {
 	background-color: #eee;
 	padding: 10px;
 	opacity: 0.85;
-	font-size: 120%;
+	font-size: 100%;
 }
 #tooltip h3, #tooltip div { margin: 0; }

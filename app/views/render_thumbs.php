@@ -65,15 +65,15 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 	var datestamp_array = Array ( <?php echo $every_date_stamp; ?> );
 
 	$( function() {
-				$("#slider").tooltip ({
-					delay: 0,
-					track: true,
-					// id: 'tooltip',
-					showURL: false,
-					bodyHandler: function() {
-						return datestamp_array[ui.value];
-						}
-					});
+
+		$("#slider").tooltip ({
+			delay: 0,
+			track: true,
+			showURL: false,
+			// bodyHandler: function() {
+			// return datestamp_array[ui.value];
+			// }
+			});
 
 		$("#slider").slider({
 			// o1 is left-most slider position
@@ -106,6 +106,7 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 				// $("#slider").attr({  title: datestamp_array[current_value] } );
 
 				// The tooltip approach
+				 $("#tooltip").html(datestamp_array[ui.value]);
 				}
 			});
 		} );

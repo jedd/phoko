@@ -353,7 +353,8 @@ class  Kpa extends  Model {
 	 * Create date-stamp array (of $kpa_filt)
 	 *
 	 * Returns an array for later use by a javascript function,
-	 * so we just want ("1999-01-05", "2000-04-30" ...) string.
+	 * so we want an array of strings that look like this:
+	 * ("1999-01-05<br />Spain", "2000-04-30<br />Chiang Mai",  ...).
 	 *
 	 * @return	integer
 	 **/
@@ -364,9 +365,21 @@ class  Kpa extends  Model {
 		// so we need a dummy entry here as a place filler.
 		$date_array[] = "0000-00-00";
 
-		// We only want the date portion - yyyy-mm-dd (10 chars)
-		foreach ($this->kpa_filt['images'] as $image )
-			$date_array[] = '"'. substr ($image['startDate'] , 0, 10) .'"';
+		foreach ($this->kpa_filt['images'] as $image )  {
+			// Grab date portion - yyyy-mm-dd (10 chars)
+			$image_date = substr ($image['startDate'] , 0, 10);
+
+			// Identify first location (if it exists)
+			/// @todo get parent (country) location if it exists)
+			/// @todo alternatively get this information into kpa_f* at read-xml time
+			if (isset ($image['tags']['Locations'][0]))
+				$image_location = $image['tags']['Locations'][0];
+			else
+				$image_location = 'Somewhere';
+
+			// Concat date . <br> . location
+			$date_array[] = '"'. $image_date ."<br />". $image_location .'"';
+			}
 
 		$return_value = implode (", ", $date_array);
 

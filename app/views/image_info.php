@@ -62,7 +62,7 @@ if (isset ($image['tags']))  {
 			echo "<li>\n";
 			/// @todo later we can also disable linking a tag if we've reached X filter count
 			// The 2nd half of the OR is only ever evaluated IF we have filters
-			if ( ( isset ($url_array['filters_actual'])) AND (! in_array ($tag, $url_array['filters_actual'])) )  {
+			if ( ( isset ($url_array['filters_actual'])) AND (is_array($url_array['filters_actual'])) AND (! in_array ($tag, $url_array['filters_actual'])) )  {
 				$url_with_this_as_new_filter = current_url() ."/f". $category_abbreviations[$category] . rawurlencode ($tag);
 				echo anchor ($url_with_this_as_new_filter , $tag, array ('title'=>'Add this as a filter')) . "\n";
 				}

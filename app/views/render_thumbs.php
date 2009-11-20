@@ -37,7 +37,8 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 	$image_properties = array(
 						'src' => $thumb['file_name'],
 						'alt' => $thumb['description'],
-						'height' => '70px',
+						/// @todo get height into the CSS so we can create a netbook theme
+						'height' => '50px',
 						'title' => $thumb['description'],
 						'border' => '0'
 						);

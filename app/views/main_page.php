@@ -41,7 +41,7 @@
 
 <?php
 	/// @todo shift this into a view partial
-	if ($filters)  {
+	if ( (isset ($filters)) AND ($filters))  {
 		echo "<div id=\"filters\">";
 		echo "<div id=\"filters_box\" class=\"newClass ui-corner-all\">";
 		echo "<font class=\"various_headings\">Filtering on: </font>";
@@ -60,11 +60,13 @@
 			echo $content['left'];
 	?>
 
-<div id="prev_next_box" class="newClass ui-corner-all">
-	<?php
+<?php
+	if (isset($prev_next_view))  {
+		echo "<div id=\"prev_next_box\" class=\"newClass ui-corner-all\">\n";
 		echo $prev_next_view;
-	?>
-</div>  <!-- /prev_next_buttons -->
+		echo "</div>";  //prev_next_buttons
+		}
+?>
 
 <script type="text/javascript">
 $(function() {
@@ -100,7 +102,11 @@ $(function() {
 <div id="main">
 	<div id="main_box" class="newClass ui-corner-all">
 		<?php
-			echo $content['image_proper'];
+			if (isset ($content['image_proper']))
+				echo $content['image_proper'];
+			// It's unlikely we'll ever have image_proper AND the cache created 'main'
+			if (isset ($content['main']))
+				echo $content['main'];
 		?>
 	</div>  <!-- /main_box -->
 </div> <!-- /main -->

@@ -206,13 +206,19 @@ class  Album extends  Controller {
 	 * @param	unknown		but we'll definitely want a couple .. tidy/edit/?
 	 * @return	integer
 	 **/
-	function  cache ( )  {
+	function  cache ( $action = FALSE , $file_type = FALSE )  {
 		// Default (absent any parameters) will be to show cache stats.
+
+		if ($action == "create")
+			$this->_cache_create_items ($file_type);
+
+		if ($action == "delete")
+			$this->_cache_delete_items ($file_type);
 
 		// Prepare the view partials
 		$this->data['title'] = "Cache Management";
 		$this->data['footer_links'] = array ('Main gallery' => '/album/gallery');
-		$this->data['content']['top'] = "Cache management.<br />Use the <b>Main Gallery</b> link bottom right to return to the gallery.";
+		$this->data['content']['top'] = "Use the <b>Main Gallery</b> link bottom right to return to the gallery.";
 
 		$cache_view['cache_file_list'] = $this->Kpa->cache_get_list_of_files();
 		$kpa_full = $this->Kpa->get_pictures();
@@ -232,6 +238,45 @@ class  Album extends  Controller {
 		// assuming renames are atomic (which is a fairly safe bet)
 
 		}  // end-method  cache ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Cache create items
+	 *
+	 * Generates cache entries by converting image files into the
+	 * various categoried .. cache images.
+	 *
+	 * There's no elegant way to tell if we've run out of time on
+	 * a PHP instance, so we just power on and let the user work it
+	 * out on a subsequent reload of the page.  Best we can do.  We
+	 * try to protect the user from half-created cache files by
+	 * generating a new file with a temporary name, and then copying
+	 * it into place as the final act - this should afford some degree
+	 * of safety from cruft.  Subsequent attempts to create a cache
+	 * file only check for the presence of the cache file proper, not
+	 * the temporary file - so clashes should be minimal.
+	 *
+	 * @param	string		$file_type	Type of cache (small, medium, large)
+	 **/
+	function  _cache_create_items ($file_type)  {
+		return;
+		}  // end-method _cache_create_items ()
+
+
+
+	/**
+	 * Cache delete items
+	 *
+	 * Deletes extraneous entries in the cache directories.
+	 *
+	 * @param	string		$file_type	Type of cache (small, medium, large)
+	 **/
+	function  _cache_delete_items ($file_type)  {
+		return;
+		}  // end-method _cache_delete_items ()
+
 
 
 

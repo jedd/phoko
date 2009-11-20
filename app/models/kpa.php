@@ -544,7 +544,7 @@ class  Kpa extends  Model {
 		if ($type == "all")  {
 			$return_array = array();
 			foreach ($image_sizes as $size => $foo)
-				$return_array[$size] = $this->get_list_of_cache_files($size);
+				$return_array[$size] = $this->cache_get_list_of_files($size);
 			return $return_array;
 			}
 		else  {

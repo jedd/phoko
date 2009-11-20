@@ -62,6 +62,10 @@ We have a total of <?php echo $stats['kpa']['total']; ?> images being published.
 			foreach ($sizes as $size)  {
 				echo "\n<td>\n";
 				echo $stats[$size][$item];
+				if (($item == "missing_count") AND ($stats[$size][$item] > 0))
+					echo "<br >". anchor ("/album/cache/create/". $size , "Create");
+				if (($item == "extraneous_count") AND ($stats[$size][$item] > 0))
+					echo "<br >". anchor ("/album/cache/delete/". $size , "Delete");
 				echo "\n</td>\n";
 				}
 			echo "\n</tr>\n";

@@ -81,14 +81,22 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 				self.location = newurl;
 				},
 
-			// We want the slider's ALT tag to be modified with the DATE
-			// of the image that it corresponds to - this might get messy.
+			// We can use either the TITLE tag, or the tooltip.js plugin for jquery,
+			// to show the date of the slider's current position.  The TITLE tag
+			// seems lethargic during updates, unfortunately, hence we're using
+			// the tooltip approach instead (the author of this plugin is porting
+			// to jquery-ui apparently).
+			//
 			// We have $every_date_stamp - a comma separated list from PHP,
 			// that we assign to an array, and then just index[] into that.
 			slide: function (ev, ui) {
 				var datestamp_array = Array ( <?php echo $every_date_stamp; ?> );
+
+				// The title="..." approach
 				// var current_value = ui.value;
 				// $("#slider").attr({  title: datestamp_array[current_value] } );
+
+				// The tooltip approach
 				$("#slider").tooltip ({
 					delay: 0,
 					track: true,

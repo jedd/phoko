@@ -362,7 +362,7 @@ class  Kpa extends  Model {
 
 		// Javascript starts at 0, like PHP, but our /o image offset starts at 1,
 		// so we need a dummy entry here as a place filler.
-		// $date_array[] = "0000-00-00";
+		$date_array[] = "0000-00-00";
 
 		// We only want the date portion - yyyy-mm-dd (10 chars)
 		foreach ($this->kpa_filt['images'] as $image )

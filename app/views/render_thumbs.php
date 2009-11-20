@@ -52,20 +52,14 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 	echo nbs(1);
 	}
 
-
 	// Now the slider bar for quickly shifting around the thumbnail collection
 ?>
-<style type="text/css">
-	#demo-frame > div.demo { padding: 10px !important; };
-</style>
-
 <script type="text/javascript">
 	// We have $every_date_stamp - a comma separated list from PHP,
 	// that we assign to an array, and then just index[] into that.
 	var datestamp_array = Array ( <?php echo $every_date_stamp; ?> );
 
 	$( function() {
-
 		$("#slider").tooltip ({
 			delay: 0,
 			track: true,
@@ -109,7 +103,7 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 				 $("#tooltip").html(datestamp_array[ui.value]);
 				}
 			});
-		} );
+		});
 </script>
 
 <div id="slider" title="Drag and release to move around the thumbnails.">

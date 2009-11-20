@@ -87,8 +87,18 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 			// that we assign to an array, and then just index[] into that.
 			slide: function (ev, ui) {
 				var datestamp_array = Array ( <?php echo $every_date_stamp; ?> );
-				var current_value = ui.value;
-				$("#slider").attr({  title: datestamp_array[current_value] } );
+				// var current_value = ui.value;
+				// $("#slider").attr({  title: datestamp_array[current_value] } );
+				$("#slider").tooltip ({
+					delay: 0,
+					track: true,
+					// id: 'tooltip',
+					showURL: false,
+					bodyHandler: function() {
+						current_value = ui.value;
+						return datestamp_array[current_value];
+						}
+					});
 				}
 			});
 		} );

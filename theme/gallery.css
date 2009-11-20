@@ -170,3 +170,16 @@ A.img_thumb:visited  {
 A.img_thumb:hover  {
 	border: none;
 	}
+
+/* Tooltip is the jquery plugin to show dates on the TITLE tag of the slider
+ * - will likely relocate the themable aspects of this into the other stylesheets
+ */
+#tooltip {
+	position: absolute;
+	z-index: 3000;
+	border: 1px solid #111;
+	background-color: #eee;
+	padding: 5px;
+	opacity: 0.85;
+}
+#tooltip h3, #tooltip div { margin: 0; }

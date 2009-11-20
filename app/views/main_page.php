@@ -15,6 +15,9 @@
 	// Load the jquery library
 	echo "\n<script type=\"text/javascript\" src=\"". base_url() ."js/jquery-1.3.2.js\"></script>";
 
+	// Load any jquery plugins
+	echo "\n<script type=\"text/javascript\" src=\"". base_url() ."js/jquery.tooltip.js\"></script>";
+
 	// Load the jquery-UI library
 	echo "\n<script type=\"text/javascript\" src=\"". base_url() ."js/jquery-ui-1.7.2.custom.min.js\"></script>";
 

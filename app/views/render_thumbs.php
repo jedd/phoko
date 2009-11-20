@@ -99,12 +99,13 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 				// var current_value = ui.value;
 				// $("#slider").attr({  title: datestamp_array[current_value] } );
 
-				// The tooltip approach
-				 $("#tooltip").html(datestamp_array[ui.value]);
+				// The tooltip approach - h3 is the default css type from the
+				// tooltip author, so we'll go along with that here.
+				 $("#tooltip").html( "<h3>" + datestamp_array[ui.value] + "</h3>");
 				}
 			});
 		});
 </script>
 
-<div id="slider" title="Drag and release to move around the thumbnails.">
+<div id="slider" title="The slider of time">
 </div>

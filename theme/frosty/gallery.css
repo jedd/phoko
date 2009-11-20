@@ -112,3 +112,14 @@ A.img_thumb:hover  {
 	color: blue;
 	border-bottom: 2px solid;
 	}
+
+/* Tooltip is the jquery plugin to show dates on the TITLE tag of the slider.
+ * As usual, colours are set here, the rest is set in the primary gallery.css */
+#tooltip {
+	border: 4px solid #aaa;
+	background-color: #eee;
+	color: #555;
+	}
+
+#tooltip h3, #tooltip div  {
+	}

@@ -60,7 +60,21 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 </style>
 
 <script type="text/javascript">
+	// We have $every_date_stamp - a comma separated list from PHP,
+	// that we assign to an array, and then just index[] into that.
+	var datestamp_array = Array ( <?php echo $every_date_stamp; ?> );
+
 	$( function() {
+				$("#slider").tooltip ({
+					delay: 0,
+					track: true,
+					// id: 'tooltip',
+					showURL: false,
+					bodyHandler: function() {
+						return datestamp_array[ui.value];
+						}
+					});
+
 		$("#slider").slider({
 			// o1 is left-most slider position
 			min: 1,
@@ -86,27 +100,12 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 			// seems lethargic during updates, unfortunately, hence we're using
 			// the tooltip approach instead (the author of this plugin is porting
 			// to jquery-ui apparently).
-			//
-			// We have $every_date_stamp - a comma separated list from PHP,
-			// that we assign to an array, and then just index[] into that.
 			slide: function (ev, ui) {
-				var datestamp_array = Array ( <?php echo $every_date_stamp; ?> );
-
 				// The title="..." approach
 				// var current_value = ui.value;
 				// $("#slider").attr({  title: datestamp_array[current_value] } );
 
 				// The tooltip approach
-				$("#slider").tooltip ({
-					delay: 0,
-					track: true,
-					// id: 'tooltip',
-					showURL: false,
-					bodyHandler: function() {
-						current_value = ui.value;
-						return datestamp_array[current_value];
-						}
-					});
 				}
 			});
 		} );

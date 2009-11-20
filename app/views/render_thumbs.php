@@ -43,7 +43,7 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 						);
 
 	if ($current_image_id == $thumb_id)  {
-		$image_properties['border'] = "1";
+		$image_properties['border'] = "2";
 		}
 	echo img($image_properties);
 	if ($current_image_id != $thumb_id)
@@ -61,12 +61,9 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 
 	$( function() {
 		$("#slider").tooltip ({
-			delay: 0,
+			delay: 100,
 			track: true,
 			showURL: false,
-			// bodyHandler: function() {
-			// return datestamp_array[ui.value];
-			// }
 			});
 
 		$("#slider").slider({
@@ -95,10 +92,6 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 			// the tooltip approach instead (the author of this plugin is porting
 			// to jquery-ui apparently).
 			slide: function (ev, ui) {
-				// The title="..." approach
-				// var current_value = ui.value;
-				// $("#slider").attr({  title: datestamp_array[current_value] } );
-
 				// The tooltip approach - h3 is the default css type from the
 				// tooltip author, so we'll go along with that here.
 				 $("#tooltip").html( "<h3>" + datestamp_array[ui.value] + "</h3>");

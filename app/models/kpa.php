@@ -427,7 +427,7 @@ class  Kpa extends  Model {
 		$image_id_size = $this->config->item('image_id_size');
 
 		// Can't think of a better way of identifying the first in the array
-		foreach ($this->kpa_filt as $image_id => $foo)  {
+		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
 			break;
 			}
 

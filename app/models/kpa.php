@@ -567,6 +567,63 @@ class  Kpa extends  Model {
 
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Delete cache files
+	 *
+	 * Given a list of files and the file type (small, medium, large) this
+	 * function deletes those files.
+	 *
+	 * @param	string	$type			One of 'all', 'small', 'medium', 'large'
+	 * @param	array	$delete_files	Array of files to delete
+	 **/
+	function  delete_cache_files ( $file_type, $delete_files )  {
+		foreach ($delete_files as $file_to_delete)  {
+			$pathed_filename = "cache/". $file_type ."/". $file_to_delete .".jpg";
+
+			if (file_exists ($pathed_filename))
+				unlink ($pathed_filename);
+			}
+		} //  end-method  delete_cache_files ()
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Create cache files
+	 *
+	 * Given a list of files and the file type (small, medium, large) this
+	 * function creates those files.
+	 *
+	 * @param	string	$type			One of 'all', 'small', 'medium', 'large'
+	 * @param	array	$create_files	Array of files to create
+	 **/
+	function  create_cache_files ( $file_type, $create_files )  {
+
+		foreach ($create_files as $image_id_to_create)  {
+			$image_repository = $this->config->item('repository');
+
+			$image_info = $this->get_image_info ($image_id_to_create);
+
+			$pathed_original_filename = $image_repository . $image_info['file'];
+
+			$this->prepare_image ( $image_id_to_create , $pathed_original_filename , $image_info , $file_type );
+			}
+		} //  end-method  create_cache_files ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get image info
+	 *
+	 * Given an image_id - pull out the relevant sub-array from $kpa_full
+	 *
+	 * @param	string	$image_id
+	 **/
+	function  get_image_info  ( $image_id )  {
+		return  $this->kpa_full['images'][$image_id];
+		}  //  end-method  get_image_info ()
+
 
 
 	// ------------------------------------------------------------------------

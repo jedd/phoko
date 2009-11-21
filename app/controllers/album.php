@@ -299,7 +299,19 @@ class  Album extends  Controller {
 	 * @param	string		$file_type	Type of cache (small, medium, large)
 	 **/
 	function  _cache_create_items ($file_type)  {
-		return;
+		$kpa_full = $this->Kpa->get_pictures();
+		$kpa_images = $kpa_full['images'];
+
+		$file_images = $this->Kpa->cache_get_list_of_files();
+
+		$cache_differential  = $this->_compare_cache_with_kpa_db($file_images, $kpa_images);
+
+		$create_files = $cache_differential[$file_type]['missing'];
+
+		$this->Kpa->create_cache_files($file_type, $create_files);
+
+		redirect ('/album/cache/');
+
 		}  // end-method _cache_create_items ()
 
 
@@ -312,14 +324,19 @@ class  Album extends  Controller {
 	 * @param	string		$file_type	Type of cache (small, medium, large)
 	 **/
 	function  _cache_delete_items ($file_type)  {
-		echo $file_type;
 
-		$cache_file_list = $this->Kpa->cache_get_list_of_files();
-		$kpa_full = $this->Kpa->kpa_full;
-		$cache_differential = $this->_compare_cache_with_kpa_db($cache_file_list, $kpa_full);
+		$kpa_full = $this->Kpa->get_pictures();
+		$kpa_images = $kpa_full['images'];
 
-		dump ($cache_differential);
-		return;
+		$file_images = $this->Kpa->cache_get_list_of_files();
+
+		$cache_differential  = $this->_compare_cache_with_kpa_db($file_images, $kpa_images);
+
+		$delete_files = $cache_differential[$file_type]['extraneous'];
+
+		$this->Kpa->delete_cache_files($file_type, $delete_files);
+
+		redirect ('/album/cache/');
 		}  // end-method _cache_delete_items ()
 
 

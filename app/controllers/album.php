@@ -244,6 +244,72 @@ class  Album extends  Controller {
 
 	// ------------------------------------------------------------------------
 	/**
+	 *	One big one
+	 *
+	 *	For showing one large picture at a time - typically opened in a
+	 *  new window, and would then be closed by the user.
+	 *
+	 *  I entertained doing a pop-up jquery thing, but I really hate
+	 *  those types of interfaces, plus it conflicts with my 'totally
+	 *  portable URL' rule.
+	 *
+	 * @param	unknown		we'll have some soon, I'm sure.
+	 *
+	 **/
+	 function  onebigone ( $image_id = FALSE )  {
+	 	if (! $image_id)
+	 		redirect ('/album/gallery');
+
+
+		/// @todo this is currently duplicated from gallery() - work out how to
+		/// not have to do that - perhaps in the constructor?
+
+		// Load up the $kpa_full array with the images, tags, and member_groups
+		/// @todo - set this up as part of the model's constructor?
+		$this->Kpa->get_pictures();
+
+		// Extract FILTERS from URL - we need this before doing almost everything else.
+		$this->_extract_filters_from_url();
+
+		// Generate the FILTERED list (kpa_filt) of images to show
+		$total_number_of_images_in_set = $this->Kpa->generate_kpa_filt ($this->url_array['filters']);
+
+		// Extract OFFSET from URL
+		$this->_extract_offset_from_url();
+
+		// Extract the image_id from the URL (it gets saved at $this->url_array['image_id')
+		$this->_extract_image_id_from_url();
+
+		// Optimising means re-calculating the offset if it's unreasonable or we are /a/djusting
+		$this->_optimise_offset();
+
+		// Add 'url less this filter' key/val to the $url_array['filters'] array
+		// (couldn't do it earlier as it relies on having the rest of the URL parsed).
+		$this->_generate_remove_this_filter_keys();
+
+		// At this time, kpa->kpa_full and kpa->kpa_filt are both populated.  We'll
+		// always choose to show kpa_filt, but need to differentiate elsewhere.
+		$kpa_show = $this->Kpa->kpa_filt;
+
+
+
+
+
+		// Generate a big one
+		$image_repository = $this->config->item('repository');
+		$kpa_show = $this->Kpa->kpa_filt;
+		$image_original_file_name = $image_repository . $kpa_show['images'][$image_id]['file'];
+		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $image_id, $image_original_file_name, $kpa_show['images'][$image_id], $image_type = 'large' );
+		$this->data['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
+		$this->data['image_id'] = $image_id;
+		$this->load->view ('one_big_one', $this->data);
+	 	}  // end-method  onebigone ()
+
+
+
+
+	// ------------------------------------------------------------------------
+	/**
 	 * Settings
 	 *
 	 * Offers ways to change user settings - typically pushes something into

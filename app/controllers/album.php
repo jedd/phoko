@@ -517,15 +517,15 @@ class  Album extends  Controller {
 			$seg_x++;
 			}
 
-		if (! $offset)  {
-			// Determine sanity of offset setting ...
-			$total_number_of_images_in_set = $this->Kpa->generate_kpa_filt ($this->url_array['filters']);
-			$thumbs_per_page = $this->config->item('thumbs_per_page');
+		// If the offset is just too big
+		$total_number_of_images_in_set = $this->Kpa->generate_kpa_filt ($this->url_array['filters']);
+		$thumbs_per_page = $this->config->item('thumbs_per_page');
+		if ($offset > ($total_number_of_images_in_set  - $thumbs_per_page + 1))
+			$offset = 1;
 
-
-			if ($offset > ($total_number_of_images_in_set  - $thumbs_per_page + 1))
-				$offset = 1;
-			}
+		// If it's just /o without a number, etc.
+		if (! is_numeric ($offset))
+			$offset = 1;
 
 		$this->url_array['offset'] = $offset;
 		}

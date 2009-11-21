@@ -35,7 +35,7 @@ $image_properties = array(
            // 'class' => 'post_images',
            'width' => '100%',
            // 'height' => '200',
-           'title' => 'something else here',
+           'title' => 'something here',
            // 'rel' => 'lightbox',
  );
 

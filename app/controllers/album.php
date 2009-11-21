@@ -173,6 +173,7 @@ class  Album extends  Controller {
 		$image_repository = $this->config->item('repository');
 		$image_original_file_name = $image_repository . $kpa_show['images'][$id]['file'];
 		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $kpa_show['images'][$id], $image_type = 'medium' );
+		$main_image_stuff['original_file'] = $image_original_file_name;
 		$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 
 
@@ -304,7 +305,7 @@ class  Album extends  Controller {
 		$kpa_show = $this->Kpa->kpa_filt;
 
 		$image_original_file_name = $image_repository . $kpa_show['images'][$image_id]['file'];
-		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $image_id, $image_original_file_name, $kpa_show['images'][$image_id], $image_type = 'large' );
+		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $image_id, $image_original_file_name, $kpa_show['images'][$image_id], $image_type = 'medium' );
 		$this->data['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 		$this->data['image_id'] = $image_id;
 

@@ -675,6 +675,8 @@ class  Kpa extends  Model {
 		if (! file_exists($original_file))
 			return FALSE;
 
+		$original_file_size = filesize ($original_file);
+
 		// Third - we generate the new cache file
 		$this->image_lib->clear();
 		$image_config['new_image'] = $tmp_file_name;
@@ -684,7 +686,29 @@ class  Kpa extends  Model {
 		$image_config['source_image'] = $original_file;
 		$image_config['width'] = $image_sizes[$image_type]['x'];
 		$image_config['height'] = $image_sizes[$image_type]['y'];
-		$image_config['quality'] = 70;
+
+		/// @todo We want a sliding scale of quality, determined by original
+		/// file size - otherwise we were seeing massive differences in
+		/// final output of the cache files.  We might need to change
+		/// this algorithm again to take into account physical dimensions
+		/// (width * height) too - as small files with many pixels probably
+		/// need a higher quality.  Very much a work in progress.
+
+		// Files > 5MB get q=65
+		if ($original_file_size > 5000000)
+			$image_config['quality'] = 60;
+
+		// Files between 3MB and 5MB get q=75
+		if ( ($original_file_size > 3000000) AND ($original_file_size <= 5000000) )
+			$image_config['quality'] = 75;
+
+		// Files between 2MB and 3MB get q=85
+		if ( ($original_file_size > 2000000) AND ($original_file_size <= 3000000) )
+			$image_config['quality'] = 85;
+
+		// Tiny files - under 2MB - get very good treatment - q=95
+		if ($original_file_size <= 200000)
+			$image_config['quality'] = 95;
 
 		$image_config['maintain_ratio'] = TRUE;
 		$this->image_lib->initialize($image_config);

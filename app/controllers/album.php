@@ -237,7 +237,45 @@ class  Album extends  Controller {
 		// filename, and continue recreating missing files.  This is
 		// assuming renames are atomic (which is a fairly safe bet)
 
+
 		}  // end-method  cache ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Settings
+	 *
+	 * Offers ways to change user settings - typically pushes something into
+	 * the session array and then immediately redirects from whence it came.
+	 *
+	 * @param	string		$thing	What we're setting
+	 * @param	string		$value	What we're changing it to
+	 **/
+	function  settings ( $thing = NULL , $value = NULL )  {
+		$return_to = $this->session->userdata('uri_penultimate');
+
+		// All settings are consistently formatted - so easy to switch() on.
+		switch ($thing)  {
+			case "theme":
+					$valid_themes = $this->config->item ('valid_themes');
+					if (isset ($valid_themes[$value]))
+						$this->session->set_userdata('theme', $value);
+					break;
+			}
+
+		// We never display a 'settings' screen - so we return to origin here.
+ 		redirect ($return_to);
+		}  // end-method  settings ()
+
+
+
+
+	// ========================================================================
+	// ------------------------------------------------------------------------
+	// P R I V A T E   F U N C T I O N S  -- nothing to see here.
+	// ------------------------------------------------------------------------
+	// ========================================================================
 
 
 
@@ -277,7 +315,7 @@ class  Album extends  Controller {
 		echo $file_type;
 
 		$cache_file_list = $this->Kpa->cache_get_list_of_files();
-		$kpa_full = $this->Kpa->get_pictures();
+		$kpa_full = $this->Kpa->kpa_full;
 		$cache_differential = $this->_compare_cache_with_kpa_db($cache_file_list, $kpa_full);
 
 		dump ($cache_differential);
@@ -286,41 +324,6 @@ class  Album extends  Controller {
 
 
 
-
-	// ------------------------------------------------------------------------
-	/**
-	 * Settings
-	 *
-	 * Offers ways to change user settings - typically pushes something into
-	 * the session array and then immediately redirects from whence it came.
-	 *
-	 * @param	string		$thing	What we're setting
-	 * @param	string		$value	What we're changing it to
-	 **/
-	function  settings ( $thing = NULL , $value = NULL )  {
-		$return_to = $this->session->userdata('uri_penultimate');
-
-		// All settings are consistently formatted - so easy to switch() on.
-		switch ($thing)  {
-			case "theme":
-					$valid_themes = $this->config->item ('valid_themes');
-					if (isset ($valid_themes[$value]))
-						$this->session->set_userdata('theme', $value);
-					break;
-			}
-
-		// We never display a 'settings' screen - so we return to origin here.
- 		redirect ($return_to);
-		}  // end-method  settings ()
-
-
-
-
-	// ========================================================================
-	// ------------------------------------------------------------------------
-	// P R I V A T E   F U N C T I O N S  -- nothing to see here.
-	// ------------------------------------------------------------------------
-	// ========================================================================
 
 
 	// ------------------------------------------------------------------------

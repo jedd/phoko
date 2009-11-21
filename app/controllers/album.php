@@ -274,6 +274,13 @@ class  Album extends  Controller {
 	 * @param	string		$file_type	Type of cache (small, medium, large)
 	 **/
 	function  _cache_delete_items ($file_type)  {
+		echo $file_type;
+
+		$cache_file_list = $this->Kpa->cache_get_list_of_files();
+		$kpa_full = $this->Kpa->get_pictures();
+		$cache_differential = $this->_compare_cache_with_kpa_db($cache_file_list, $kpa_full);
+
+		dump ($cache_differential);
 		return;
 		}  // end-method _cache_delete_items ()
 

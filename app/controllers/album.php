@@ -253,12 +253,15 @@ class  Album extends  Controller {
 	 *  those types of interfaces, plus it conflicts with my 'totally
 	 *  portable URL' rule.
 	 *
-	 * @param	unknown		we'll have some soon, I'm sure.
+	 * @param	$image_id		Includes 'i' as the indicator
 	 *
 	 **/
 	 function  onebigone ( $image_id = FALSE )  {
 	 	if (! $image_id)
 	 		redirect ('/album/gallery');
+
+		// Strip the /i from the incoming image ID
+	 	$image_id = substr ($image_id, 1);
 
 
 		/// @todo this is currently duplicated from gallery() - work out how to
@@ -291,17 +294,20 @@ class  Album extends  Controller {
 		// always choose to show kpa_filt, but need to differentiate elsewhere.
 		$kpa_show = $this->Kpa->kpa_filt;
 
-
+		// For a manual update of kpa_filt (normally done during the /offset analysis)
+		$this->Kpa->generate_kpa_filt ();
 
 
 
 		// Generate a big one
 		$image_repository = $this->config->item('repository');
 		$kpa_show = $this->Kpa->kpa_filt;
+
 		$image_original_file_name = $image_repository . $kpa_show['images'][$image_id]['file'];
 		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $image_id, $image_original_file_name, $kpa_show['images'][$image_id], $image_type = 'large' );
 		$this->data['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 		$this->data['image_id'] = $image_id;
+
 		$this->load->view ('one_big_one', $this->data);
 	 	}  // end-method  onebigone ()
 

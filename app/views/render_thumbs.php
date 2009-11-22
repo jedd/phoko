@@ -43,6 +43,18 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 						'border' => '0'
 						);
 
+	// We do a dodgy here - and calculate the height of the thumb to be variable based on
+	// the ratio of the height/width of the image - that is, we LIKE to default to 70px,
+	// but if we have an extremely wide panorama, we don't want it pushing things off the
+	// screen.  OTOH this might break if our thumbs contain nothing but panoramas.
+	/// @todo cope with no 'normal-sized' images, which will force the slider to be misplaced.
+
+	$ratio = $thumb['width'] / $thumb['height'] ;
+	if ($ratio > 2)  {
+		unset ($image_properties['height']);
+		$image_properties['width'] = "100px";
+		}
+
 	if ($current_image_id == $thumb_id)  {
 		$image_properties['border'] = "2";
 		}

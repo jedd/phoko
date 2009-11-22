@@ -329,6 +329,9 @@ class  Kpa extends  Model {
 														$thumb_details,
 														$image_type = 'small' );
 
+				$tharray[$thumb_id]['width'] = $thumb_details['width'];
+				$tharray[$thumb_id]['height'] = $thumb_details['height'];
+
 				/// @todo Work out a better place for this - either another loop in the controller,
 				/// or relocate the function into this model.
 				$tharray[$thumb_id]['link'] = $CI->_create_url_with_new_image_id($thumb_id);

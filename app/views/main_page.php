@@ -103,7 +103,7 @@ $(function() {
 	<div id="main_box" class="newClass ui-corner-all">
 		<?php
 			if (isset ($content['image_proper']))  {
-				echo anchor_popup ('/album/onebigone/i'. $id , $content['image_proper']);
+				echo anchor_popup ('/album/onebigone/i'. $id , $content['image_proper'], array ('border' => '0'));
 				}
 			// It's unlikely we'll ever have image_proper AND the cache created 'main'
 			if (isset ($content['main']))

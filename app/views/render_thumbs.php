@@ -56,7 +56,7 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 		}
 
 	if ($current_image_id == $thumb_id)  {
-		$image_properties['border'] = "2";
+		$image_properties['border'] = "1";
 		}
 	echo img($image_properties);
 	if ($current_image_id != $thumb_id)

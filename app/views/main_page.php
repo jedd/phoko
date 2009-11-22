@@ -121,6 +121,10 @@ $(function() {
 
 		<td width="35%" align="left">
 			Page rendered in {elapsed_time} seconds and using {memory_usage}
+			<br />
+			<?php
+				echo anchor_popup ("http://dingogully.com.au/trac/phoko", "Phoko project site");
+			?>
 		</td>
 
 		<td width="40%" align="center">

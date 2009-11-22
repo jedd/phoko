@@ -68,7 +68,9 @@
 		}
 ?>
 
+
 <script type="text/javascript">
+// Tabs jQuery-UI effect
 $(function() {
 	$("#navi_tabs").tabs({ fx: { opacity: 'toggle' } });
 	//getter
@@ -76,7 +78,18 @@ $(function() {
 	//setter
 	$("#navi_tabs").tabs('option', 'cookie', { expires: 30 });
 	});
+
+
+// Accordion jQuery-UI effect
+$(function() {
+	$("#accordion").accordion({
+		autoHeight: false,
+		header: 'h3'
+		});
+	});
+
 </script>
+
 
 <div id="navi_tabs">
 	<ul>
@@ -90,9 +103,33 @@ $(function() {
 			?>
 	</div>
 	<div id="tabs-2">
-		<p>
-			This will show all tags that exist - perhaps filtered based on what's already shown .. as per the original version?
-		</p>
+
+
+
+		<div id="accordion">
+			<h3><a href="#">Section 1</a></h3>
+			<div>
+				<p>
+				Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+				ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+				amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+				odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+				</p>
+			</div>
+			<h3><a href="#">Section 2</a></h3>
+			<div>
+				<p>
+				Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+				purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+				velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+				suscipit faucibus urna.
+				</p>
+			</div>
+		</div>
+
+
+
+
 	</div>
 </div>
 

@@ -113,6 +113,21 @@ A.img_thumb:hover  {
 	border-bottom: 2px solid;
 	}
 
+/* Thumbs get borders of highlight colour, or background colour (as space-filler) */
+.thumb_highlight {
+	border-left: 2px solid blue;
+	border-right: 2px solid blue;
+	border-top: 1px solid blue;
+	border-bottom: none;
+	}
+
+.thumb_normal {
+	border-left: 2px solid #d9d9d9;
+	border-right: 2px solid #d9d9d9;
+	border-top: 1px solid #d9d9d9;
+	border-bottom: none;
+	}
+
 /* Tooltip is the jquery plugin to show dates on the TITLE tag of the slider.
  * As usual, colours are set here, the rest is set in the primary gallery.css */
 #tooltip {

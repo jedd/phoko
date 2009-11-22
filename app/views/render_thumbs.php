@@ -40,7 +40,7 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 						/// @todo get height into the CSS so we can create a netbook theme
 						'height' => '70px',
 						'title' => $thumb['description'],
-						'border' => '0'
+						// 'border' => '0'
 						);
 
 	// We do a dodgy here - and calculate the height of the thumb to be variable based on
@@ -55,9 +55,11 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 		$image_properties['width'] = "100px";
 		}
 
-	if ($current_image_id == $thumb_id)  {
-		$image_properties['border'] = "1";
-		}
+	if ($current_image_id == $thumb_id)
+		$image_properties['class'] = "thumb_highlight";
+	else
+		$image_properties['class'] = "thumb_normal";
+
 	echo img($image_properties);
 	if ($current_image_id != $thumb_id)
 		echo "</a>\n";

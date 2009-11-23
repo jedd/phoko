@@ -162,15 +162,16 @@ class  Album extends  Controller {
 		$this->data['prev_next_view'] = $this->load->view("prev_next", $prev_next_data, TRUE);
 
 
-		// The image-info window (left, tabbed)
-		$current_image_info['id'] = $id;
-		$current_image_info['image'] = $kpa_show['images'][$id];
-		$current_image_info['url_array'] = $this->url_array;
-		$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
-
-		// The explorifier window (left, tabbed)
-		$explorifier_info['categories'] = $this->Kpa->get_tag_categories();
-		$this->data['explorifier_view'] = $this->load->view("explorifier", $explorifier_info, TRUE);
+		// A fair amount of this information is shared by IMAGE_INFO and EXPLORIFIER - the two TABS
+		$image_info['id'] = $id;
+		$image_info['image'] = $kpa_show['images'][$id];
+		$image_info['url_array'] = $this->url_array;
+		$image_info['categories'] = $this->Kpa->get_tag_categories();
+		$image_info['tag_counts'] = $this->Kpa->get_tag_counts($id);
+		// The image-info window (left, tabbed) - we share $image_info with this and the explorifier view partial
+		$this->data['image_info_view'] = $this->load->view("image_info", $image_info, TRUE);
+		// The explorifier window (left, tabbed) - we share $image_info with this and the image-info view partial
+		$this->data['explorifier_view'] = $this->load->view("explorifier", $image_info, TRUE);
 
 
 		// The main picture window (middle)

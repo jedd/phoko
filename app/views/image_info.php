@@ -65,10 +65,18 @@ if (isset ($image['tags']))  {
 			if ( ( (! isset ($url_array['filters_actual'])) OR (! $url_array['filters_actual']) )
 				OR ( ( isset ($url_array['filters_actual'])) AND (is_array($url_array['filters_actual'])) AND (! in_array ($tag, $url_array['filters_actual'])) ) )  {
 				$url_with_this_as_new_filter = current_url() ."/f". $category_abbreviations[$category] . rawurlencode ($tag);
-				echo anchor ($url_with_this_as_new_filter , $tag, array ('title'=>'Add this as a filter')) . "\n";
+				echo anchor ($url_with_this_as_new_filter , $tag, array ('title'=>'Add this as a filter'));
 				}
 			else
 				echo $tag;
+
+			// We always show tag counts (regardless of whether it's an active link or not)
+			// If filt count == full count, then only show the one figure.
+			if ( ($tcfilt = $tag_counts['kpa_filt'][$category][$tag]) == ($tcfull = $tag_counts['kpa_full'][$category][$tag]) )
+				echo nbs(3) . "(" . $tcfilt .")\n";
+			else
+				echo nbs(3) . "(" . $tcfilt ."/". $tcfull .")\n";
+
 			echo "</li>\n";
 			}
 		echo "</ul>\n";

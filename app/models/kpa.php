@@ -201,12 +201,13 @@ class  Kpa extends  Model {
 
 								// Cycle through outer array of tag categories, treating the three default category
 								// types (Locations/Persons/Keywords) equally as any custom categories we find.
-								foreach ($image->options->option as $revisted_option)  {
-									$tag_category = (string)$revisted_option['name'];
+								foreach ($image->options->option as $revisited_option)  {
+									$tag_category = (string)$revisited_option['name'];
+									$tag_category = str_replace ("_", " ", $tag_category);
 
 									// Go through inner array, picking up tags within this tag_category.
 									$x = 0;
-									foreach ($revisted_option->value as $tagset)  {
+									foreach ($revisited_option->value as $tagset)  {
 										$tag_value = (string)$tagset['value'];
 
 										// Publish-tag is added to shoosh_tags in the config, so we just use that.
@@ -219,8 +220,8 @@ class  Kpa extends  Model {
 											else
 												$kpa_full['tags'][$tag_category][$tag_value] = 1;
 											}  // end-if (picture not in shoosh tags)
-										}  // end-foreach ($revisted_option->value as $tagset)
-									}  // end-foreach ($image->options->option as $revisted_option)
+										}  // end-foreach ($revisited_option->value as $tagset)
+									}  // end-foreach ($image->options->option as $revisited_option)
 								}  // end-if image-is-to-be-published
 							}  // end-foreach ($option->value  as  $value)
 						} // end-if ($option['name'] == "Keywords")
@@ -287,6 +288,29 @@ class  Kpa extends  Model {
 				}
 			}
 
+		// Tags need to be calculated, showing on extant tags in the filter group, so we
+		// work similarly to the way we do this in the main rip-it-outta-the-xml-file().
+
+		foreach ($kf['images'] as $image_id => $image_info)  {
+			if (isset ($image_info['tags']))  {
+				$tags = $image_info['tags'];
+				foreach ($tags as $tag_category => $tag_entry)  {
+					/// @todo This is one place where we are happy to have _'s removed from
+					/// categories up front - later we should do this across the board, hence
+					/// we flag this here for future attention - not happy about KPA's handling
+					/// of underscores in names .. in other words, not my fault!  :)
+					$tag_category = str_replace ("_", " ", $tag_category);
+
+					foreach ($tag_entry as $tag_actual)  {
+						if (isset($kf['tags'][$tag_category][$tag_actual]))
+							$kf['tags'][$tag_category][$tag_actual]++;
+						else
+							$kf['tags'][$tag_category][$tag_actual] = 1;
+						}
+					}
+				}
+			}
+
 		// Set our attribute
 		$this->kpa_filt = $kf;
 
@@ -314,6 +338,39 @@ class  Kpa extends  Model {
 		return $tag_categories;
 
 		}  //  end-method  get_tag_categories  ()
+
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get tag counts
+	 *
+	 * Provides a list of counts for a given set of tags.
+	 *
+	 * If the filt == full, we only need to do this once, otherwise
+	 * we'll provide two sets of counts (filt and full).  These data
+	 * are shown next to tag links in the image-info view, to indicate
+	 * the number of images that reside in a given (potential) filter.
+	 *
+	 * @param	string	$image_id	We use this image's tag set.
+	 * @return	array
+	 **/
+	function  get_tag_counts  ( $image_id )  {
+		// We don't assume we have a valid image_id
+		if (! isset ($this->kpa_full['images'][$image_id]['tags'] ))
+			return FALSE;
+
+		// Arrays are already created in kpa_full and kpa_filt, so no cost
+		// to send them both back even if they're identical - the view will
+		// handle what to do with duplicate data - it's a display-time decision.
+		$retval = array();
+		$retval['kpa_full'] = $this->kpa_full['tags'];
+		$retval['kpa_filt'] = $this->kpa_filt['tags'];
+
+		return $retval;
+		}  //  end-method  get_tag_counts ()
+
+
 
 	// ------------------------------------------------------------------------
 	/**

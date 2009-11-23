@@ -11,7 +11,31 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://localhost/~jedd/phoko/";
+
+// Trying to be smart with auto-detect of host and path name here.  This may
+// break on your system - especially if you use funky characters (as per the
+// 2009 introduction of non-latin characters into this space).  In that event
+// you just have to revert to doing it the old fashioned way, for example:
+// $config['base_url']	= "http://your_host.your_domain/~your_username/phoko/";
+
+
+// This should cover both sets nicely enough:
+$host_allowed_chars = "a-z 0-9 -:/.";
+$path_allowed_chars = "a-z 0-9 -_~/.";
+
+$host = "http://".$_SERVER['HTTP_HOST'];
+$path = str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+
+
+// These preg_match()'s are ripped out of the CI URL class - they can probably be tidied up.
+if (! preg_match("|^[".str_replace(array('\\-', '\-'), '-', preg_quote($host_allowed_chars, '-'))."]+$|i", $host))
+	$host = "";
+
+if (! preg_match("|^[".str_replace(array('\\-', '\-'), '-', preg_quote($path_allowed_chars, '-'))."]+$|i", $path))
+	$path = "";
+
+$config['base_url']  = $host . $path ;
+
 
 /*
 |--------------------------------------------------------------------------

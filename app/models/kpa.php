@@ -298,6 +298,25 @@ class  Kpa extends  Model {
 
 	// ------------------------------------------------------------------------
 	/**
+	 * Get tag categories
+	 *
+	 * Simply retrieves the tag categories we have (in $kpa_full)
+	 * such as Persons, Locations, Keywords, and custom categories.
+	 *
+	 * @return	array
+	 **/
+	function  get_tag_categories  ( )  {
+		$tag_categories = array();
+
+		foreach ($this->kpa_full['tags'] as $category => $foo)
+			$tag_categories[] = $category;
+
+		return $tag_categories;
+
+		}  //  end-method  get_tag_categories  ()
+
+	// ------------------------------------------------------------------------
+	/**
 	 * Select thumbs to show
 	 *
 	 * Sets the local attribute $thumbs (array) with information on the

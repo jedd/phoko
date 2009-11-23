@@ -96,41 +96,21 @@ $(function() {
 		<li><a href="#tabs-1">This image</a></li>
 		<li><a href="#tabs-2">Explorifier</a></li>
 	</ul>
+
 	<div id="tabs-1">
-			<?php
-				if (isset ($image_info_view))
-					echo $image_info_view;
-			?>
+		<?php
+			if (isset ($image_info_view))
+				echo $image_info_view;
+		?>
 	</div>
+
 	<div id="tabs-2">
-
-
-
-		<div id="accordion">
-			<h3><a href="#">Section 1</a></h3>
-			<div>
-				<p>
-				Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
-				ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
-				amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
-				odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
-				</p>
-			</div>
-			<h3><a href="#">Section 2</a></h3>
-			<div>
-				<p>
-				Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
-				purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
-				velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
-				suscipit faucibus urna.
-				</p>
-			</div>
-		</div>
-
-
-
-
+		<?php
+			if (isset ($explorifier_view))
+				echo $explorifier_view;
+		?>
 	</div>
+
 </div>
 
 

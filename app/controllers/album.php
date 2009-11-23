@@ -162,11 +162,15 @@ class  Album extends  Controller {
 		$this->data['prev_next_view'] = $this->load->view("prev_next", $prev_next_data, TRUE);
 
 
-		// The image-info window (left)
+		// The image-info window (left, tabbed)
 		$current_image_info['id'] = $id;
 		$current_image_info['image'] = $kpa_show['images'][$id];
 		$current_image_info['url_array'] = $this->url_array;
 		$this->data['image_info_view'] = $this->load->view("image_info", $current_image_info, TRUE);
+
+		// The explorifier window (left, tabbed)
+		$explorifier_info['categories'] = $this->Kpa->get_tag_categories();
+		$this->data['explorifier_view'] = $this->load->view("explorifier", $explorifier_info, TRUE);
 
 
 		// The main picture window (middle)

@@ -84,7 +84,9 @@ $(function() {
 $(function() {
 	$("#accordion").accordion({
 		autoHeight: false,
-		header: 'h3'
+		header: 'h3',
+		collapsible: true,
+		active: false
 		});
 	});
 

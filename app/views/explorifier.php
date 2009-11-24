@@ -37,7 +37,8 @@ echo "<div id=\"accordion\">";
 foreach ($categories as $category)  {
 	echo "<h3><a href=\"#\">". $category ."</a></h3>";
 	echo "<div>";
-	echo "Stuff about ". $category ." goes in here ...";
+	foreach ($tag_counts['kpa_full'][$category] as $tag => $tag_count)
+		echo $tag ."<br />";
 	echo "</div>";
 	}
 

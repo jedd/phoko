@@ -71,31 +71,25 @@
 
 <script type="text/javascript">
 
-// Wrapping this stuff in an .onload call should stop unpleasant
-// not-quite-loaded artefacts such as the full explorifier list
-// briefly appearing during page rendering.
+// Tabs jQuery-UI effect
+$(function() {
+	$("#navi_tabs").tabs({ fx: { opacity: 'toggle' } });
+	//getter
+	var cookie = $("#navi_tabs").tabs('option', 'cookie');
+	//setter
+	$("#navi_tabs").tabs('option', 'cookie', { expires: 30 });
+	});
 
-window.onload = function() {
-
-	// Tabs jQuery-UI effect
-	$(function() {
-		$("#navi_tabs").tabs({ fx: { opacity: 'toggle' } });
-		//getter
-		var cookie = $("#navi_tabs").tabs('option', 'cookie');
-		//setter
-		$("#navi_tabs").tabs('option', 'cookie', { expires: 30 });
+// Accordion jQuery-UI effect
+$(function() {
+	$("#accordion").accordion({
+		autoHeight: false,
+		header: 'h3',
+		collapsible: true,
+		active: false
 		});
+	});
 
-	// Accordion jQuery-UI effect
-	$(function() {
-		$("#accordion").accordion({
-			autoHeight: false,
-			header: 'h3',
-			collapsible: true,
-			active: false
-			});
-		});
-}
 </script>
 
 

@@ -80,8 +80,9 @@ div#footer  {
 	}
 
 /* The tilde between the yyyy-mm-dd and the time in the 'this image' tab in the gallery */
-font.date_tilde  {
+font.subdued  {
 	color: grey;
+	font-size: 80%;
 	}
 
 /* Various headings - such as 'Filtering on:' or 'Keyword:', 'Location:' and so on,

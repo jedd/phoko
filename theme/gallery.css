@@ -139,7 +139,7 @@ ul.image_tags  {
 /* The tilde between the yyyy-mm-dd and the time in the 'this image' tab in the gallery
    -- mostly here for a placeholder, as it's usually the colour we change, and that goes
    into the theme/gallery.css files */
-font.date_tilde  {
+font.subdued  {
 	}
 
 /* Various headings - such as 'Filtering on:' or 'Keyword:', 'Location:' and so on,

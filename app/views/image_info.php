@@ -72,10 +72,12 @@ if (isset ($image['tags']))  {
 
 			// We always show tag counts (regardless of whether it's an active link or not)
 			// If filt count == full count, then only show the one figure.
+			echo "<font class=\"subdued\">";
 			if ( ($tcfilt = $tag_counts['kpa_filt'][$category][$tag]) == ($tcfull = $tag_counts['kpa_full'][$category][$tag]) )
 				echo nbs(3) . "(" . $tcfilt .")\n";
 			else
-				echo nbs(3) . "(" . $tcfilt ."/". $tcfull .")\n";
+				echo nbs(3) . "(" . $tcfilt ." / ". $tcfull .")\n";
+			echo "</font>";
 
 			echo "</li>\n";
 			}

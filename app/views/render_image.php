@@ -31,11 +31,11 @@
 
 $image_properties = array(
            'src' => $path,
-           'alt' => 'something here',
+           'alt' => 'large image',
            // 'class' => 'post_images',
            'width' => '100%',
            // 'height' => '200',
-           'title' => 'something here',
+           'title' => 'click here to open a larger version in a new window',
            // 'rel' => 'lightbox',
  );
 

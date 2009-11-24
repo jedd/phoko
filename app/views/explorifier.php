@@ -45,13 +45,13 @@ foreach ($categories as $category)  {
 	if ( isset ($tag_counts['kpa_filt'][$category]) > 0)  {
 		foreach ($tag_counts['kpa_filt'][$category] as $tag => $tag_count)  {
 
-			if ( ( (! isset ($url_array['filters_actual'])) OR (! $url_array['filters_actual']) )
-				OR ( ( isset ($url_array['filters_actual'])) AND (is_array($url_array['filters_actual'])) AND (! in_array ($tag, $url_array['filters_actual'])) ) )  {
+			if (  ( (! isset ($url_array['filters_actual'])) OR (! $url_array['filters_actual']) )
+				OR ( (is_array($url_array['filters_actual'])) AND (! in_array($tag, $url_array['filters_actual'])) )  ) {
 				$url_with_this_as_new_filter = current_url() ."/f". $category_abbreviations[$category] . rawurlencode ($tag);
-				echo "<li>". anchor ($url_with_this_as_new_filter , $tag, array ('title'=>'Add this as a filter')) ."<font class=\"subdued\">(". $tag_count .")</font></li>\n";
+				echo "<li>". anchor ($url_with_this_as_new_filter , $tag, array ('title'=>'Add this as a filter')) ." <font class=\"subdued\">(". $tag_count .")</font></li>\n";
 				}
 			else
-				echo "<li>". $tag . " <font class=\"subdued\">(". $tag_count .")</font></li>\n";
+				echo "<li>". $tag ." <font class=\"subdued\">(". $tag_count .")</font></li>\n";
 			}
 		}
 	else

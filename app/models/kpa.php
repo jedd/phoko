@@ -489,7 +489,16 @@ class  Kpa extends  Model {
 				}
 			$x++;
 			}
-		return $position;
+
+		// We cater for main image not being in the thumb set - which will
+		// happen if we add a filter that doesn't include the currently
+		// viewed main picture - I'm happy with this behaviour, but just
+		// need to cater for it here.
+
+		if (isset ($position))
+			return $position;
+		else
+			return 1;
 		}  // end-method  get_position_number  ()
 
 

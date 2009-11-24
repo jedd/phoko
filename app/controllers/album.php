@@ -164,7 +164,8 @@ class  Album extends  Controller {
 
 		// A fair amount of this information is shared by IMAGE_INFO and EXPLORIFIER - the two TABS
 		$image_info['id'] = $id;
-		$image_info['image'] = $kpa_show['images'][$id];
+		// Because main image might not necessarily be in the thumb visible set (ie. just applied a filter) we CAN grab info from kpa_full
+		$image_info['image'] = (isset ($kpa_show['images'][$id]))  ? $kpa_show['images'][$id] : $this->Kpa->kpa_full['images'][$id];
 		$image_info['url_array'] = $this->url_array;
 		$image_info['categories'] = $this->Kpa->get_tag_categories();
 		$image_info['tag_counts'] = $this->Kpa->get_tag_counts($id);
@@ -176,8 +177,9 @@ class  Album extends  Controller {
 
 		// The main picture window (middle)
 		$image_repository = $this->config->item('repository');
-		$image_original_file_name = $image_repository . $kpa_show['images'][$id]['file'];
-		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $kpa_show['images'][$id], $image_type = 'medium' );
+		// Because the main image might not necessarily be in the thumb-visible set, we pull ths from kpa_full
+		$image_original_file_name = $image_repository . $this->Kpa->kpa_full['images'][$id]['file'];
+		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $image_info['image'], $image_type = 'medium' );
 		$main_image_stuff['original_file'] = $image_original_file_name;
 		$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 

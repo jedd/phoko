@@ -71,6 +71,9 @@
 
 <script type="text/javascript">
 // Tabs jQuery-UI effect
+
+window.onload = function() {
+
 $(function() {
 	$("#navi_tabs").tabs({ fx: { opacity: 'toggle' } });
 	//getter
@@ -89,6 +92,8 @@ $(function() {
 		active: false
 		});
 	});
+
+}
 
 </script>
 

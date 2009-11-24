@@ -40,7 +40,7 @@ foreach ($categories as $category)  {
 	echo "<h3><a href=\"#\">". $category ."</a></h3>\n";
 	echo "<div>\n";
 
-	echo "<ul class=\"image_tags\">\n";
+	echo "<ul class=\"explorifier_tags\">\n";
 
 	if ( isset ($tag_counts['kpa_filt'][$category]) > 0)  {
 		foreach ($tag_counts['kpa_filt'][$category] as $tag => $tag_count)  {

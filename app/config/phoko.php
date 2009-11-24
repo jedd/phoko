@@ -219,29 +219,37 @@ $config['category_abbreviations'] = array (
  *  load of the index.xml file - best to do it here automatically.
  *
  *  Also, KPA converts spaces in custom categories to underscores,
- *  for reasons that aren't clear (but it's VERY frustrating).  So
- *  here we convert any spaces in custom categories to underscores
- *  too - it's safer to do it here, rather than modding the XML
- *  input later.  And then we can s/_/ / later, at presentation
- *  time somewhere in our views.  Obviously there's no elegant
- *  answer to this, as we can't tell if the user intends underscores
- *  or spaces in their actual, on-screen custom category names.
- *  To make it EXTRA irritating, member groups show the name as
- *  it should be (using a space, not an underscore) - but we can't
- *  rely on member groups being in play, nor that 'The Farm' and
- *  'The_Farm' aren't intended, or exist, as separate groups.
+ *  (but NOT in the member groups section!) for reasons that aren't
+ *  clear (but it's VERY frustrating).
+ *
+ *  Here we try to respect spaces, but it means that any decision
+ *  we make will necessarily annoy someone - it might even be you!
+ *  If you have underscores in your custom categories, you're in
+ *  for some trouble here.  Sorry about that, but it was a toss up
+ *  between annoying you and annoying me, and given I don't use
+ *  underscores, and I wrote this code, guess who won?
+ *
+ *  There's no obviously elegant answer to this problem - I'm
+ *  consulting the KPA maintainers for some guidance here, but
+ *  in the short term if this bites you, you have a couple of
+ *  options.  Rename your KPA category to not include the _
+ *  is the easiest and fastest.  Alternatively you can try to
+ *  hack the code, or talk me into doing that - these are obviously
+ *  non-trivial activities - particularly the latter.
  *
  *  In any case, DEFINITELY DO NOT MODIFY THESE ITEMS
  *
  **/
 $config['shoosh_tags']['Keywords'][] = $config['publish_keyword'];
 
-foreach ($config['shoosh_tags'] as $category=>$values)
-	if (strstr ($category, " "))  {
-		$new_name = str_replace (" ", "_", $category);
-		$config['shoosh_tags'][$new_name] = $config['shoosh_tags'][$category];
-		unset ($config['shoosh_tags'][$category]);
-		}
+/// This section was for when we tried to introduce underscores
+/// as replacements for spaces - we've since given that up.
+// foreach ($config['shoosh_tags'] as $category=>$values)
+// 	if (strstr ($category, " "))  {
+// 		$new_name = str_replace (" ", "_", $category);
+// 		$config['shoosh_tags'][$new_name] = $config['shoosh_tags'][$category];
+// 		unset ($config['shoosh_tags'][$category]);
+// 		}
 
 
 

@@ -73,18 +73,18 @@
 
 <div id="navi_tabs">
 	<ul>
-		<li><a href="#tabs-1">This image</a></li>
-		<li><a href="#tabs-2">Explorifier</a></li>
+		<li><a href="#image_info">This image</a></li>
+		<li><a href="#explorifier">Explorifier</a></li>
 	</ul>
 
-	<div id="tabs-1">
+	<div id="image_info">
 		<?php
 			if (isset ($image_info_view))
 				echo $image_info_view;
 		?>
 	</div>
 
-	<div id="tabs-2">
+	<div id="explorifier">
 		<?php
 			if (isset ($explorifier_view))
 				echo $explorifier_view;

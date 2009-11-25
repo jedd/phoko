@@ -86,7 +86,8 @@ $(function() {
 		autoHeight: false,
 		header: 'h3',
 		collapsible: true,
-		active: false
+		navigation: true,
+		active: true // open first category at load by default
 		});
 	});
 

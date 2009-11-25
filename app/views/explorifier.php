@@ -42,7 +42,7 @@ foreach ($categories as $category)  {
 
 	echo "<ul class=\"explorifier_tags\">\n";
 
-	if ( isset ($tag_counts['kpa_filt'][$category]) > 0)  {
+	if ( isset ($tag_counts['kpa_filt'][$category]) )  {
 		foreach ($tag_counts['kpa_filt'][$category] as $tag => $tag_count)  {
 
 			if (  ( (! isset ($url_array['filters_actual'])) OR (! $url_array['filters_actual']) )
@@ -51,7 +51,7 @@ foreach ($categories as $category)  {
 				echo "<li>". anchor ($url_with_this_as_new_filter , $tag, array ('title'=>'Add this as a filter')) ." <font class=\"subdued\">(". $tag_count .")</font></li>\n";
 				}
 			else
-				echo "<li>". $tag ." <font class=\"subdued\">(". $tag_count .")</font></li>\n";
+				echo "<li><font class=\"subdued\">". $tag ." (". $tag_count .")</font></li>\n";
 			}
 		}
 	else

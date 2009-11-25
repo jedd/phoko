@@ -23,6 +23,9 @@
 
 	// Load any jquery-UI plugins
 	echo "\n<script type=\"text/javascript\" src=\"". base_url() ."js/jquery.cookie.js\"></script>";
+
+	// Load custom phoko javascript
+	echo "\n<script type=\"text/javascript\" src=\"". base_url() ."js/phoko.js\"></script>";
 ?>
 
 </head>
@@ -67,32 +70,6 @@
 		echo "</div>";  //prev_next_buttons
 		}
 ?>
-
-
-<script type="text/javascript">
-
-// Tabs jQuery-UI effect
-$(function() {
-	$("#navi_tabs").tabs({ fx: { opacity: 'toggle' } });
-	//getter
-	var cookie = $("#navi_tabs").tabs('option', 'cookie');
-	//setter
-	$("#navi_tabs").tabs('option', 'cookie', { expires: 30 });
-	});
-
-// Accordion jQuery-UI effect
-$(function() {
-	$("#accordion").accordion({
-		autoHeight: false,
-		header: 'h3',
-		collapsible: true,
-		navigation: true,
-		active: true // open first category at load by default
-		});
-	});
-
-</script>
-
 
 <div id="navi_tabs">
 	<ul>

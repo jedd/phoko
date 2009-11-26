@@ -15,41 +15,32 @@ $(function() {
 		});
 	});
 
+
+var userpanel = $("#accordion");
+var active_accordion = $.cookie("accordionselected");
+if (active_accordion == undefined) {
+	$.cookie("accordionselected", 0);
+	// active_accordion = 0;  // Gave this up and instead pull straight from cookie in the accordion function below
+	}
+
+
+/// THIS WORKS - that is, right now the cookie contains the right number (0-3) depending on the last accordion setting
+// alert ("Hey, cookie says : " + $.cookie("accordionselected"));
+
+
 // Accordion jQuery-UI effect
 $(function() {
-	var userpanel = $("#accordion"); 
-	var index = $.cookie("accordion"); 
-	var active_accordion; 
-	if (index !== undefined) { 
-		active_accordion = 0;
-		} 
 	$("#accordion").accordion({
-		active: active_accordion,
+		// active: 2, // THIS WORKS, OF COURSE
+		active: $.cookie("accordionselected", 0),  // THIS DOESN'T WORK! I consistently get a collapsed accordion
 		autoHeight: false,
 		header: 'h3',
-		cookie: true,
 		collapsible: true,
-		change: function(event, ui) { 
-			var index = $(this).find("h3").index ( ui.newHeader[0] ); 
-			$.cookie("accordion", index); 
-			} 
+		change: function(event, ui) {
+			var index = $(this).find("h3").index ( ui.newHeader[0] );
+			$.cookie("accordionselected", index);
+			}
 		});
 	});
 
 
-jQuery(function($) { 
-	var userpanel = $("#accordion"); 
-	var index = $.cookie("accordion"); 
-	var active; 
-	if (index !== undefined) { 
-		active = userpanel.find("h3:eq(" + index + ")"); 
-		} 
-//	userpanel.accordion({ 
-//		active: active, 
-//		change: function(event, ui) { 
-//			var index = $(this).find("h3").index ( ui.newHeader[0] ); 
-//			$.cookie("accordion", index); 
-//			} 
-//		}); 
-
-	}); 

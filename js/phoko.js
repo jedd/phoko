@@ -17,14 +17,39 @@ $(function() {
 
 // Accordion jQuery-UI effect
 $(function() {
+	var userpanel = $("#accordion"); 
+	var index = $.cookie("accordion"); 
+	var active_accordion; 
+	if (index !== undefined) { 
+		active_accordion = 0;
+		} 
 	$("#accordion").accordion({
+		active: active_accordion,
 		autoHeight: false,
 		header: 'h3',
 		cookie: true,
-		collapsible: true
-		// navigation: true
-		// active: 0 // open first category at load by default
+		collapsible: true,
+		change: function(event, ui) { 
+			var index = $(this).find("h3").index ( ui.newHeader[0] ); 
+			$.cookie("accordion", index); 
+			} 
 		});
 	});
 
 
+jQuery(function($) { 
+	var userpanel = $("#accordion"); 
+	var index = $.cookie("accordion"); 
+	var active; 
+	if (index !== undefined) { 
+		active = userpanel.find("h3:eq(" + index + ")"); 
+		} 
+//	userpanel.accordion({ 
+//		active: active, 
+//		change: function(event, ui) { 
+//			var index = $(this).find("h3").index ( ui.newHeader[0] ); 
+//			$.cookie("accordion", index); 
+//			} 
+//		}); 
+
+	}); 

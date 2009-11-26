@@ -16,7 +16,10 @@ $(function() {
 	});
 
 
-var userpanel = $("#accordion");
+/// legacy experiment with code grabbed from the net somewhere
+// var userpanel = $("#accordion");
+
+
 var active_accordion = $.cookie("accordionselected");
 if (active_accordion == undefined) {
 	$.cookie("accordionselected", 0);

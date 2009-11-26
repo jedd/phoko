@@ -34,13 +34,16 @@ if (active_accordion == undefined) {
 // Accordion jQuery-UI effect
 $(function() {
 	$("#accordion").accordion({
+		collapsible: true,
+
 		// active: 2, // THIS WORKS, OF COURSE
-		active: $.cookie("accordionselected", 0),  // THIS DOESN'T WORK! I consistently get a collapsed accordion
+		active: $.cookie("accordionselected"),  // THIS DOESN'T WORK! I consistently get a collapsed accordion
+
 		autoHeight: false,
 		header: 'h3',
-		collapsible: true,
 		change: function(event, ui) {
 			var index = $(this).find("h3").index ( ui.newHeader[0] );
+			// alert (index);  /// This WORKS - it shows 0-3 depending on what I've just selected
 			$.cookie("accordionselected", index);
 			}
 		});

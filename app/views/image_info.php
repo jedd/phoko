@@ -96,5 +96,6 @@ if (isset ($image['tags']))  {
 
 echo "\n<hr />\n";
 
-echo $image['description'];
+echo nl2br($image['description']);
+
 

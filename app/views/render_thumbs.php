@@ -19,7 +19,7 @@
  *
  * Prepare the thumb bit - at the top of the screen usually - using the
  * 'small' sized image, and that's about it!
-*
+ *
  *
  * @package     phoko
  * @version     v1

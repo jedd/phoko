@@ -106,6 +106,7 @@
 			if (isset ($content['main']))
 				echo $content['main'];
 		?>
+
 	</div>  <!-- /main_box -->
 </div> <!-- /main -->
 

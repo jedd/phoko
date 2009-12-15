@@ -30,6 +30,7 @@
 // ------------------------------------------------------------------------
 
 $image_properties = array(
+           'id' => 'actual_image',
            'src' => $path,
            'alt' => 'large image',
            // 'class' => 'post_images',

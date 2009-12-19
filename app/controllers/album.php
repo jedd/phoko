@@ -470,6 +470,11 @@ class  Album extends  Controller {
 		if ($this->url_array['offset'] > $max_offset)
 			$optimise_the_offset = TRUE;
 
+		// If the offset is false (it wasn't set by a /o param in extract_offset_from_url())
+		// then we definitely want to set it sensibly.
+		if (! $this->url_array['offset_on_url'])
+			$optimise_the_offset = TRUE;
+
 		if ($optimise_the_offset)  {
 			if (sizeof ($this->Kpa->kpa_filt['images']) <= $thumbs_per_page)
 				$this->url_array['offset'] = 1;
@@ -607,9 +612,11 @@ class  Album extends  Controller {
 		if ($offset > ($total_number_of_images_in_set  - $thumbs_per_page + 1))
 			$offset = 1;
 
-		// If it's just /o without a number, etc.
-		if (! is_numeric ($offset))
-			$offset = 1;
+		// If it's just /o without a number, etc - make a note in the url_array for later
+		if ( $offset )
+			$this->url_array['offset_on_url'] = TRUE;
+		else
+			$this->url_array['offset_on_url'] = FALSE;
 
 		$this->url_array['offset'] = $offset;
 		}

@@ -475,11 +475,15 @@ class  Album extends  Controller {
 		if (! $this->url_array['offset_on_url'])
 			$optimise_the_offset = TRUE;
 
+		// Three permutations - it's in the first 7 (or so) images, it's in the last 7 (or so), or it's in the middle
 		if ($optimise_the_offset)  {
 			if (sizeof ($this->Kpa->kpa_filt['images']) <= $thumbs_per_page)
-				$this->url_array['offset'] = 1;
+				$this->url_array['offset'] = 1;   // Image resides in first 7 of set
 			else
-				$this->url_array['offset'] = $image_position;
+				if ( $image_position > ( sizeof ($this->Kpa->kpa_filt['images']) - $thumbs_per_page) )
+					$this->url_array['offset'] = sizeof ($this->Kpa->kpa_filt['images']) - $thumbs_per_page + 1;   // Image resides in last 7 of set.
+				else
+					$this->url_array['offset'] = $image_position;   // Image resides somewhere between 7th and n-7th.
 			}
 
 		}  // end-method  _optimise_offset ()

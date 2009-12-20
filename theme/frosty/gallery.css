@@ -139,3 +139,13 @@ A.img_thumb:hover  {
 
 #tooltip h3, #tooltip div  {
 	}
+
+/*  hashi = #i = links in Description text fields that we convert to URL's,
+ *  and really want them to stand out in the Description field there - since
+ *  generally URL's are not identified (underline, colour, etc) - we override
+ *  that and set a class in the album.php when we generate the links.
+ */
+A.hashi:link, A.hashi:visited {
+	color: darkblue;
+	font-style: italic;
+	}

@@ -139,7 +139,6 @@ class  Album extends  Controller {
 		$id     = $this->url_array['image_id'];
 		$offset = $this->url_array['offset'];
 
-
 		// The prev-next buttons (left)
 		$prev_image_id = $this->Kpa->get_prev_image_id ($id);
 		$next_image_id = $this->Kpa->get_next_image_id ($id);
@@ -169,6 +168,7 @@ class  Album extends  Controller {
 		$image_info['url_array'] = $this->url_array;
 		$image_info['categories'] = $this->Kpa->get_tag_categories();
 		$image_info['tag_counts'] = $this->Kpa->get_tag_counts($id);
+		$image_info['image']['description'] = $this->_find_and_insert_links_in_description($image_info['image']['description']);
 		// The image-info window (left, tabbed) - we share $image_info with this and the explorifier view partial
 		$this->data['image_info_view'] = $this->load->view("image_info", $image_info, TRUE);
 		// The explorifier window (left, tabbed) - we share $image_info with this and the image-info view partial
@@ -826,6 +826,73 @@ class  Album extends  Controller {
 		}  // end-method  _create_url_with_new_image_id  ()
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Find and insert links (urls) in description
+	 *
+	 * Takes the raw description text that accompanies and image, and finds
+	 * anything that looks like a link and replaces it with an anchor() to
+	 * that same string (always showing the original text - no need to try
+	 * to get TOO smart!).
+	 *
+	 * There are currently three types of links:
+	 * 1.  Any string starting with http://
+	 * 2.  Any string starting with https://
+	 * 3.  Any string:
+	 *            a) starts with #i
+	 *            b) subsequently contains only hex chars
+	 *            c) is the right length, ie. config('image_id_size')
+	 *
+	 * @return	string
+	 */
+	function  _find_and_insert_links_in_description ($description)  {
+		// The number of hex-chars we'll be looking for
+		$image_id_size = $this->config->item('image_id_size');
+
+		// == == == == == == == == == == == == == == == == == ==
+		// It's not clear whether to do the http(s) switch first,
+		// or the #i's - as there'll possibly be twice as many #'s
+		// in a auto_link()'d string (not a huge cost), and similarly
+		// a string we've s-&-r'd #i with an anchor will undoubtedly
+		// then confuse the auto_link() function (as it will contain
+		// url links).
+		// == == == == == == == == == == == == == == == == == ==
+
+		// It's reasonably cheap to do this - use the CI auto_link()
+		// function to find actual URL's and replace them in-line
+		// (shame you can't change their style).  url means only
+		// url's (otherwise it does email addresses too) and TRUE
+		// means the link will open in a new window.
+		$description2 = auto_link($description, 'url', TRUE);
+
+		// We'll do a quick scan through the input string - if there's
+		// no possible hits, we can just return the input string.
+		if (strstr($description2, "#"))  {
+			// We have at least one #i occurence, so we go thru the
+			// whole description and deal with each one as we find it.
+			$desc_length = strlen ($description2);
+			$x = 0;
+			$return_string = "";
+
+			// Loop through the whole string for "#iaabbccddee"
+			while ($x < $desc_length)  {
+				if ( ($description2[$x] == "#") AND ($description2[$x+1] == "i" ) AND (ctype_xdigit(substr($description2, $x+2, $image_id_size))) ) {
+					$candidate_i_string  = substr ($description2, $x,   $image_id_size);
+					$candidate_hex_value = substr ($description2, $x+2, $image_id_size);
+					$return_string .= anchor ("album/gallery/i". $candidate_hex_value , $candidate_i_string, array("class"=>"hashi"));
+					$x = $x + $image_id_size + 2;
+					}
+				else  {
+					$return_string .= $description2[$x];
+					$x++;
+					}
+				}  // end-while
+			}
+		else
+			$return_string = $description2;
+
+		return $return_string;
+		}  // end-method  _find_and_insert_links_indescription ()
 
 
 

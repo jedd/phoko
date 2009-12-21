@@ -115,5 +115,8 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 		});
 </script>
 
-<div id="slider" title="The slider of time">
-</div>
+<?php
+	if ($show_slider)  {
+		echo "<div id=\"slider\" title=\"The slider of time\">\n";
+		echo "</div>\n";
+		}

@@ -192,6 +192,10 @@ class  Album extends  Controller {
 		$thumb_view_data['current_offset'] = $this->url_array['offset'];
 		$thumb_view_data['url_sans_offset'] = $this->_create_url_with_no_offset();
 		$thumb_view_data['every_date_stamp'] = $this->Kpa->create_date_stamp_array();
+
+		$thumbs_per_page  = $this->config->item('thumbs_per_page');
+		$thumb_view_data['show_slider'] = ($total_number_of_images_in_set > $thumbs_per_page) ? TRUE : FALSE;
+
 		$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
 
 

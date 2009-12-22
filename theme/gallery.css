@@ -45,7 +45,7 @@ div#top  {
 	clear: both;
 	height: 90px;
 	padding-left: 4px;
-	padding-bottom: 8px;
+	padding-bottom: 6px;
 	padding-top: 0px;
 	text-align: center;
 	}
@@ -89,7 +89,7 @@ div#left  {
 	}
 
 div#main  {
-	padding-bottom: 10px;
+	padding-bottom: 3px;
 	padding-left: 0px;
 	margin-left: 255px;
 	font-size: 100%;
@@ -103,7 +103,7 @@ div#main  {
 
 div#footer  {
 	padding-left: 4px;
-	padding-top: 7px;
+	padding-top: 2px;
 	padding-bottom: 5px;
 	clear: both;
 	font-size: 70%;

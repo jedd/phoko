@@ -39,11 +39,13 @@ $left_arrow_properties = array (
 							'src' => 'theme/'. $theme .'/leftarrow.png',
 							'height' => '70px',
 							'border' => '0',
+							'title' => 'go back '. $thumbs_per_page .' pictures',
 							);
 $right_arrow_properties = array (
 							'src' => 'theme/'. $theme .'/rightarrow.png',
 							'height' => '70px',
 							'border' => '0',
+							'title' => 'go forward '. $thumbs_per_page .' pictures',
 							);
 
 echo anchor ($url_sans_offset ."/o". $prev_offset_by_page, img ($left_arrow_properties));

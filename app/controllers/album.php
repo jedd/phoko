@@ -196,6 +196,9 @@ class  Album extends  Controller {
 		$thumbs_per_page  = $this->config->item('thumbs_per_page');
 		$thumb_view_data['show_slider'] = ($total_number_of_images_in_set > $thumbs_per_page) ? TRUE : FALSE;
 
+		$thumb_view_data['prev_offset_by_page'] = $prev_offset_by_page;
+		$thumb_view_data['next_offset_by_page'] = $next_offset_by_page;
+		$thumb_view_data['theme'] = $this->data['theme'];
 		$this->data['content']['top'] = $this->load->view ("render_thumbs", $thumb_view_data, TRUE);
 
 

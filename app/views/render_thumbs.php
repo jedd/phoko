@@ -30,6 +30,24 @@
 // ------------------------------------------------------------------------
 
 
+echo "\n". link_tag('theme/gallery.css');
+
+/// @todo move this stuff into the style sheets.
+/// buttons really should (will!) be 70px high,
+/// so probably don't need to force this.
+$left_arrow_properties = array (
+							'src' => 'theme/'. $theme .'/leftarrow.png',
+							'height' => '70px',
+							'border' => '0',
+							);
+$right_arrow_properties = array (
+							'src' => 'theme/'. $theme .'/rightarrow.png',
+							'height' => '70px',
+							'border' => '0',
+							);
+
+echo anchor ($url_sans_offset ."/o". $prev_offset_by_page, img ($left_arrow_properties));
+
 foreach ($thumbs as $thumb_id => $thumb)  {
 	if ($current_image_id != $thumb_id)
 		echo "\n<a class=\"img_thumb\" href=\"". site_url() . $thumb['link'] ."\">";
@@ -65,7 +83,11 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 		echo "</a>\n";
 
 	echo nbs(1);
-	}
+	}  // end-foreach
+
+
+echo anchor ($url_sans_offset ."/o". $next_offset_by_page, img ($right_arrow_properties));
+
 
 	// Now the slider bar for quickly shifting around the thumbnail collection
 ?>

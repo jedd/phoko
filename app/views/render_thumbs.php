@@ -48,7 +48,8 @@ $right_arrow_properties = array (
 							'title' => 'go forward '. $thumbs_per_page .' pictures',
 							);
 
-echo anchor ($url_sans_offset ."/o". $prev_offset_by_page, img ($left_arrow_properties));
+if ($current_offset != $prev_offset_by_page)
+	echo anchor ($url_sans_offset ."/o". $prev_offset_by_page, img ($left_arrow_properties));
 
 foreach ($thumbs as $thumb_id => $thumb)  {
 	if ($current_image_id != $thumb_id)
@@ -87,8 +88,8 @@ foreach ($thumbs as $thumb_id => $thumb)  {
 	echo nbs(1);
 	}  // end-foreach
 
-
-echo anchor ($url_sans_offset ."/o". $next_offset_by_page, img ($right_arrow_properties));
+if ($current_offset != $next_offset_by_page)
+	echo anchor ($url_sans_offset ."/o". $next_offset_by_page, img ($right_arrow_properties));
 
 
 	// Now the slider bar for quickly shifting around the thumbnail collection

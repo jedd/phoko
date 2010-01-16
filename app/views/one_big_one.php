@@ -30,7 +30,12 @@
 <body>
 <div id="everything">
 
-<?php echo $image_proper; ?>
+<?php
+	// Turn the pop-up window into one big href - clicking on it will close the window.
+	echo "<a href=\"javascript:window.close()\" title=\"Click to close this window\">";
+	echo $image_proper;
+	echo "</a>";
+?>
 
 </div> <!-- /everything -->
 </body>

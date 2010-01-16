@@ -36,8 +36,9 @@ $image_properties = array(
            // 'class' => 'post_images',
            'width' => '100%',
            // 'height' => '200',
-           'title' => 'click here to open a larger version in a new window',
+           // 'title' => 'click here to open a larger version in a new window',
            // 'rel' => 'lightbox',
  );
+
 
 echo img($image_properties);

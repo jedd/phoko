@@ -143,10 +143,15 @@ class  Album extends  Controller {
 		$prev_image_id = $this->Kpa->get_prev_image_id ($id);
 		$next_image_id = $this->Kpa->get_next_image_id ($id);
 
+		// Turn these into URL's - we use them in the prev-next sub-view generation (left hand side) as well as the main view (for the transp.png overlays prev/next)
 		$prev_offset = $this->_get_prev_offset ();
 		$next_offset = $this->_get_next_offset ();
-		$prev_next_data['prev_image_url'] = ($prev_image_id) ? $this->_create_url_with_new_image_id ($prev_image_id , $prev_offset) : FALSE;
-		$prev_next_data['next_image_url'] = ($next_image_id) ? $this->_create_url_with_new_image_id ($next_image_id , $next_offset) : FALSE;
+
+		$prev_image_url = ($prev_image_id) ? $this->_create_url_with_new_image_id ($prev_image_id , $prev_offset) : FALSE;
+		$next_image_url = ($next_image_id) ? $this->_create_url_with_new_image_id ($next_image_id , $next_offset) : FALSE;
+
+		$prev_next_data['prev_image_url'] = $prev_image_url;
+		$prev_next_data['next_image_url'] = $next_image_url;
 
 		// The 'next {thumbs per page}' buttons - only need the offset to change.
 		$prev_offset_by_page = $this->_get_prev_offset_by_page ();
@@ -181,6 +186,8 @@ class  Album extends  Controller {
 		$image_original_file_name = $image_repository . $this->Kpa->kpa_full['images'][$id]['file'];
 		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $image_info['image'], $image_type = 'medium' );
 		$main_image_stuff['original_file'] = $image_original_file_name;
+		$this->data['prev_image_url'] = $prev_image_url;
+		$this->data['next_image_url'] = $next_image_url;
 		$this->data['content']['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 
 

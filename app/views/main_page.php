@@ -100,7 +100,25 @@
 	<div id="main_box" class="newClass ui-corner-all">
 		<?php
 			if (isset ($content['image_proper']))  {
-				echo anchor_popup ('/album/onebigone/i'. $id , $content['image_proper'], array ('border' => '0'));
+				// The image is divided into three vertical bars - left, middle, right
+				// Using the main gallery.css - left & right will be 20%, middle will be
+				// everything else.  Clicking the left or right sides of the image will
+				// navigate you to the previous or next image - clicking the middle of
+				// the image will open up a new popup full-screen (you can't use percentages
+				// for the popup - a known feature of popups).
+
+				// If we're at the first or last, do a dodgy.  We can't just not display this span,
+				// otherwise it turns the column into the same as the middle (open new window).
+				if (! $prev_image_url)
+					$prev_image_url = current_url();
+				if (! $next_image_url)
+					$next_image_url = current_url();
+
+				echo anchor ($prev_image_url,  "<span id=\"main_pic_left_link\"></span>", array("title" => "foo"));
+				echo anchor ($next_image_url,  "<span id=\"main_pic_right_link\"></span>");
+				echo anchor_popup ("album/onebigone/i". $id , "<span id=\"main_pic_middle_link\"></span></a>", array('border' => '0', 'height' => '2000', 'width' => '2000'));
+
+				echo $content['image_proper'] ;
 				}
 			// It's unlikely we'll ever have image_proper AND the cache created 'main'
 			if (isset ($content['main']))

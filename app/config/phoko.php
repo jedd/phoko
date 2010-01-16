@@ -254,7 +254,7 @@ $config['shoosh_tags']['Keywords'][] = $config['publish_keyword'];
 
 
 /**
- *  Sizes for small (thumbs), medium, and large (full-screen) images.
+ *  Sizes for small (thumbs) and large (full-screen-able) images.
  *
  *  Display sizes may change, so these are primarily to control
  *  the disk space (and consequently the network bandwidth) required
@@ -265,10 +265,10 @@ $config['shoosh_tags']['Keywords'][] = $config['publish_keyword'];
  *  quite savagely, because of the large width:height ratio.  Tall and
  *  thin images don't get shrunk anywhere near as much as they should.
  *
- *  In general the quality of the medium and large images aren't so
- *  good, and while this is primarily a reflection on the imagemagick
- *  parameters used to generate the cached image files, it does mean
- *  that the following may well end up being ignored in the long term.
+ *  In general the quality of large images aren't so good, and while
+ *  this is primarily a reflection on the imagemagick parameters used
+ *  to generate the cached image files, it does mean that the following
+ *  may well end up being ignored in the long term.
  *
  *  On the upside, changing the set here should just result in cache
  *  files being over-written, over time, until the whole cache is
@@ -281,19 +281,15 @@ $config['shoosh_tags']['Keywords'][] = $config['publish_keyword'];
  * * images look better when shown full screen, or spanning multiple
  * * monitors, or within a pano-viewer.
  * )))
+ *
+ * Note - originally I planned on having 3 sizes (small, med, large)
+ * but subsequently changed the design to have only small and large,
+ * which will save space.  The large image is shown in the image window,
+ * as well as the pop-up (full screen).
  **/
-//$config['image_sizes'] = array (
-//					"small" =>
-//						array ("x" => 80,   "y" => 60),
-//					"medium"  =>
-//						array ("x" => 640,  "y" => 480),
-//					"large"  =>
-//						array ("x" => 1200,  "y" => 900));
 $config['image_sizes'] = array (
 					"small" =>
 						array ("x" => 80,   "y" => 60),
-					"medium"  =>
-						array ("x" => 1200,  "y" => 900),
 					"large"  =>
 						array ("x" => 1500,  "y" => 1125));
 

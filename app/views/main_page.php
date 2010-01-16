@@ -117,8 +117,13 @@
 				echo anchor ($prev_image_url,  "<span id=\"main_pic_left_link\"></span>", array("title" => "Move to previous image"));
 				echo anchor ($next_image_url,  "<span id=\"main_pic_right_link\"></span>", array("title" => "Move to next image"));
 
-				echo anchor_popup ("album/onebigone/i". $id , "<span id=\"main_pic_middle_link\"></span></a>", array('title' => 'View full screen version of this image', 'border' => '0', 'height' => '2000', 'width' => '2000'));
+				$image_attributes = array('title' => 'View full screen version of this image', 'border' => '0', 'height' => '2000', 'width' => '2000');
+				echo anchor_popup ("album/onebigone/i". $id , "<span id=\"main_pic_middle_link\"></span></a>", $image_attributes);
 
+				// The image, underneath.  Doing it this way means we don't get the effective
+				// mouse-over thing happening anymore, unfortunately.  LATER - we can look
+				// at doing those with the anchors above, or via through CSS, for each of the
+				// regions.
 				echo $content['image_proper'] ;
 				}
 			// It's unlikely we'll ever have image_proper AND the cache created 'main'

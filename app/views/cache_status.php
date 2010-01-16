@@ -45,14 +45,11 @@ We have a total of <?php echo $stats['kpa']['total']; ?> images being published.
 			small
 		</td>
 		<td>
-			medium
-		</td>
-		<td>
 			large
 		</td>
 	</tr>
 	<?php
-		$sizes = array ('small', 'medium', 'large');
+		$sizes = array ('small', 'large');
 		$items = array ('cache_size', 'cache_count', 'extraneous_count', 'missing_count');
 		foreach ($items as $item)  {
 			echo "\n<tr>\n";

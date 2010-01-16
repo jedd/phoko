@@ -342,28 +342,6 @@ $config['valid_themes'] = array (
 
 
 
-// ===============================================================================
-// ===============================================================================
-// ===============================================================================
-//
-// Following items are residual legacy items from the pre-CI instance, and are
-// either being migrated / modified, or culled, as the system is developed.
-//
-// ===============================================================================
-// ===============================================================================
-// ===============================================================================
-
-/** Scrollbar granularity - determines the number of chunks that the
- *  pseudo scrollbar (beneath the thumbnails) is broken into.  The
- *  default of 20 is a good number, and probably no reason to change this.
- *
- *  Note - must be divisible evenly into 100 (for the %age calculation),
- *  so this limits it to 10, 20, 25, or 50.
- **/
-// $scrollbar_granularity = 50;
-
-
-
 
 /* End of file phoko.php */
 /* Location: ./app/config/phoko.php */

@@ -114,9 +114,10 @@
 				if (! $next_image_url)
 					$next_image_url = current_url();
 
-				echo anchor ($prev_image_url,  "<span id=\"main_pic_left_link\"></span>", array("title" => "foo"));
-				echo anchor ($next_image_url,  "<span id=\"main_pic_right_link\"></span>");
-				echo anchor_popup ("album/onebigone/i". $id , "<span id=\"main_pic_middle_link\"></span></a>", array('border' => '0', 'height' => '2000', 'width' => '2000'));
+				echo anchor ($prev_image_url,  "<span id=\"main_pic_left_link\"></span>", array("title" => "Move to previous image"));
+				echo anchor ($next_image_url,  "<span id=\"main_pic_right_link\"></span>", array("title" => "Move to next image"));
+
+				echo anchor_popup ("album/onebigone/i". $id , "<span id=\"main_pic_middle_link\"></span></a>", array('title' => 'View full screen version of this image', 'border' => '0', 'height' => '2000', 'width' => '2000'));
 
 				echo $content['image_proper'] ;
 				}

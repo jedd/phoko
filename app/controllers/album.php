@@ -184,7 +184,7 @@ class  Album extends  Controller {
 		$image_repository = $this->config->item('repository');
 		// Because the main image might not necessarily be in the thumb-visible set, we pull ths from kpa_full
 		$image_original_file_name = $image_repository . $this->Kpa->kpa_full['images'][$id]['file'];
-		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $image_info['image'], $image_type = 'medium' );
+		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $id, $image_original_file_name, $image_info['image'], $image_type = 'large' );
 		$main_image_stuff['original_file'] = $image_original_file_name;
 		$this->data['prev_image_url'] = $prev_image_url;
 		$this->data['next_image_url'] = $next_image_url;
@@ -324,7 +324,7 @@ class  Album extends  Controller {
 		$kpa_show = $this->Kpa->kpa_filt;
 
 		$image_original_file_name = $image_repository . $kpa_show['images'][$image_id]['file'];
-		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $image_id, $image_original_file_name, $kpa_show['images'][$image_id], $image_type = 'medium' );
+		$main_image_stuff['path'] = $this->Kpa->prepare_image ( $image_id, $image_original_file_name, $kpa_show['images'][$image_id], $image_type = 'large' );
 		$this->data['image_proper'] = $this->load->view ("render_image", $main_image_stuff, TRUE);
 		$this->data['image_id'] = $image_id;
 
@@ -387,7 +387,7 @@ class  Album extends  Controller {
 	 * file only check for the presence of the cache file proper, not
 	 * the temporary file - so clashes should be minimal.
 	 *
-	 * @param	string		$file_type	Type of cache (small, medium, large)
+	 * @param	string		$file_type	Type of cache (small, large)
 	 **/
 	function  _cache_create_items ($file_type)  {
 		$kpa_full = $this->Kpa->get_pictures();
@@ -412,7 +412,7 @@ class  Album extends  Controller {
 	 *
 	 * Deletes extraneous entries in the cache directories.
 	 *
-	 * @param	string		$file_type	Type of cache (small, medium, large)
+	 * @param	string		$file_type	Type of cache (small, large)
 	 **/
 	function  _cache_delete_items ($file_type)  {
 
@@ -928,7 +928,7 @@ class  Album extends  Controller {
 	 *				[1] => e27fcf562a
 	 *				...
 	 *			)
-	 * [ ... ]  // (repeated for 'medium' and 'large' sizes)
+	 * [ ... ]  // (repeated for 'large' sizes)
 	 * [kpa]
 	 *		[total] => 565
 	 *

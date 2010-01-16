@@ -319,8 +319,6 @@ class  Album extends  Controller {
 		// For a manual update of kpa_filt (normally done during the /offset analysis)
 		$this->Kpa->generate_kpa_filt ();
 
-
-
 		// Generate a big one
 		$image_repository = $this->config->item('repository');
 		$kpa_show = $this->Kpa->kpa_filt;
@@ -332,7 +330,6 @@ class  Album extends  Controller {
 
 		$this->load->view ('one_big_one', $this->data);
 	 	}  // end-method  onebigone ()
-
 
 
 

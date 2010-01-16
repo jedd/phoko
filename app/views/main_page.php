@@ -146,6 +146,9 @@
 			<br />
 			<?php
 				echo anchor_popup ("http://dingogully.com.au/trac/phoko", "Phoko project site");
+				echo nbs(15);
+				// The image is actually 1320 x 590.  Iceweasel is tricky to make this size Just Right.
+				echo anchor_popup (base_url() . "theme/how_to_use_this_gallery.png", "How to use this gallery", array("width" => "1340", "height" => "610", "border" => "0"));
 			?>
 		</td>
 

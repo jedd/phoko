@@ -198,6 +198,7 @@ $config['category_abbreviations'] = array (
 						array (	"OK - jedd",
 								"0 - TEMP - stuff that Jan should go through",
 								"0 - TEMP - stuff that Jedd should go through",
+								"0 - TEMP - stuff that Georgia should go through",
 								),
 				// "Persons"   =>  array ("foes"),
 				"Persons"   =>

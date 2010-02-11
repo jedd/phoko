@@ -17,7 +17,7 @@
 /**
  * render_image  (view)
  *
- * Prepare the main image window - showing the 'medium' sized image,
+ * Prepare the main image window - showing the 'large' sized image,
  * and that's about it!
 *
  *

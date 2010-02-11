@@ -613,11 +613,11 @@ class  Kpa extends  Model {
 	/**
 	 * Get list of cache files
 	 *
-	 * Will return list of files in cache, for a given type (small, medium, large).
+	 * Will return list of files in cache, for a given type (small, large).
 	 * Absent a nominated type, will return all - in sub-arrays - using a
 	 * recursive call back to itself.
 	 *
-	 * @param	string	$type	One of 'all', 'small', 'medium', 'large'
+	 * @param	string	$type	One of 'all', 'small', 'large'
 	 * @return	array
 	 **/
 	function  cache_get_list_of_files ( $type = "all"  )  {
@@ -627,7 +627,7 @@ class  Kpa extends  Model {
 		$image_id_size  = $this->config->item('image_id_size');
 
 		// This is a recursive function - if we come in with all, we actually
-		// then return here with 'small', 'medium' and 'large' in order.
+		// then return here with 'small' and 'large' in order.
 		// If we arrive with any specific size, we go straight to the else below.
 		if ($type == "all")  {
 			$return_array = array();
@@ -659,10 +659,10 @@ class  Kpa extends  Model {
 	/**
 	 * Delete cache files
 	 *
-	 * Given a list of files and the file type (small, medium, large) this
+	 * Given a list of files and the file type (small, large) this
 	 * function deletes those files.
 	 *
-	 * @param	string	$type			One of 'all', 'small', 'medium', 'large'
+	 * @param	string	$type			One of 'all', 'small', 'large'
 	 * @param	array	$delete_files	Array of files to delete
 	 **/
 	function  delete_cache_files ( $file_type, $delete_files )  {
@@ -679,10 +679,10 @@ class  Kpa extends  Model {
 	/**
 	 * Create cache files
 	 *
-	 * Given a list of files and the file type (small, medium, large) this
+	 * Given a list of files and the file type (small, large) this
 	 * function creates those files.
 	 *
-	 * @param	string	$type			One of 'all', 'small', 'medium', 'large'
+	 * @param	string	$type			One of 'all', 'small', 'large'
 	 * @param	array	$create_files	Array of files to create
 	 **/
 	function  create_cache_files ( $file_type, $create_files )  {
@@ -733,14 +733,14 @@ class  Kpa extends  Model {
 	 *
 	 * @param	string	$image_id		The ID of the image we're about to provide
 	 * @param	array	$image_info		A dump from the [images] sub-array of kpa_full
-	 * @param	string	$type			The type of image (all, small, medium, large, raw)
+	 * @param	string	$type			The type of image (all, small, large, raw)
 	 * @return	string
 	 **/
 	function  prepare_image  ( $image_id = FALSE, $original_file = '', $image_info, $image_type = 'all' )  {
 		/// @todo Here is where we'd check if image_type is 'raw', and handle that
 		/// separately, then return.
 
-		// If 'all', recursively call this function with 'small', 'medium' and 'large'
+		// If 'all', recursively call this function with 'small' and 'large'
 		$image_sizes = $this->config->item('image_sizes');
 
 		if ($image_type == 'all')
@@ -750,7 +750,7 @@ class  Kpa extends  Model {
 					return FALSE;
 				}
 
-		/// Okay, we're now definitely dealing with one of small, medium or large
+		/// Okay, we're now definitely dealing with one of small or large
 
 		$cache_file_name = "cache/". $image_type ."/". $image_id .".jpg";
 		$tmp_file_name   = "cache/". $image_type ."/". $image_id ."_tmp.jpg";

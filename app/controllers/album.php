@@ -47,7 +47,7 @@ class  Album extends  CI_Controller {
 	 **/
 
 	function  __construct ()  {
-		parent::Controller();
+		parent::__construct();
 
 		// A very basic breadcrumb system - primarily for internal use only, on redirects - sometimes
 		// if a user clicks a link too fast (it seems) things can get confused, hence we check if

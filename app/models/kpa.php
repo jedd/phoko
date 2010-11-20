@@ -736,9 +736,11 @@ class  Kpa extends  Model {
 	 * @param	string	$type			The type of image (all, small, large, raw)
 	 * @return	string
 	 **/
-	function  prepare_image  ( $image_id = FALSE, $original_file = '', $image_info, $image_type = 'all' )  {
-		/// @todo Here is where we'd check if image_type is 'raw', and handle that
-		/// separately, then return.
+	function  prepare_image  ( $image_id = FALSE, $original_file = '', $image_info = NULL, $image_type = 'all' )  {
+		// @TODO get rid of $image_info - we appear to not use it.
+
+		// @todo Here is where we'd check if image_type is 'raw', and handle that
+		// separately, then return.
 
 		// If 'all', recursively call this function with 'small' and 'large'
 		$image_sizes = $this->config->item('image_sizes');

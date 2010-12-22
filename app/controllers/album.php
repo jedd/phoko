@@ -34,8 +34,13 @@ class  Album extends  CI_Controller {
 	 *   Attributes
 	 **/
 
-	// This is where bits of the URL, once parsed, get dumped.  It's an array
-	// of arrays, for instance $url_array['filters'] => array ('actual'=> 'foo', ...)
+	/**
+	 * This is where bits of the URL, once parsed, get dumped.  It's an array
+	 * of arrays, for instance $url_array['filters'] => array ('actual'=> 'foo', ...)
+	 *
+	 * @var array
+	 *
+	 */
 	var $url_array = array ();
 
 

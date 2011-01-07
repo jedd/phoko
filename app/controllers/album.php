@@ -19,6 +19,7 @@
  *
  * Primary controller for the Phoko suite.
  *
+ * @property	Kpa $kpa
  * @package     phoko
  * @version     v1
  * @author      jedd

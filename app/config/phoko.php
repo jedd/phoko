@@ -21,9 +21,9 @@
 |        to keep hidden from the rest of the world.
 |
 | No other entries *need* to be changed in here.  Be sure not to change
-| any of the settings that say 'DON'T MESS WITH THESE!' unless you
-| making some code changes.  Modifying the non-modifiable items in is
-| not something that I've tested.
+| any of the settings that say 'DON'T MESS WITH THESE!' unless you are
+| making some code changes.  Modifying the non-modifiable items is not
+| something that I've tested.
 */
 
 
@@ -175,7 +175,7 @@ $config['category_abbreviations'] = array (
  *  shown within Phoko.  This is useful if you have some secret tags,
  *  or want to tidy up your work-in-progress tags.
  *
- *  For instance, I use the 'OK' tag to denote images that I'm
+ *  For instance, I use the 'OK' tag to denote images that I've
  *  finished tagging, and use the negated version of that when
  *  searching for pictures I haven't finished working on in KPA.
  *  I also use some tags to alert my family that they have
@@ -199,6 +199,8 @@ $config['category_abbreviations'] = array (
 								"0 - TEMP - stuff that Jan should go through",
 								"0 - TEMP - stuff that Jedd should go through",
 								"0 - TEMP - stuff that Georgia should go through",
+								"0 - TEMP - misaligned date time stamps",
+								"0 - TEMP - misaligned date time stamps - 2nd edition",
 								),
 				// "Persons"   =>  array ("foes"),
 				"Persons"   =>

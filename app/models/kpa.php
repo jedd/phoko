@@ -897,7 +897,7 @@ class  Kpa extends  CI_Model {
 	function  _massage_member_groups ( $member_groups, $tags_in_use )  {
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		// Config items we use in a few places
-		$shoosh_tags      = $this->config->item('shoosh_tags', 'phoko');
+		$shoosh_tags      = $this->config->item('shoosh_tags');
 
 		$mg_array = array();
 
@@ -915,7 +915,14 @@ class  Kpa extends  CI_Model {
  			// SHOOSH TAGS, as $tags_in_use was filtered by that config setting.
  			// The one thing we didn't catch there was MEMBER GROUPS, of course,
  			// so that's all we check for here.
-			if ( (isset ($shoosh_tags[$category]))  AND  (! in_array ($group_name, $shoosh_tags[$category]) )  )
+ 			echo "Group name = ". $group_name;
+ 			echo "<br>";
+ 			echo "mg = ";
+ 			dump ($mg);
+ 			echo "<br>";
+			if ( (isset ($shoosh_tags[$category]))
+				AND  (! in_array ($group_name, $shoosh_tags[$category]) )
+				AND  (  in_array ($group_name, $tags_in_use[$category]) ) )
 				$mg_array[$category][$group_name][] = $tag;
  			}
 
@@ -923,6 +930,7 @@ class  Kpa extends  CI_Model {
  		foreach ($mg_array as $category => $group)
  			foreach ($group as $group_name => $tag)
  				sort ( &$mg_array[$category][$group_name] );
+
 
 		return $mg_array;
 		}  //  end-method  _massage_member_groups ()

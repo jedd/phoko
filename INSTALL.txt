@@ -60,7 +60,7 @@ The really important things are:
 
 
 
-And that should be it at this end. 
+And that should be it at this end.
 
 
 Go into KPhotoAlbum and tag a few images with your nominated
@@ -72,7 +72,3 @@ your first image.
 You can hit the project page to find out how to contact me,
 if you have any problems or suggestions on ways of improving
 this documentation or the application.
-
-
-
-

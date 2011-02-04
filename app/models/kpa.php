@@ -149,13 +149,14 @@ class  Kpa extends  CI_Model {
 		if ( ($index_xml_file_time == 0) AND ($cache_xml_file_time == 0) )
 			return FALSE;
 
+		// JEDD - disable this so we always parse the index.xml file
 		// If cache file is newer, we use it immediately.
-		if ($cache_xml_file_time > $index_xml_file_time)  {
-			$kpa_full = unserialize (file_get_contents ($cache_xml_file_name) );
-			$this->kpa_full = $kpa_full;
-			/// @todo We can later avoid returning this.
-			return $kpa_full;
-			}
+//		if ($cache_xml_file_time > $index_xml_file_time)  {
+//			$kpa_full = unserialize (file_get_contents ($cache_xml_file_name) );
+//			$this->kpa_full = $kpa_full;
+//			/// @todo We can later avoid returning this.
+//			return $kpa_full;
+//			}
 
 		// If we get here, we know we're going to use index.xml
 		$xml_content = simplexml_load_file($index_xml_file_name);
@@ -205,22 +206,27 @@ class  Kpa extends  CI_Model {
 									$tag_category = (string)$revisited_option['name'];
 									$tag_category = str_replace ("_", " ", $tag_category);
 
-									// Go through inner array, picking up tags within this tag_category.
-									$x = 0;
-									foreach ($revisited_option->value as $tagset)  {
-										$tag_value = (string)$tagset['value'];
+								// We ignore Tokens as a tag category - they're meant to be short-term
+								// attributes.  If we don't do this here then we get some on-browser
+								// errors when there are published pictures that have tokens.
+								if ($tag_category != "Tokens")  {
+										// Go through inner array, picking up tags within this tag_category.
+										$x = 0;
+										foreach ($revisited_option->value as $tagset)  {
+											$tag_value = (string)$tagset['value'];
 
-										// Publish-tag is added to shoosh_tags in the config, so we just use that.
-										if (! (in_array ($tag_value, $shoosh_tags[$tag_category])) ) {
-											$kpa_full['images'][$image_id]['tags'][$tag_category][$x++] = $tag_value;
+											// Publish-tag is added to shoosh_tags in the config, so we just use that.
+											if ( ! (in_array ($tag_value, $shoosh_tags[$tag_category])) )  {
+												$kpa_full['images'][$image_id]['tags'][$tag_category][$x++] = $tag_value;
 
-											// We keep a counter of occurences of each tag.
-											if (isset ($kpa_full['tags'][$tag_category][$tag_value]))
-												$kpa_full['tags'][$tag_category][$tag_value] += 1;
-											else
-												$kpa_full['tags'][$tag_category][$tag_value] = 1;
-											}  // end-if (picture not in shoosh tags)
-										}  // end-foreach ($revisited_option->value as $tagset)
+												// We keep a counter of occurences of each tag.
+												if (isset ($kpa_full['tags'][$tag_category][$tag_value]))
+													$kpa_full['tags'][$tag_category][$tag_value] += 1;
+												else
+													$kpa_full['tags'][$tag_category][$tag_value] = 1;
+												}  // end-if (picture not in shoosh tags)
+											}  // end-foreach ($revisited_option->value as $tagset)
+										} // end-if $tag_category != 'Tokens'
 									}  // end-foreach ($image->options->option as $revisited_option)
 								}  // end-if image-is-to-be-published
 							}  // end-foreach ($option->value  as  $value)

@@ -701,7 +701,7 @@ class  Album extends  CI_Controller {
 	 * Pull the /i... entry from the URL we arrived with.
 	 *
 	 * $this->url_array['image_id'] is set with whatever it finds,
-	 * or given a default value (the first ID in the current set)
+	 * or given a default value (the last ID in the current set)
 	 *
 	 **/
 	function  _extract_image_id_from_url  ( )  {
@@ -719,9 +719,9 @@ class  Album extends  CI_Controller {
 			$seg_x++;
 			}
 
-		// If none is given on the URL, take the first in the filtered set we have.
+		// If none is given on the URL, take the last in the filtered set we have.
 		if (! $image_id)
-			$image_id = $this->Kpa->get_first_image_id_from_kpa_filt();
+			$image_id = $this->Kpa->get_last_image_id_from_kpa_filt();
 
 		$this->url_array['image_id'] = $image_id;
 		}  // end-method  _extract_image_id_from_url  ()

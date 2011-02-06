@@ -528,6 +528,31 @@ class  Kpa extends  CI_Model {
 
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Get last image_id
+	 *
+	 * Returns the image_id of the last image in the $kpa_filt array
+	 *
+	 * @return	string
+	 **/
+	function   get_last_image_id_from_kpa_filt  ( )  {
+		$image_id_size = $this->config->item('image_id_size');
+
+		// Can't think of a better way of identifying the last in the array
+		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
+			;
+			}
+
+		// Sanity check - confirm $image_id is '10' chars long
+		if (strlen ($image_id) == $image_id_size)
+			return $image_id;
+		else
+			return FALSE;
+		}  // end-method  get_last_image_id_from_kpa_filt  ()
+
+
+
 
 	// ------------------------------------------------------------------------
 	/**

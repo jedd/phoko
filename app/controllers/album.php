@@ -179,7 +179,11 @@ class  Album extends  CI_Controller {
 		$image_info['url_array'] = $this->url_array;
 		$image_info['categories'] = $this->Kpa->get_tag_categories();
 		$image_info['tag_counts'] = $this->Kpa->get_tag_counts($id);
+
+		$image_info['image']['exif'] = $this->Kpa->get_image_exif($id);
+
 		$image_info['image']['description'] = $this->_find_and_insert_links_in_description($image_info['image']['description']);
+
 		// The image-info window (left, tabbed) - we share $image_info with this and the explorifier view partial
 		$this->data['image_info_view'] = $this->load->view("image_info", $image_info, TRUE);
 		// The explorifier window (left, tabbed) - we share $image_info with this and the image-info view partial

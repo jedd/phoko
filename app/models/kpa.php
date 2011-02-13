@@ -739,6 +739,25 @@ class  Kpa extends  CI_Model {
 
 
 
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get image EXIF info
+	 *
+	 * Given an image_id - pull out the relevant sub-array from $kpa_full
+	 *
+	 * @param	string	$image_id
+	 **/
+	function  get_image_exif  ( $image_id )  {
+		$foo = array (
+					"focal length" => "300mm",
+					"brand" => "Olympus",
+					);
+		return  $foo;
+		}  //  end-method  get_image_exif ()
+
+
+
 	// ------------------------------------------------------------------------
 	/**
 	 * Prepare image

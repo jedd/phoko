@@ -94,6 +94,17 @@ if (isset ($image['tags']))  {
 	echo "</ul>\n";
 	}
 
+
+if (isset ($image['exif']))  {
+	echo "\n<hr />\n";
+	echo "EXIF<br />";
+	echo "<font class=\"subdued\">";
+	foreach ($image['exif'] as $name => $value)  {
+		echo nbs(3) . $name ." : ". $value ."<br />";
+		}
+	echo "</font>";
+	}
+
 echo "\n<hr />\n";
 
 echo nl2br($image['description']);

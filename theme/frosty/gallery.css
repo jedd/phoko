@@ -88,7 +88,7 @@ font.subdued  {
 /* The image technical details - eg. ISO, aperture, etc */
 font.exif_details  {
     color: darkgrey;
-    font-size: 60%;
+    font-size: 80%;
     }
 
 /* Various headings - such as 'Filtering on:' or 'Keyword:', 'Location:' and so on,

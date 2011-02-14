@@ -97,10 +97,11 @@ if (isset ($image['tags']))  {
 
 if (isset ($image['exif']))  {
 	echo "\n<hr />\n";
-	echo "EXIF<br />";
 	echo "<font class=\"subdued\">";
+	echo "EXIF<br />";
+	// dump ($image['exif']);
 	foreach ($image['exif'] as $name => $value)  {
-		echo nbs(3) . $name ." : ". $value ."<br />";
+		echo nbs(3) . $name .":". nbs(2) . $value ."<br />";
 		}
 	echo "</font>";
 	}

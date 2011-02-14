@@ -104,6 +104,127 @@ $config['image_attributes'] = array ("width", "description", "height", "startDat
 
 
 /**
+ *  EXIF tags of interest
+ *
+ *  There's a stack of EXIF tags, and they vary in quantity and,
+ *  annoyingly also in nomenclature, from one camera to the next.
+ *
+ *  We have to be a bit sophisticated here, as EXIF tags change,
+ *  annoyingly, between EXIF versions.  For instance, the whole
+ *  world knows that ISO is ISO and is a number between (usually)
+ *  100 and 64000.  But EXIF has three names for it - ISO,
+ *  ISOSpeedRatings (exif v2.2) and PhotographicSensitive (v2.3).
+ *
+ *  Fantastic.
+ *
+ *  So the format we use here is the key for each element is the
+ *  name as it will appear on your phoko web page.  exiftags is
+ *  an array of 1 or more elements for the things we will later
+ *  scan the file's EXIF data for.
+ *
+ *  We also record type - so we know how to handle things.  Strings
+ *  are easy - we just copy them.  Other things might need to be
+ *  handled .. interestingly.  See ->KPA->_get_exif_info_from_file()
+ *  for precisely how we do this.
+ *
+ *  We also record an optiona prefix and suffix - so far only used on
+ *  Aperture and Exposure Time to.  We add this text on to the string
+ *  in the model, despite technically being a view issue.  Oh well.
+ *
+ *  Btw, this gets displayed on the standard page view - under
+ *  the 'Image' tab (the default shown on a new page load)
+ *  beneath the Tags section and above the Description section.
+ *
+ *  You probably don't want to modify this section - as at 2011-02
+ *  it's new, and probably undergoing some changes - as part of
+ *  the (equally new) feature to actually show EXIF information.
+ *
+ *  @TODO   Work out how (if we can) extract the Olympus specific
+ *          EXIF info, for things like lenses and so on -->
+ *  http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Olympus.html
+ *
+ *  Final note - we don't follow the EXIF spec's strict interpretation
+ *  of value *type* - that is, for Exposure Time, while it's a rational
+ *  (x/y) we interpret that as a string, as we want to see x/y.  But
+ *  for F.Number we say it's a rational, as we want to convert it to
+ *  a decimal.
+ **/
+$config['exif_tags_of_interest'] = array (
+									"Make" => array (
+										"exif_tag_names"	=> array ("Make"),
+										"type"				=> "string",
+										),
+									"Model" => array (
+										"exif_tag_names"	=> array ("Model"),
+										"type"				=> "string",
+										),
+									"Exposure Time" => array (
+										"exif_tag_names"	=> array ("ExposureTime"),
+										"type"				=> "string",
+										"suffix"			=> "s",
+										),
+									"Aperture" => array (
+										"exif_tag_names"	=> array ("FNumber"),
+										"type"				=> "rational",
+										"prefix"			=> "&fnof;/",
+										),
+									"Focal Length" => array (
+										"exif_tag_names"	=> array ("FocalLength"),
+										"type"				=> "rational",
+										"suffix"			=> "mm",
+										),
+									"ISO" => array (
+										"exif_tag_names"	=> array ("ISO", "ISOSpeedRatings", "PhotographicSensitivity"),
+										"type"				=> "integer",
+										),
+//									"Image Width" => array (
+//										"exif_tag_names"	=> array ("ExifImageWidth"),
+//										"type"				=> "integer",
+//										),
+//									"Image Height" => array (
+//										"exif_tag_names"	=> array ("ExifImageLength"),
+//										"type"				=> "integer",
+//										),
+//									"Exposure Compensation" => array (
+//										"exif_tag_names"	=> array ("ExposureCompensation", "ExposureBiasValue"),
+//										"type"				=> "rational",
+//										),
+									"Flash" => array (
+										"exif_tag_names"	=> array ("Flash"),
+										"type"				=> "lookup",
+										"lookup"   => array (
+											"0x0"  => "No Flash",
+											"0x1"  => "Fired",
+											"0x5"  => "Fired, Return not detected",
+											"0x7"  => "Fired, Return detected",
+											"0x8"  => "On, Did not fire",
+											"0x9"  => "On, Fired",
+											"0xd"  => "On, Return not detected",
+											"0xf"  => "On, Return detected",
+											"0x10" => "Off, Did not fire",
+											"0x14" => "Off, Did not fire, Return not detected",
+											"0x18" => "Auto, Did not fire",
+											"0x19" => "Auto, Fired",
+											"0x1d" => "Auto, Fired, Return not detected",
+											"0x1f" => "Auto, Fired, Return detected",
+											"0x20" => "No flash function",
+											"0x30" => "Off, No flash function",
+											"0x41" => "Fired, Red-eye reduction",
+											"0x45" => "Fired, Red-eye reduction, Return not detected",
+											"0x47" => "Fired, Red-eye reduction, Return detected",
+											"0x49" => "On, Red-eye reduction",
+											"0x4d" => "On, Red-eye reduction, Return not detected",
+											"0x4f" => "On, Red-eye reduction, Return detected",
+											"0x50" => "Off, Red-eye reduction",
+											"0x58" => "Auto, Did not fire, Red-eye reduction",
+											"0x59" => "Auto, Fired, Red-eye reduction",
+											"0x5d" => "Auto, Fired, Red-eye reduction, Return not detected",
+											"0x5f" => "Auto, Fired, Red-eye reduction, Return detected",
+											),
+										),
+									);
+
+/**
  *  Thumbs per page
  *
  *  Until we get a javascript-enabled version up and going that

@@ -927,6 +927,8 @@ class  Kpa extends  CI_Model {
 									break;
 							default:	// For string and integer types
 									$value = trim ((string)($value));
+									if (isset ($exif_tag_info['content_synonyms'][$value]))
+										$value = $exif_tag_info['content_synonyms'][$value];
 									break;
 							}  // end-switch
 

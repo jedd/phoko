@@ -138,6 +138,11 @@ $config['image_attributes'] = array ("width", "description", "height", "startDat
  *  You probably don't want to modify this section - as at 2011-02
  *  it's new, and probably undergoing some changes - as part of
  *  the (equally new) feature to actually show EXIF information.
+ *  Though having said that, the content_synonyms are worth adding
+ *  to, and feeding back to the maintainer if you care to.  They
+ *  are just a way of simplifying the display data - as some of them
+ *  'maker' strings are a bit wordy - prime examples follow in the
+ *  array as shown - 'OLYMPUS IMAGING CORP.' becomes 'Olympus'.
  *
  *  @TODO   Work out how (if we can) extract the Olympus specific
  *          EXIF info, for things like lenses and so on -->
@@ -153,12 +158,16 @@ $config['exif_tags_of_interest'] = array (
 									"Make" => array (
 										"exif_tag_names"	=> array ("Make"),
 										"type"				=> "string",
+										"content_synonyms"	=> array (
+											"OLYMPUS IMAGING CORP."	=> "Olympus",
+											"Minolta Co., Ltd."		=> "Minolta",
+											),
 										),
 									"Model" => array (
 										"exif_tag_names"	=> array ("Model"),
 										"type"				=> "string",
 										),
-									"Exposure Time" => array (
+									"Shutter" => array (
 										"exif_tag_names"	=> array ("ExposureTime"),
 										"type"				=> "string",
 										"suffix"			=> "s",

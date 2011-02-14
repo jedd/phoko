@@ -150,6 +150,10 @@ ul.explorifier_tags  {
 font.subdued  {
 	}
 
+/* The image technical details - eg. ISO, aperture, etc */
+font.exif_details  {
+    }
+
 /* Various headings - such as 'Filtering on:' or 'Keyword:', 'Location:' and so on,
    where we want to understate them somewhat - typically this involves greying them
    out slightly.

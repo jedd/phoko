@@ -36,7 +36,19 @@ if ($image['startDate'] == $image['endDate'])
 else
 	echo "Between: ". $image['startDate'] ." and ". $image['endDate'];
 
+
 echo "\n<hr />\n";
+
+
+// I have toyed with a heading here for the 'Description:' but it
+// tends to look worse with this, than just showing the description text.
+echo "<br />";
+echo nl2br($image['description']);
+echo "<br /><br />";
+
+
+echo "\n<hr />\n";
+
 
 $category_abbreviations = $this->config->item('category_abbreviations');
 
@@ -95,19 +107,18 @@ if (isset ($image['tags']))  {
 	}
 
 
+// EXIF info display, when it exists.
 if (isset ($image['exif']))  {
 	echo "\n<hr />\n";
 	echo "<font class=\"subdued\">";
-	echo "EXIF<br />";
-	// dump ($image['exif']);
+	echo "Technical:<br />";
+	echo "</font>";
+
+	echo "<font class=\"exif_details\">";
 	foreach ($image['exif'] as $name => $value)  {
 		echo nbs(3) . $name .":". nbs(2) . $value ."<br />";
 		}
 	echo "</font>";
 	}
-
-echo "\n<hr />\n";
-
-echo nl2br($image['description']);
 
 

@@ -85,6 +85,12 @@ font.subdued  {
 	font-size: 80%;
 	}
 
+/* The image technical details - eg. ISO, aperture, etc */
+font.exif_details  {
+	color: darkgrey;
+	font-size: 60%;
+	}
+
 /* Various headings - such as 'Filtering on:' or 'Keyword:', 'Location:' and so on,
    where we want to understate them somewhat - typically this involves greying them
    out slightly. */

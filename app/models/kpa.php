@@ -925,6 +925,14 @@ class  Kpa extends  CI_Model {
 									else  // No slash means it's .. too hard to work out.
 										$value = $fraction;
 									break;
+							case "lookup" : // For flash only - the big ugly hex-value -> string
+									/** Most cameras seem to store this in decimal format, but our
+									 * lookup table is hex, with leading '0x'.  We have to sensibly
+									 * convert in one place, and I've chosen here.
+									 * @TODO Try to intelligently guess if a hex format came in */
+									$hex_value = "0x" . (string) dechex((int)$value);
+									$value = $exif_tag_info['lookup'][$hex_value];
+									break;
 							default:	// For string and integer types
 									$value = trim ((string)($value));
 									if (isset ($exif_tag_info['content_synonyms'][$value]))

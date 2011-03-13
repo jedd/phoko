@@ -972,10 +972,12 @@ class  Album extends  CI_Controller {
 		$stats['kpa']['total'] = count ($kpa_db_images);
 
 		/// Third - go through the cache directory list and work out what files
-		/// are EXTRANEOUS - ie. not represented in the kpa_db_images
+		/// are EXTRANEOUS - ie. not represented in the kpa_db_images.
+		/// We also exclude 'index.html' explicitly, as we keep that there as a
+		/// cheap way to stop people browsing the file system directly.
 		foreach ($cache_file_list as $type => $file_info)
 			foreach ($file_info as $file_name => $foo)
-				if (! in_array ($file_name, $kpa_db_images))  {
+				if ( (! in_array ($file_name, $kpa_db_images)) AND ($file_name != "index.html") )  {
 					$stats[$type]['extraneous_count'] ++;
 					$stats[$type]['extraneous'][] = $file_name;
 					}

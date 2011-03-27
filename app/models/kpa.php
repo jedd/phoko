@@ -149,7 +149,7 @@ class  Kpa extends  CI_Model {
 		if ( ($index_xml_file_time == 0) AND ($cache_xml_file_time == 0) )
 			return FALSE;
 
-		// JEDD - disable this so we always parse the index.xml file
+		/// @todo - disable this so we always parse the index.xml file
 		// If cache file is newer, we use it immediately.
 //		if ($cache_xml_file_time > $index_xml_file_time)  {
 //			$kpa_full = unserialize (file_get_contents ($cache_xml_file_name) );

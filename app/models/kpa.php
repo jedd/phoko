@@ -128,7 +128,13 @@ class  Kpa extends  CI_Model {
 	 *        is generally readily available, and its peculiarities are well-
 	 *        known - hence we're sticking with it here.
 	 *
-	 * @param	string		index.xml file (fully pathed)
+	 * @TODO- we could lookup the exif-info.db file here and consult it,
+	 *        BUT it's a SQLITE database that I'm unfamiliar with talking
+	 *        to - so instead we consult each file separately.  Yes, this is
+	 *        also pretty heavy - but it's an infrequent process, so it'll
+	 *        do for the time being.  Early assessments suggest that scanning
+	 *        ~800 images and grabbing the EXIF data (as below) takes ~ 1s.
+	 *
 	 * @return	array of pictures
 	 **/
 	function  get_pictures  ( )  {
@@ -140,6 +146,7 @@ class  Kpa extends  CI_Model {
 		$image_attributes    = $this->config->item('image_attributes');
 		$cache_xml_file_name = $this->config->item('cache_xml_file_name');
 		$index_xml_file_name = $this->config->item('index_xml_file');
+		$repository_path     = $this->config->item('repository');
 
 		// Get file timestamps
 		$index_xml_file_time = $this->_get_index_xml_file_time ($index_xml_file_name);
@@ -193,6 +200,9 @@ class  Kpa extends  CI_Model {
 
 								// Create our image_id (eg. 325f77a90f) that we'll use everywhere from now on.
 								$image_id = substr ($image['md5sum'], 0, $image_id_size);
+
+								// Collect the EXIF data from the actual image file proper.
+								$kpa_full['images'][$image_id]['exif'] = $this->_get_exif_from_file ($repository_path . $image['file']);
 
 								// We must cast as (string) here, otherwise we end up with Objects.
 								foreach ($image_attributes as $attr)
@@ -534,6 +544,31 @@ class  Kpa extends  CI_Model {
 
 
 
+	// ------------------------------------------------------------------------
+	/**
+	 * Get last image_id
+	 *
+	 * Returns the image_id of the last image in the $kpa_filt array
+	 *
+	 * @return	string
+	 **/
+	function   get_last_image_id_from_kpa_filt  ( )  {
+		$image_id_size = $this->config->item('image_id_size');
+
+		// Can't think of a better way of identifying the last in the array
+		foreach ($this->kpa_filt['images'] as $image_id => $foo)  {
+			;
+			}
+
+		// Sanity check - confirm $image_id is '10' chars long
+		if (strlen ($image_id) == $image_id_size)
+			return $image_id;
+		else
+			return FALSE;
+		}  // end-method  get_last_image_id_from_kpa_filt  ()
+
+
+
 
 	// ------------------------------------------------------------------------
 	/**
@@ -720,6 +755,21 @@ class  Kpa extends  CI_Model {
 
 
 
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Get image EXIF info
+	 *
+	 * Given an image_id - pull out the relevant sub-array from $kpa_full
+	 *
+	 * @param	string	$image_id
+	 **/
+	function  get_image_exif  ( $image_id )  {
+		return  $this->kpa_full['images'][$image_id]['exif'];
+		}  //  end-method  get_image_exif ()
+
+
+
 	// ------------------------------------------------------------------------
 	/**
 	 * Prepare image
@@ -836,6 +886,87 @@ class  Kpa extends  CI_Model {
 	// P R I V A T E   F U N C T I O N S  -- nothing to see here.
 	// ------------------------------------------------------------------------
 	// ========================================================================
+
+
+
+	/**
+	 * Get EXIF information for a given file
+	 *
+	 * Returns an array of EXIF information in the format:
+	 *   'Manufacturer' => 'Olympus',
+	 *   'Model' => 'E-620',
+	 *   'ISO' => '400',
+	 *   . . .
+	 *
+	 * If the file can not be accessed, return an empty array,
+	 * but typically we'll only be doing this when re-creating
+	 * the index.kpa file - and that implies (assumes?) that we
+	 * have access to the full repository.
+	 *
+	 * @param	string		image file name (fully pathed)
+	 * @return	array		collection of EXIF data for the file
+	 **/
+	function _get_exif_from_file ( $image_path )  {
+		// A flat array of strings of exif types - FNumber, ISOSpeedRatings, etc
+		$exif_tags_of_interest = $this->config->item('exif_tags_of_interest');
+		// This is what we'll return.
+		$exif_array = array();
+
+		if (file_exists ($image_path))  {
+			$exif_info_from_file = exif_read_data ($image_path);
+			foreach ($exif_tags_of_interest as $kpa_exif_tag => $exif_tag_info)  {
+				foreach ($exif_tag_info['exif_tag_names'] as $synonym)  {
+					if (isset ($exif_info_from_file[$synonym]))  {
+						$value = trim ($exif_info_from_file[$synonym]);
+						switch ($exif_tag_info['type'])  {
+							case "rational" :
+									$fraction = trim ((string)($value));
+									// This method is slightly faster than using a preg function
+									$slash_pos = strpos ($fraction, "/");
+									if ($slash_pos !== FALSE)  {
+										$dividend = substr ($fraction, 0, ($slash_pos));
+										$divisor  = substr ($fraction, ($slash_pos + 1) );
+										$value    = floor ($dividend / $divisor);
+										}
+									else  // No slash means it's .. too hard to work out.
+										$value = $fraction;
+									break;
+							case "lookup" : // For flash only - the big ugly hex-value -> string
+									/** Most cameras seem to store this in decimal format, but our
+									 * lookup table is hex, with leading '0x'.  We have to sensibly
+									 * convert in one place, and I've chosen here.
+									 * @TODO Try to intelligently guess if a hex format came in */
+									$hex_value = "0x" . (string) dechex((int)$value);
+									$value = $exif_tag_info['lookup'][$hex_value];
+									break;
+							default:	// For string and integer types
+									$value = trim ((string)($value));
+									if (isset ($exif_tag_info['content_synonyms'][$value]))
+										$value = $exif_tag_info['content_synonyms'][$value];
+									break;
+							}  // end-switch
+
+
+						// Finally, if we have any suffixes or prefixes ...
+						if (isset ($exif_tag_info['suffix']))
+							$value = $value . $exif_tag_info['suffix'];
+						if (isset ($exif_tag_info['prefix']))
+							$value = $exif_tag_info['prefix'] . $value;
+
+						$exif_array[$kpa_exif_tag] = $value;
+
+						break;
+
+						}  //end-if - kpa tag synonym was matched, hence that break there
+					} // end-foreach - synonyms (we found one!)
+				}  // end-foreach - exif_tags_of_interest
+			}  // end-if - the original image file is available
+		return  $exif_array;
+		}  // end-method  _get_exif_from_file ()
+
+
+
+
 
 	/**
 	 * Get index xml filetime

@@ -179,7 +179,11 @@ class  Album extends  CI_Controller {
 		$image_info['url_array'] = $this->url_array;
 		$image_info['categories'] = $this->Kpa->get_tag_categories();
 		$image_info['tag_counts'] = $this->Kpa->get_tag_counts($id);
+
+		$image_info['image']['exif'] = $this->Kpa->get_image_exif($id);
+
 		$image_info['image']['description'] = $this->_find_and_insert_links_in_description($image_info['image']['description']);
+
 		// The image-info window (left, tabbed) - we share $image_info with this and the explorifier view partial
 		$this->data['image_info_view'] = $this->load->view("image_info", $image_info, TRUE);
 		// The explorifier window (left, tabbed) - we share $image_info with this and the image-info view partial
@@ -701,7 +705,7 @@ class  Album extends  CI_Controller {
 	 * Pull the /i... entry from the URL we arrived with.
 	 *
 	 * $this->url_array['image_id'] is set with whatever it finds,
-	 * or given a default value (the first ID in the current set)
+	 * or given a default value (the last ID in the current set)
 	 *
 	 **/
 	function  _extract_image_id_from_url  ( )  {
@@ -719,9 +723,9 @@ class  Album extends  CI_Controller {
 			$seg_x++;
 			}
 
-		// If none is given on the URL, take the first in the filtered set we have.
+		// If none is given on the URL, take the last in the filtered set we have.
 		if (! $image_id)
-			$image_id = $this->Kpa->get_first_image_id_from_kpa_filt();
+			$image_id = $this->Kpa->get_last_image_id_from_kpa_filt();
 
 		$this->url_array['image_id'] = $image_id;
 		}  // end-method  _extract_image_id_from_url  ()
@@ -968,10 +972,12 @@ class  Album extends  CI_Controller {
 		$stats['kpa']['total'] = count ($kpa_db_images);
 
 		/// Third - go through the cache directory list and work out what files
-		/// are EXTRANEOUS - ie. not represented in the kpa_db_images
+		/// are EXTRANEOUS - ie. not represented in the kpa_db_images.
+		/// We also exclude 'index.html' explicitly, as we keep that there as a
+		/// cheap way to stop people browsing the file system directly.
 		foreach ($cache_file_list as $type => $file_info)
 			foreach ($file_info as $file_name => $foo)
-				if (! in_array ($file_name, $kpa_db_images))  {
+				if ( (! in_array ($file_name, $kpa_db_images)) AND ($file_name != "index.html") )  {
 					$stats[$type]['extraneous_count'] ++;
 					$stats[$type]['extraneous'][] = $file_name;
 					}

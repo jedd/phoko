@@ -73,8 +73,9 @@
 
 <div id="navi_tabs">
 	<ul>
-		<li><a href="#image_info">This image</a></li>
+		<li><a href="#image_info">Image</a></li>
 		<li><a href="#explorifier">Explorifier</a></li>
+
 	</ul>
 
 	<div id="image_info">

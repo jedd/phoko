@@ -156,14 +156,14 @@ class  Kpa extends  CI_Model {
 		if ( ($index_xml_file_time == 0) AND ($cache_xml_file_time == 0) )
 			return FALSE;
 
-		/// @todo - disable this so we always parse the index.xml file
+		/// @todo - enable or disable this to forcea  re-parse of the index.xml file
 		// If cache file is newer, we use it immediately.
-//		if ($cache_xml_file_time > $index_xml_file_time)  {
-//			$kpa_full = unserialize (file_get_contents ($cache_xml_file_name) );
-//			$this->kpa_full = $kpa_full;
-//			/// @todo We can later avoid returning this.
-//			return $kpa_full;
-//			}
+		if ($cache_xml_file_time > $index_xml_file_time)  {
+			$kpa_full = unserialize (file_get_contents ($cache_xml_file_name) );
+			$this->kpa_full = $kpa_full;
+			/// @todo We can later avoid returning this.
+			return $kpa_full;
+			}
 
 		// If we get here, we know we're going to use index.xml
 		$xml_content = simplexml_load_file($index_xml_file_name);
@@ -257,6 +257,7 @@ class  Kpa extends  CI_Model {
 		// Have to do this, because you can't -> to a variable with a hyphen.
 		$mg_string = "member-groups";
 		$member_groups = $xml_content->$mg_string;
+
 		$kpa_full['member_groups'] = $this->_massage_member_groups ($member_groups, $kpa_full['tags'] );
 
 		// Create/overwrite the cached xml output for next time
@@ -1029,39 +1030,31 @@ class  Kpa extends  CI_Model {
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		// Config items we use in a few places
 		$shoosh_tags      = $this->config->item('shoosh_tags');
-
 		$mg_array = array();
 
- 		foreach  ($member_groups->member  as  $mg)  {
+		foreach  ($member_groups->member  as  $mg)  {
 			// Again, we have to insert an underscore into category names here,
 			// because KPA *doesn't* put one in member group categories ... and
 			// we need to keep it consistent with everywhere else (when it *does*).
- 			$category   = (string) $mg['category'];
+			$category   = (string) $mg['category'];
 			if (strstr ($category, " "))
 				$category = str_replace (" ", "_", $category);
- 			$group_name = (string) $mg['group-name'];
- 			$tag        = (string) $mg['member'];
+			$group_name = (string) $mg['group-name'];
+			$tag        = (string) $mg['member'];
 
- 			// By checking against $tags_in_use we are tacitly vetoing most of the
- 			// SHOOSH TAGS, as $tags_in_use was filtered by that config setting.
- 			// The one thing we didn't catch there was MEMBER GROUPS, of course,
- 			// so that's all we check for here.
- 			echo "Group name = ". $group_name;
- 			echo "<br>";
- 			echo "mg = ";
- 			dump ($mg);
- 			echo "<br>";
-			if ( (isset ($shoosh_tags[$category]))
-				AND  (! in_array ($group_name, $shoosh_tags[$category]) )
-				AND  (  in_array ($group_name, $tags_in_use[$category]) ) )
+			// By checking against $tags_in_use we are tacitly vetoing most of the
+			// SHOOSH TAGS, as $tags_in_use was filtered by that config setting.
+			// The one thing we didn't catch there was MEMBER GROUPS, of course,
+			// so that's all we check for here.
+			if ( (isset ($shoosh_tags[$category]))  AND  (! in_array ($group_name, $shoosh_tags[$category]) ) )  {
 				$mg_array[$category][$group_name][] = $tag;
- 			}
+				}
+			}
 
- 		// Sort the sub-arrays, in-place, alphabetically.
- 		foreach ($mg_array as $category => $group)
- 			foreach ($group as $group_name => $tag)
- 				sort ( &$mg_array[$category][$group_name] );
-
+		// Sort the sub-arrays, in-place, alphabetically.
+		foreach ($mg_array as $category => $group)
+			foreach ($group as $group_name => $tag)
+				sort ( &$mg_array[$category][$group_name] );
 
 		return $mg_array;
 		}  //  end-method  _massage_member_groups ()

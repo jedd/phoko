@@ -1046,11 +1046,6 @@ class  Kpa extends  CI_Model {
  			// SHOOSH TAGS, as $tags_in_use was filtered by that config setting.
  			// The one thing we didn't catch there was MEMBER GROUPS, of course,
  			// so that's all we check for here.
- 			echo "Group name = ". $group_name;
- 			echo "<br>";
- 			echo "mg = ";
- 			dump ($mg);
- 			echo "<br>";
 			if ( (isset ($shoosh_tags[$category]))
 				AND  (! in_array ($group_name, $shoosh_tags[$category]) )
 				AND  (  in_array ($group_name, $tags_in_use[$category]) ) )

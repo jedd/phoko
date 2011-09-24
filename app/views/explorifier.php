@@ -37,6 +37,8 @@ $category_abbreviations = $this->config->item('category_abbreviations');
 
 echo "<div id=\"accordion\">";
 
+dump ($member_groups);
+
 foreach ($categories as $category)  {
 	echo "<h3><a href=\"#\">". $category ."</a></h3>\n";
 	echo "<div>\n";

@@ -156,7 +156,7 @@ class  Kpa extends  CI_Model {
 		if ( ($index_xml_file_time == 0) AND ($cache_xml_file_time == 0) )
 			return FALSE;
 
-		/// @todo - enable or disable this to forcea  re-parse of the index.xml file
+		/// @todo - enable or disable this to force a re-parse of the index.xml file
 		// If cache file is newer, we use it immediately.
 		if ($cache_xml_file_time > $index_xml_file_time)  {
 			$kpa_full = unserialize (file_get_contents ($cache_xml_file_name) );
@@ -250,7 +250,6 @@ class  Kpa extends  CI_Model {
 		// Sort the contents of each of the $kpa_full['tags'] sub-arrays.
 		foreach ($kpa_full['tags'] as $y => $z)
 			ksort (&$kpa_full['tags'][$y]);
-
 
 		// Stage 2 - calculate member groups - only note groups that contain tags that we care about, of course.
 
@@ -1024,7 +1023,7 @@ class  Kpa extends  CI_Model {
 	 * only member groups that contain such tags.
 	 *
 	 * @param	array	cache xml file name (fully pathed)
-	 * @return	integer
+	 * @return	array 
 	 **/
 	function  _massage_member_groups ( $member_groups, $tags_in_use )  {
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

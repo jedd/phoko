@@ -166,11 +166,9 @@ class  Album extends  CI_Controller {
 		// $prev_next_data['prev_offset_by_page_url'] = ($prev_offset_by_page) ? $this->_create_url_with_new_image_id ($id , $prev_offset_by_page) : FALSE;
 		// $prev_next_data['next_offset_by_page_url'] = ($next_offset_by_page) ? $this->_create_url_with_new_image_id ($id , $next_offset_by_page) : FALSE;
 
-
 		$prev_next_data['this_image_position'] = $this->Kpa->get_position_number ($id);
 		$prev_next_data['total_number_of_images'] = $total_number_of_images_in_set;
 		$this->data['prev_next_view'] = $this->load->view("prev_next", $prev_next_data, TRUE);
-
 
 		// A fair amount of this information is shared by IMAGE_INFO and EXPLORIFIER - the two TABS
 		$image_info['id'] = $id;
@@ -187,13 +185,12 @@ class  Album extends  CI_Controller {
 		// The image-info window (left, tabbed) - we share $image_info with this and the explorifier view partial
 		$this->data['image_info_view'] = $this->load->view("image_info", $image_info, TRUE);
 
-		// The explorifier window (left, tabbed) - we share $image_info with this and the image-info view partial
-		/// STANDARD VIEW (ignore  member groups)
-		$this->data['explorifier_view'] = $this->load->view("explorifier", $image_info, TRUE);
-		/// MEMBER GROUP VIEW (show the suckers) - experimental - this should be done via a cookie config item
-		//dump ($image_info);
-		// $this->data['explorifier_view'] = $this->load->view("explorifier_with_membergroups", $image_info, TRUE);
+		// member groups are used in the explorifier view
+		$image_info['member_groups'] = $this->Kpa->kpa_full['member_groups'];
 
+		// The explorifier window (left, tabbed) - we share $image_info with this and the image-info view partial
+		/// MEMBER GROUP VIEW (show the suckers) - experimental - this should be done via a cookie config item
+		$this->data['explorifier_view'] = $this->load->view("explorifier", $image_info, TRUE);
 
 		// The main picture window (middle)
 		$image_repository = $this->config->item('repository');

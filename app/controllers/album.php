@@ -189,10 +189,10 @@ class  Album extends  CI_Controller {
 
 		// The explorifier window (left, tabbed) - we share $image_info with this and the image-info view partial
 		/// STANDARD VIEW (ignore  member groups)
-		// $this->data['explorifier_view'] = $this->load->view("explorifier", $image_info, TRUE);
+		$this->data['explorifier_view'] = $this->load->view("explorifier", $image_info, TRUE);
 		/// MEMBER GROUP VIEW (show the suckers) - experimental - this should be done via a cookie config item
 		//dump ($image_info);
-		$this->data['explorifier_view'] = $this->load->view("explorifier_with_membergroups", $image_info, TRUE);
+		// $this->data['explorifier_view'] = $this->load->view("explorifier_with_membergroups", $image_info, TRUE);
 
 
 		// The main picture window (middle)

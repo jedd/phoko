@@ -15,15 +15,13 @@
 // ------------------------------------------------------------------------
 
 /**
- * explorifier_with_membergroups  (view)
+ * explorifier  (view)
  *
  * Prepare the accordion data that will appear in the 'Explorifier' tab,
- * on the standard gallery page - different from the default explorifier_tags
- * view insofar as it shows elements grouped by member-groups.
+ * on the standard gallery page.
  *
  * This is basically tag categories (Places, Keywords etc) shown as
- * accordion headings, with member categories and normal categories
- * shown as href's to filter actions.
+ * accordion headings, but ignoring member categories.
  *
  * @package     phoko
  * @version     v1
@@ -40,7 +38,7 @@ echo "<div id=\"accordion\">";
 foreach ($categories as $category)  {
 	echo "<h3><a href=\"#\">". $category ."</a></h3>\n";
 	echo "<div>\n";
-	
+
 	echo "<ul class=\"explorifier_tags\">\n";
 
 	if ( isset ($tag_counts['kpa_filt'][$category]) )  {

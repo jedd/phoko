@@ -156,14 +156,13 @@ class  Kpa extends  CI_Model {
 		if ( ($index_xml_file_time == 0) AND ($cache_xml_file_time == 0) )
 			return FALSE;
 
-		/// @todo - disable this so we always parse the index.xml file
 		// If cache file is newer, we use it immediately.
-//		if ($cache_xml_file_time > $index_xml_file_time)  {
-//			$kpa_full = unserialize (file_get_contents ($cache_xml_file_name) );
-//			$this->kpa_full = $kpa_full;
-//			/// @todo We can later avoid returning this.
-//			return $kpa_full;
-//			}
+		if ($cache_xml_file_time > $index_xml_file_time)  {
+			$kpa_full = unserialize (file_get_contents ($cache_xml_file_name) );
+			$this->kpa_full = $kpa_full;
+			/// @todo We can later avoid returning this.
+			return $kpa_full;
+			}
 
 		// If we get here, we know we're going to use index.xml
 		$xml_content = simplexml_load_file($index_xml_file_name);

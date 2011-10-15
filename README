@@ -121,6 +121,18 @@ Contents:
 	can be sure you've got all the thumbs and cached images actually
 	present.
 
+4.3 Customising the 'how to use this gallery' image
+
+	I've shipped my how_to_use_this_gallery.xcf - a GIMP native
+	format file that has two layers - one showing the arrows and
+	text describing what's what, and the other is the actual
+	screen shot of a gallery page.
+
+	You can easily make your own screen shot, adjust to size, then
+	layer that into the GIMP image, adjust any text as you see
+	fit, and then export that as the how_to_use_this_gallery.png
+	files into the theme/ subdirectories.
+
 
 5.  Problems, bugs, feature requests, words of praise?
 

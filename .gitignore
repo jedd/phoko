@@ -1,0 +1,13 @@
+*.session
+*.webprj
+nbproject
+.project
+.tmp_*
+.settings
+app/models/experimodel.php
+app/controllers/experiment.php
+app/views/experiment
+cache/
+*kdev4
+.kdev4
+*~

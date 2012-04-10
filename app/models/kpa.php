@@ -247,8 +247,11 @@ class  Kpa extends  CI_Model {
 		// HERE we have $kpa_full[] with two sub-arrays: ['images'] and ['tags']
 
 		// Sort the contents of each of the $kpa_full['tags'] sub-arrays.
-		foreach ($kpa_full['tags'] as $y => $z)
-			ksort (&$kpa_full['tags'][$y]);
+		foreach ($kpa_full['tags'] as $y => $z)  {
+			$newz = ksort ($kpa_full['tags'][$y]);
+			$kpa_full['tags'][$y] = $newz;
+			// ksort (&$kpa_full['tags'][$y]);
+			}
 
 
 		// Stage 2 - calculate member groups - only note groups that contain tags that we care about, of course.
@@ -1053,8 +1056,11 @@ class  Kpa extends  CI_Model {
 
  		// Sort the sub-arrays, in-place, alphabetically.
  		foreach ($mg_array as $category => $group)
- 			foreach ($group as $group_name => $tag)
- 				sort ( &$mg_array[$category][$group_name] );
+ 			foreach ($group as $group_name => $tag)  {
+				$newg = sort ( $mg_array[$category][$group_name] );
+				$mg_array[$category][$group_name] = $newg;
+ 				// sort ( &$mg_array[$category][$group_name] );
+				}
 
 
 		return $mg_array;
